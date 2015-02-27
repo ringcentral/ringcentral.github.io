@@ -75,14 +75,14 @@
                         "default": "",
                         "type": "string",
                         "description": "<b>Convenience to pre-populate the Authorization header only</b>",
-                        "required" : false
+                        "required": false
                     },
                     {
                         "name": "app_secret",
                         "default": "",
                         "type": "string",
                         "description": "<b>Convenience to pre-populate the Authorization header only</b>",
-                        "required" : false
+                        "required": false
                     },
                     {
                         "name": "username",
@@ -173,21 +173,21 @@
                         "default": "",
                         "type": "string",
                         "description": "Used to populate the Authorization header",
-                        "required" : true
+                        "required": true
                     },
                     {
                         "name": "app_secret",
                         "default": "",
                         "type": "string",
                         "description": "Used to populate the Authorization header",
-                        "required" : true
+                        "required": true
                     },
                     {
                         "name": "token",
                         "type": "string",
                         "in": "formData",
                         "description": "Active access or refresh token to be revoked",
-                        "required" : true
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -553,7 +553,7 @@
                     {
                         "name": "extensionId",
                         "in": "path",
-                        "default" : "~",
+                        "default": "~",
                         "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",
                         "required": true,
                         "type": "integer",
@@ -1757,6 +1757,16 @@
                         "allowMultiple": false,
                         "type": "string",
                         "format": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "defaultValue": "{\n  \"eventFilters\": [ \n    \"/restapi/v1.0/account/~/extension/~/presence\", \n    \"/restapi/v1.0/account/~/extension/~/message-store\" \n  ] \n}",
+                        "description": "A JSON body with subscription informaion where <b>eventFilters</b> is an array of strings - URIs of API resources",
+                        "required": false,
+                        "allowMultiple": false,
+                        "type": "string",
+                        "format": "string"
                     }
                 ]
             },
@@ -1841,7 +1851,7 @@
                         "type": "string",
                         "description": "Internal identifier of a state",
                         "default": 13,
-                        "required" : true
+                        "required": true
                     }
                 ]
             }
@@ -1941,7 +1951,7 @@
                         "type": "string",
                         "default": "1",
                         "description": "Internal identifier of a timezone",
-                        "required" : true
+                        "required": true
                     },
                     {
                         "name": "page",
@@ -2003,9 +2013,9 @@
                         "name": "languageId",
                         "description": "Internal identifier of a language; see the section called “Resource Identification Properties”",
                         "in": "path",
-                        "default" : 1033,
+                        "default": 1033,
                         "type": "string",
-                        "required" : true
+                        "required": true
                     }
                 ]
             }

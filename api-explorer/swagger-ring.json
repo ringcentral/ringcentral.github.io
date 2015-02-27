@@ -1303,7 +1303,7 @@
                         "name": "body",
                         "in": "body",
                         "description": "A JSON body where <b>from</b> and <b>to</b> are a Caller Info object with <b>phoneNumber</b> populated - phone number of the caller and called party correspondingly (mandatory), <b>callerId</b> is a Caller Info object with <b>phoneNumber</b> populated - the number which will be displayed to the called party (optional) and <b>playPrompt</b> is a boolean value - turn on/off the audio prompt that the calling party hears when the call is connected (optional).",
-                        "defaultValue": "{\n  \"to\": {\"phoneNumber\": \"17752204114\"},\n  \"from\": {\"phoneNumber\": \"16503514550\"},\n  \"callerId\": {\"phoneNumber\": \"17752204114\"},\n  \"playPropmt\": true\n",
+                        "defaultValue": "{\n  \"to\": {\"phoneNumber\": \"12053320032\"},\n  \"from\": {\"phoneNumber\": \"12052160005\"},\n  \"callerId\": {\"phoneNumber\": \"12053320032\"},\n  \"playPropmt\": true\n",
                         "required": true,
                         "type": "string",
                         "format": "string"

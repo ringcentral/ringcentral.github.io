@@ -1843,7 +1843,8 @@
                         "in": "path",
                         "type": "string",
                         "description": "Internal identifier of a state",
-                        "default": 13
+                        "default": 13,
+                        "required" : true
                     }
                 ]
             }
@@ -1942,7 +1943,8 @@
                         "in": "path",
                         "type": "string",
                         "default": "1",
-                        "description": "Internal identifier of a timezone"
+                        "description": "Internal identifier of a timezone",
+                        "required" : true
                     },
                     {
                         "name": "page",
@@ -1985,38 +1987,6 @@
                 ]
             }
         },
-        "/v1.0/dictionary/service-plan/{servicePlanId}": {
-            "get": {
-                "tags": [ "Dictionary" ],
-                "summary": "Get Service Plan",
-                "description": "Returns the information on a certain service plan by its internal identifier. Since 1.0.13 (Release 6.5)",
-                "produces": [ "application/json" ],
-                "parameters": [
-                    {
-                        "name": "servicePlanId",
-                        "description": "Internal identifier of a service plan",
-                        "in": "path",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/v1.0/dictionary/service-plan/{brandId}": {
-            "get": {
-                "tags": [ "Dictionary" ],
-                "summary": "Get Brand",
-                "description": "Returns the information on a certain brand by the respective brand identifier. Since 1.0.13 (Release 6.5)",
-                "produces": [ "application/json" ],
-                "parameters": [
-                    {
-                        "name": "brandId",
-                        "description": "Internal identifier of a brand",
-                        "in": "path",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
         "/v1.0/dictionary/language": {
             "get": {
                 "tags": [ "Dictionary" ],
@@ -2036,7 +2006,9 @@
                         "name": "languageId",
                         "description": "Internal identifier of a language; see the section called “Resource Identification Properties”",
                         "in": "path",
-                        "type": "string"
+                        "default" : 1033,
+                        "type": "string",
+                        "required" : true
                     }
                 ]
             }

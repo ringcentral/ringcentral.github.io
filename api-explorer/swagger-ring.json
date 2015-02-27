@@ -130,7 +130,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "access_token_ttl",
+                        "name": "refresh_token_ttl",
                         "in": "formData",
                         "description": "Optional. Refresh token lifetime in seconds; default is 604800 sec (1 week). If the value specified exceeds the default one, the default value is set",
                         "type": "integer",
@@ -149,14 +149,6 @@
                         "default": "",
                         "description": "<b>Previously issued refresh token. This is the only formData field used for the Refresh Token Flow. It is not used for the Resource Owner Password Credentials Flow</b>",
                         "in": "formData"
-                    },
-                    {
-                        "name": "Authorization",
-                        "default": "",
-                        "description": "This field is sent in the request as part fo the API request. This can be auto-populated using the app_key and app_secret fields below. The Authorization header value consists \"Basic #{base64.encode(app_id + \":\" + app_secret)}\".",
-                        "type": "string",
-                        "in": "header",
-                        "required": false
                     }
                 ],
                 "responses": {
@@ -180,30 +172,25 @@
                 "consumes": [ "application/x-www-form-urlencoded" ],
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "default": "",
-                        "description": "This required field can be auto-populated using this form and the app_key and app_secret fields. The Authorization header value consists \"Basic #{base64.encode(app_id + \":\" + app_secret)}\".",
-                        "type": "string",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "name": "app_key",
                         "default": "",
                         "type": "string",
-                        "description": "Convenience to pre-populate the Authorization header only"
+                        "description": "Used to populate the Authorization header",
+                        "required" : true
                     },
                     {
                         "name": "app_secret",
                         "default": "",
                         "type": "string",
-                        "description": "Convenience to pre-populate the Authorization header only"
+                        "description": "Used to populate the Authorization header",
+                        "required" : true
                     },
                     {
                         "name": "token",
                         "type": "string",
                         "in": "formData",
-                        "description": "Active access or refresh token to be revoked"
+                        "description": "Active access or refresh token to be revoked",
+                        "required" : true
                     }
                 ],
                 "responses": {
@@ -225,23 +212,6 @@
                         "description": "Success",
                         "schema": {
                             "$ref": "#/definitions/RestapiResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/apiVersion": {
-            "get": {
-                "tags": [
-                    "API Versioning"
-                ],
-                "summary": "Get Version Info",
-                "description": "Returns current API version info by <b>apiVersion</b>.",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "schema": {
-                            "$ref": "#/definitions/VersionInfo"
                         }
                     }
                 }
@@ -407,7 +377,7 @@
                         "description": "Internal identifier of a call log record. Batch mode is supported via comma-delimited list",
                         "notes": "",
                         "paramType": "path",
-                        "defaultValue": "~",
+                        "defaultValue": "",
                         "required": true,
                         "allowMultiple": true,
                         "type": "string"
@@ -586,8 +556,9 @@
                     {
                         "name": "extensionId",
                         "in": "path",
+                        "default" : "~",
                         "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",
-                        "required": false,
+                        "required": true,
                         "type": "integer",
                         "format": "int64"
                     },
@@ -826,7 +797,7 @@
                         "description": "Internal identifier of a message. Batch support via comma delimited list",
                         "notes": "",
                         "paramType": "path",
-                        "defaultValue": "~",
+                        "defaultValue": "",
                         "required": true,
                         "allowMultiple": true,
                         "type": "string"
@@ -866,7 +837,7 @@
                         "description": "Internal identifier of a message. Batch support via comma delimited list",
                         "notes": "",
                         "paramType": "path",
-                        "defaultValue": "~",
+                        "defaultValue": "",
                         "required": true,
                         "allowMultiple": true,
                         "type": "string"
@@ -897,7 +868,7 @@
                         "description": "Internal identifier of an extension (integer) or tilde (~) to indicate the extension assigned to the account logged-in within the current session. No batch support.",
                         "notes": "",
                         "paramType": "path",
-                        "defaultValue": "",
+                        "defaultValue": "~",
                         "required": true,
                         "allowMultiple": false,
                         "type": "string"
@@ -908,7 +879,7 @@
                         "description": "Internal identifier of a message. Batch support via comma delimited list",
                         "notes": "",
                         "paramType": "path",
-                        "defaultValue": "~",
+                        "defaultValue": "",
                         "required": true,
                         "allowMultiple": true,
                         "type": "string"
@@ -948,7 +919,7 @@
                         "description": "Internal identifier of an extension (integer) or tilde (~) to indicate the extension assigned to the account logged-in within the current session. No batch support.",
                         "notes": "",
                         "paramType": "path",
-                        "defaultValue": "",
+                        "defaultValue": "~",
                         "required": true,
                         "allowMultiple": false,
                         "type": "string"
@@ -959,7 +930,7 @@
                         "description": "Internal identifier of a message.",
                         "notes": "",
                         "paramType": "path",
-                        "defaultValue": "~",
+                        "defaultValue": "",
                         "required": true,
                         "allowMultiple": true,
                         "type": "string"
@@ -1221,7 +1192,7 @@
                         "name": "body",
                         "in": "body",
                         "description": "A JSON body where <b>from</b> is a Caller Info object with at least <b>phoneNumber</b> populated and <b>to</b> is an array of Caller Info objects with at least <b>phoneNumber</b> populated. SMS is a text limited to 160 characters.",
-                        "defaultValue": "{\n  \"to\": [{\"phoneNumber\": \"17752204114\"}],\n  \"from\": {\"phoneNumber\": \"16503514550\"},\n  \"text\": \"Test SMS message from Platform server\"\n}",
+                        "defaultValue": "{\n  \"to\": [{\"phoneNumber\": \"18551003738\"}],\n  \"from\": {\"phoneNumber\": \"18559100010\"},\n  \"text\": \"Test SMS message from Platform server\"\n}",
                         "required": true,
                         "type": "string",
                         "format": "string"
@@ -2089,7 +2060,7 @@
         },
         "ringcentral_auth": {
             "type": "oauth2",
-            "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+            "authorizationUrl": "http://platform.devtest.ringcentral.com/restapi/oauth/dialog",
             "flow": "implicit",
             "scopes": {
                 "write:pets": "modify pets in your account",

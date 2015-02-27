@@ -1195,6 +1195,7 @@
 .swagger-section #header {
   background-color: white; /*#89bf04;*/
   padding: 14px;
+  height: 30px;
   border-bottom: 4px orange solid;
 }
 .swagger-section #header a#logo {

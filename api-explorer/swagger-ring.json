@@ -887,8 +887,8 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Read status of a message to be changed. Multiple values are accepted in a comma-delimited list corresponding to messageIds",
-                        "defaultValue": "{\n  \"readStatus\": \"Read,Unread\"\n}",
+                        "description": "Read status of a message to be changed ['Read' | 'Unread']. Multiple values are accepted in a comma-delimited list corresponding to messageIds",
+                        "defaultValue": "{\n  \"readStatus\": \"Read\"\n}",
                         "required": true,
                         "type": "string",
                         "format": "string"
@@ -2438,7 +2438,7 @@
                 },
                 "result": {
                     "type": "string",
-                    "enum": [ "Abandoned", "Account Suspended", "Blocked", "Busy", "Call Failed", "Call Failure", "Call accepted", "Call connected", "Declined", "Fax Receipt Error", "Fax Send Error", "Fax on Demand", "Hang up", "IP Phone offline", "Internal Error", "International Disabled", "International Disabled", "International Restriction", "Missed", "No Answer", "No fax machine", "Partial Receive", "Partially Sent", "Poor Line Quality", "Receive Error", "Received", "Rejected", "Reply", "Restricted Number", "Result Name", "ResultEmpty", "ResultInProgress", "Send Error", "Sent", "Stopped", "Unknown", "Voicemail", "Wrong Number" ]
+                    "enum": [ "Abandoned", "Account Suspended", "Blocked", "Busy", "Call Failed", "Call Failure", "Call accepted", "Call connected", "Declined", "Fax Receipt Error", "Fax Send Error", "Fax on Demand", "Hang up", "IP Phone offline", "Internal Error", "International Disabled", "International Restriction", "Missed", "No Answer", "No fax machine", "Partial Receive", "Partially Sent", "Poor Line Quality", "Receive Error", "Received", "Rejected", "Reply", "Restricted Number", "Result Name", "ResultEmpty", "ResultInProgress", "Send Error", "Sent", "Stopped", "Unknown", "Voicemail", "Wrong Number" ]
                 }
             }
         },

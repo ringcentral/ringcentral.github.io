@@ -76,13 +76,18 @@
       window.swaggerUi.load();
   });
   </script>
+  <style type="text/css">
+  #logo {
+    width: 308px; height: 30px;
+    background-image:url("http://localhost/swaggerback/logo_ring_dev.png");
+  }
+  </style>
 </head>
 
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a href="https://developer.ringcentral.com" title="RingCentral Connect Platform"><img src="./images/logo.png" alt="RingCentral Connect Platform" /></a>
-    <a style="display:none" id="logo" href="https://developer.ringcentral.com/">RingCentral</a>
+    <a href="https://developer.ringcentral.com" title="RingCentral Connect Platform" style="float:left"><div id="logo"></div></a>
     <form id='api_selector'>
       <div class='input' style='display:none'><input placeholder="http://developer.ringcentral.com/restapi" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'><input placeholder="access_token" id="input_apiKey" name="apiKey" type="text"/></div>

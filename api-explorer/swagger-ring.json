@@ -1101,6 +1101,12 @@
                 "tags": [ "Messaging" ],
                 "summary": "Create Fax Message",
                 "description": "Creates and sends new fax message. Since 1.0.2",
+                "consumes" : [
+                    "multipart/mixed; boundary=Boundary_1_14413901_1361871080888"
+                ],
+                "produces" : [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "accountId",
@@ -1127,23 +1133,24 @@
                     {
                         "name": "Content-Type",
                         "in": "header",
-                        "default": "multipart/mixed; boundary=Boundary1_14413901_1361871080888",
-                        "type": "string"
+                        "default": "multipart/mixed; boundary=Boundary_1_14413901_1361871080888",
+                        "type": "string",
+                        "description": "This form fills out this required field automatically using the example MIME boundary string."
                     },
                     {
                         "name": "Content-Length",
                         "in": "header",
                         "default": "",
-                        "description": "Actual content length",
+                        "description": "Actual content length. This form fills out this required field automatically.",
                         "type": "string"
                     },
                     {
                         "name": "body",
                         "in": "body",
-                        "consumes": [ "multipart/mixed" ],
+                        "consumes": [ "multipart/mixed; boundary=Boundary_1_14413901_1361871080888" ],
                         "default": "--Boundary_1_14413901_1361871080888\nContent-Type: application/json\n\n{\n  \"to\":[{\"phoneNumber\":\"18005630003\"}],\n  \"faxResolution\":\"High\",\n  \"sendTime\":\"2013-02-26T09:31:20.882Z\"\n}\n\n--Boundary_1_14413901_1361871080888\nContent-Type: text/plain\n\nHello, World!\n\n--Boundary_1_14413901_1361871080888--",
                         "type": "string",
-                        "description": "Multi-part MIME consiting of one part JSON body and one part text. JSON body values:<br><br><table style=\"border:1px #aaa black\"><tr><td>Property</td><td>Data type</td><td>Description</td></tr><tr><td><b>to</b></td><td>Contact Info object</td><td>Recipient information. <b>phoneNumber</b> property is mandatory</td></tr><tr><td>resolution</td><td><select><option>High</option><option>Low</option></select></td><td>Fax resolution</td></tr><tr><td>sendTime</td><td>datetime</td><td>Optional. Timestamp to send fax at. If not specified (current or the past), the fax is sent immediately</td></tr><tr><td>coverIndex</td><td>Integer (0-13)<br><select><option>0 (none - no cover page)</option><option>1 (\"Ancient\" cover page)</option><option>2 (\"Birthday\" cover page)</option><option>3 (\"Blank\" cover page)</option><option>4 (\"Clasmod\" cover page)</option><option>5 (\"Classic\" cover page)</option><option>6 (\"Confidential\" cover page)</option><option>7 (\"Contempo\" cover page)</option><option>8 (\"Elegant\" cover page)</option><option>9 (\"Express\" cover page)</option><option>10 (\"Formal\" cover page)</option><option>11 (\"Jazzy\" cover page)</option><option>12 (\"Modern\" cover page)</option><option>13 (\"Urgent\" cover page)</option></select></td><td>Optional. Cover page index. If not specified, the default cover page which is configured in \"Outbound Fax Settings\" is attached. See also \"Available Cover Pages\" table below</td></tr><tr><td>coverPageText</td><td>string</td><td>Optional. Cover page text, entered by the fax sender and printed on the cover page. Maximum length is limited to 1024 symbols</td></tr></table>"
+                        "description": "Multi-part MIME consisting of one part JSON body and one part text. For the MIME boundary, in this UI, use \"Boundary_1_14413901_1361871080888\". JSON body values:<br><br><table style=\"border:1px #aaa black\"><tr><td>Property</td><td>Data type</td><td>Description</td></tr><tr><td><b>to</b></td><td>Contact Info object</td><td>Recipient information. <b>phoneNumber</b> property is mandatory</td></tr><tr><td>resolution</td><td><select><option>High</option><option>Low</option></select></td><td>Fax resolution</td></tr><tr><td>sendTime</td><td>datetime</td><td>Optional. Timestamp to send fax at. If not specified (current or the past), the fax is sent immediately</td></tr><tr><td>coverIndex</td><td>Integer (0-13)<br><select><option>0 (none - no cover page)</option><option>1 (\"Ancient\" cover page)</option><option>2 (\"Birthday\" cover page)</option><option>3 (\"Blank\" cover page)</option><option>4 (\"Clasmod\" cover page)</option><option>5 (\"Classic\" cover page)</option><option>6 (\"Confidential\" cover page)</option><option>7 (\"Contempo\" cover page)</option><option>8 (\"Elegant\" cover page)</option><option>9 (\"Express\" cover page)</option><option>10 (\"Formal\" cover page)</option><option>11 (\"Jazzy\" cover page)</option><option>12 (\"Modern\" cover page)</option><option>13 (\"Urgent\" cover page)</option></select></td><td>Optional. Cover page index. If not specified, the default cover page which is configured in \"Outbound Fax Settings\" is attached. See also \"Available Cover Pages\" table below</td></tr><tr><td>coverPageText</td><td>string</td><td>Optional. Cover page text, entered by the fax sender and printed on the cover page. Maximum length is limited to 1024 symbols</td></tr></table>"
                     }
                 ]
             }

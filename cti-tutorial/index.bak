@@ -1,0 +1,527 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script src="javascripts/all.js" type="text/javascript"></script>
+
+      <script>
+        $(function() {
+          setupLanguages(["http","javascript"]);
+        });
+      </script>
+  </head>
+
+  <body class="index">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="http">http</a>
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+
+<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+
+<p>This example API documentation page was created with <a href="http://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+
+<h1 id="authentication">Authentication</h1>
+
+<h2 id="instantiate-the-rcsdk-object">Instantiate the RCSDK object</h2>
+<pre><code class="highlight javascript"><span class="c1">// This instance will be used later on to perform calls to API.</span>
+<span class="kd">var</span> <span class="nx">rcsdk</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RCSDK</span><span class="p">({</span>
+    <span class="na">server</span><span class="p">:</span> <span class="s1">'https://platform.devtest.ringcentral.com'</span><span class="p">,</span> <span class="c1">// SANDBOX</span>
+    <span class="c1">//server: 'https://platform.ringcentral.com', // PRODUCTION</span>
+    <span class="na">appKey</span><span class="p">:</span> <span class="s1">'yourAppKey'</span><span class="p">,</span>
+    <span class="na">appSecret</span><span class="p">:</span> <span class="s1">'yourAppSecret'</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>The SDK is represented by the global RCSDK constructor. Your application must create an instance of this object:</p>
+
+<p>In order to bootstrap the RingCentral JavaScript SDK, you have to first get a reference to the Platform singleton and then configure it. Before you can do anything using the Platform singleton, you need to configure it with the server URL (this tells the SDK which server to connect to) and your unique API key (this is provided by RingCentral&rsquo;s developer relations team).</p>
+
+<aside class="notice">
+This instance will be used later on to perform calls to API.
+</aside>
+
+<h2 id="get-the-platform-singleton">Get the Platform Singleton</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">platform</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getPlatform</span><span class="p">();</span>
+</code></pre>
+
+<p>Now that you have your platform singleton and SDK has been configured with the correct server URL and API key, your application can log in so that it can access the features of the API.</p>
+
+<h2 id="login">Login</h2>
+<pre><code class="highlight javascript"><span class="nx">platform</span><span class="p">.</span><span class="nx">authorize</span><span class="p">({</span>
+    <span class="na">username</span><span class="p">:</span> <span class="s1">'18001234567'</span><span class="p">,</span> <span class="c1">// phone number in full format</span>
+    <span class="na">extension</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="c1">// leave blank if direct number is used</span>
+    <span class="na">password</span><span class="p">:</span> <span class="s1">'yourpassword'</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// your code here</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span>  <span class="o">||</span> <span class="s1">'Server cannot authorize user'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>Login is accomplished by calling the platform.authorize() method of the Platform singleton with username, extension (optional), and password as parameters. A Promise instance is returned, resolved with an AJAX Response object.</p>
+
+<h2 id="determine-authentication-status">Determine Authentication Status</h2>
+
+<p>How do I determine authentication status?</p>
+
+<p>To check authentication status:</p>
+<pre><code class="highlight javascript"><span class="nx">platform</span><span class="p">.</span><span class="nx">isAuthorized</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span> <span class="p">...</span> <span class="p">})</span>     <span class="c1">// optional</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span> <span class="p">...</span> <span class="p">});</span>  <span class="c1">// optional</span>
+</code></pre>
+
+<p>The isAuthorized method will automatically perform a refresh of the access token, if needed. This method may be used in the login page of your application for automatic login.</p>
+
+<p>There is also a synchronous method for checking the authentication status that does not automatically perform a refresh of the access token.</p>
+
+<h2 id="logout">Logout</h2>
+
+<p>Your application can log out the user by calling the logout method, as follows:</p>
+<pre><code class="highlight javascript"><span class="c1">// without callback</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">logout</span><span class="p">()</span>
+<span class="c1">// with callback</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">logout</span><span class="p">().</span><span class="nx">then</span><span class="p">(...)</span>
+</code></pre>
+
+<h1 id="call-management">Call Management</h1>
+
+<p>If you are integrating with a CRM or ERP system, use of the JavaScript SDK is highly recommended. Following is an example of a call management integration that includes monitoring of incoming calls and performing of RingOuts.</p>
+
+<p>A call management integration usually consists of the following tasks:</p>
+
+<ul>
+<li>Track the telephony status</li>
+<li>View the list of active calls</li>
+<li>View the recent calls</li>
+</ul>
+
+<h2 id="track-telephony-status">Track telephony status</h2>
+<pre><code class="highlight javascript"><span class="c1">// Load initial Presence status</span>
+<span class="kd">var</span> <span class="nx">platform</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getPlatform</span><span class="p">(),</span>
+    <span class="nx">Presence</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getPresenceHelper</span><span class="p">(),</span>
+    <span class="nx">accountPresence</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">(</span><span class="nx">Presence</span><span class="p">.</span><span class="nx">loadRequest</span><span class="p">()).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getUtils</span><span class="p">().</span><span class="nx">extend</span><span class="p">(</span><span class="nx">accountPresence</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Load Presence Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre>
+<pre><code class="highlight javascript"><span class="c1">// Set up Subscriptions</span>
+<span class="kd">var</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">Presence</span><span class="p">.</span><span class="nx">getSubscription</span><span class="p">();</span>
+
+<span class="nx">subscription</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">subscription</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">notification</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getUtils</span><span class="p">().</span><span class="nx">extend</span><span class="p">(</span><span class="nx">accountPresence</span><span class="p">,</span> <span class="nx">msg</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">subscription</span><span class="p">.</span><span class="nx">register</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Success: Subscription is listening'</span><span class="p">);</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Subscription Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="k">return</span> <span class="nx">subscription</span><span class="p">;</span>
+</code></pre>
+
+<h2 id="view-list-of-active-calls">View list of active calls</h2>
+
+<p>By default, the load request returns calls that were made during the last week. To alter the time frame, provide custom query.dateTo and query.dateFrom properties.</p>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">activeCalls</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">Call</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getCallHelper</span><span class="p">();</span>
+
+<span class="c1">// This call may be repeated when needed, for example as a response to incoming Subscription</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">(</span><span class="nx">Call</span><span class="p">.</span><span class="nx">loadRequest</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">Call</span><span class="p">.</span><span class="nx">createUrl</span><span class="p">({</span><span class="na">active</span><span class="p">:</span> <span class="kc">true</span><span class="p">}),</span>
+    <span class="na">query</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// this can be omitted</span>
+        <span class="na">page</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">perPage</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">})).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">activeCalls</span> <span class="o">=</span> <span class="nx">Call</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">activeCalls</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">records</span><span class="p">);</span> <span class="c1">// safely merge existing active calls with new ones</span>
+<span class="p">}.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Active Calls Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<h2 id="view-list-of-recent-calls">View list of recent calls</h2>
+
+<p>By default, the load request returns calls that were made during the last week. To alter the time frame, provide custom query.dateTo and query.dateFrom properties.</p>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">calls</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">Call</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getCallHelper</span><span class="p">();</span>
+
+<span class="c1">// This call may be repeated when needed, for example as a response to incoming Subscription</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">(</span><span class="nx">Call</span><span class="p">.</span><span class="nx">loadRequest</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">query</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// this can be omitted</span>
+        <span class="na">page</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">perPage</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">},</span>
+<span class="p">})).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">calls</span> <span class="o">=</span> <span class="nx">Call</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">calls</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">records</span><span class="p">);</span> <span class="c1">// safely merge existing active calls with new ones</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Recent Calls Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<h1 id="messaging">Messaging</h1>
+
+<h2 id="create-sms-message">Create SMS Message</h2>
+<pre><code class="highlight http"><span class="nf">POST</span> <span class="nn">/restapi/v1.0/account/~/extension/~/sms</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer U1BCMDFUMDRKV1MwMXwVVOaPwPu88hVU5oR0u-FQFVTmhA</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+</span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="s2">"phoneNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18551003738"</span><span class="p">}],</span><span class="w">
+</span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"phoneNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18559100010}"</span><span class="p">},</span><span class="w">
+</span><span class="s2">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test SMS message from Platform server"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<pre><code class="highlight shell"><span class="gp">$ </span>curl -XPOST -H <span class="s2">"Accept: application/json"</span>
+-H <span class="s2">"Authorization: Bearer U1BCMDFUMDRKV1MwMXwVVOaPwPu88hVU5oR0u-FQFVTmhA"</span> <span class="s1">'https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/sms'</span>
+-H <span class="s2">"Content-Type: application/json"</span>
+-d <span class="s1">'{
+  "to": [{"phoneNumber": "18551003738"}],
+  "from": {"phoneNumber": "18559100010}"},
+  "text": "Test SMS message from Platform server"    
+}
+'</span>
+</code></pre>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">platform</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getPlatform</span><span class="p">();</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">({</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'/account/~/extension/~/sms'</span><span class="p">,</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
+    <span class="na">post</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">from</span><span class="p">:</span> <span class="p">{</span><span class="na">phoneNumber</span><span class="p">:</span><span class="s1">'+12223334444'</span><span class="p">},</span> <span class="c1">// Your sms-enabled phone number</span>
+        <span class="na">to</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="na">phoneNumber</span><span class="p">:</span><span class="s1">'+15556667777'</span><span class="p">}</span> <span class="c1">// Second party's phone number</span>
+        <span class="p">],</span>
+        <span class="na">text</span><span class="p">:</span> <span class="s1">'Message content'</span>
+    <span class="p">}</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ajax</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Success: '</span> <span class="o">+</span> <span class="nx">ajax</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<pre><code class="highlight php">$response = $rcsdk-&gt;getPlatform()-&gt;getClient()-&gt;post('/account/~/extension/~/sms', [
+    "json" =&gt; [
+        'from' =&gt; ['phoneNumber' =&gt; 'your-RC-sms-number'],
+        'to'   =&gt; [
+            ['phoneNumber' =&gt; 'mobile-number'],
+        ],
+        'text' =&gt; 'Test from PHP',
+    ]
+]);
+</code></pre>
+<pre><code class="highlight ruby"><span class="n">response</span> <span class="o">=</span> <span class="n">rcsdk</span><span class="p">.</span><span class="nf">platform</span><span class="p">.</span><span class="nf">client</span><span class="p">.</span><span class="nf">post</span> <span class="k">do</span> <span class="o">|</span><span class="n">req</span><span class="o">|</span>
+  <span class="n">req</span><span class="p">.</span><span class="nf">url</span> <span class="s1">'account/~/extension/~/sms'</span>
+  <span class="n">req</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Content-Type'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+  <span class="n">req</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">:from</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:phoneNumber</span> <span class="o">=&gt;</span> <span class="s1">'16505551212'</span> <span class="p">},</span>
+    <span class="ss">:to</span>   <span class="o">=&gt;</span> <span class="p">[</span> <span class="p">{</span> <span class="ss">:phoneNumber</span> <span class="o">=&gt;</span> <span class="s1">'14155551212'</span><span class="p">}</span> <span class="p">],</span>
+    <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s1">'Test RingCentral SMS using Ruby!'</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight plaintext">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "uri" : ".../account/1346632010/extension/1346632010/message-store/315450330010",
+    "id" : 315450330010,
+    "to" : [ {
+        "phoneNumber" : "18551003738"
+    } ],
+    "from" : {
+        "phoneNumber" : "18559100010"
+    },
+    "type" : "SMS",
+    "creationTime" : "2012-09-13T15:21:08.000Z",
+    "readStatus" : "Unread",
+    "priority" : "Normal",
+    "attachments" : [ {
+        "id" : 1,
+        "uri" : ".../account/1346632010/extension/1346632010/message-store/315450330010/content/1",
+        "contentType" : "text/plain"
+    } ],
+    "direction" : "Outbound",
+    "availability" : "Alive",
+    "subject" : "Test SMS message from Platform server",
+    "messageStatus" : "Sent",
+    "conversationId" : 4481650717038104652,
+    "lastModifiedTime" : "2012-09-13T15:21:09.000Z"
+}
+</code></pre>
+
+<p>Since 1.0.2</p>
+
+<p>Creates and sends new SMS message.</p>
+
+<p><strong>Method/URI</strong></p>
+
+<p>POST /restapi/v1.0/account/{accountId}/extension/{extensionId}/sms</p>
+
+<p><strong>Path Parameters</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>accountId</strong></td>
+<td>integer</td>
+<td>See the section called “Generic Path Parameters”</td>
+</tr>
+<tr>
+<td><strong>extensionId</strong></td>
+<td>integer</td>
+<td>See the section called “Generic Path Parameters”</td>
+</tr>
+</tbody></table>
+
+<p><strong>Request Body</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>from</strong></td>
+<td>Caller Info</td>
+<td>Sender of SMS message. The <strong>phoneNumber</strong> property must be filled to correspond to one of the account phone numbers which is allowed for given extension to send SMS from</td>
+</tr>
+<tr>
+<td><strong>to</strong></td>
+<td>Caller Info</td>
+<td>Receiver of SMS message. <strong>phoneNumber</strong> property must be filled</td>
+</tr>
+<tr>
+<td><strong>text</strong></td>
+<td>string</td>
+<td>Text of SMS message (max 160 characters)</td>
+</tr>
+</tbody></table>
+
+<p><strong>Response Body</strong></p>
+
+<p>Message Info of the newly created and sent message.</p>
+
+<h1 id="presence">Presence</h1>
+
+<h2 id="get-all-kittens">Get All Kittens</h2>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'kittn'</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
+<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
+</code></pre>
+<pre><code class="highlight python"><span class="kn">import</span> <span class="nn">kittn</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</code></pre>
+<pre><code class="highlight shell">curl <span class="s2">"http://example.com/api/kittens"</span>
+  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Isis"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint retrieves all kittens.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET http://example.com/kittens</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>include_cats</td>
+<td>false</td>
+<td>If set to true, the result will also include cats.</td>
+</tr>
+<tr>
+<td>available</td>
+<td>true</td>
+<td>If set to false, the result will include kittens that have already been adopted.</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+Remember — a happy kitten is an authenticated kitten!
+</aside>
+
+<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'kittn'</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
+<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+<pre><code class="highlight python"><span class="kn">import</span> <span class="nn">kittn</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+<pre><code class="highlight shell">curl <span class="s2">"http://example.com/api/kittens/3"</span>
+  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Isis"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint retrieves a specific kitten.</p>
+
+<aside class="warning">If you&rsquo;re not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the cat to retrieve</td>
+</tr>
+</tbody></table>
+
+          <h1 id="errors">Errors</h1>
+
+<p>The RingCentral for Developers API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request &ndash; Your request is incorrectly formatted</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized &ndash; Your API key is wrong</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden &ndash; The resource requested is hidden for administrators only</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found &ndash; The specified resource could not be found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed &ndash; You tried to access a resource with an invalid method</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone &ndash; The resource requested has been removed from our servers</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests &ndash; You&rsquo;re making too many requests! Slown down!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="http">http</a>
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

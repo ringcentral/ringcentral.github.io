@@ -1,0 +1,558 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script src="javascripts/all.js" type="text/javascript"></script>
+
+      <script>
+        $(function() {
+          setupLanguages(["javascript"]);
+        });
+      </script>
+  </head>
+
+  <body class="index">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <div style="width:100%;background-color:#ccc;margin:0;padding:0">
+        <img src="images/logo.png" style="width:100%" />
+      </div>
+        <div class="lang-selector">
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='#'>Sign Up for RingCentral for Developers</a></li>
+            <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>Welcome to the RingCentral CTI Developer Tutorial. This tutorial uses the <a href="http://github.com/ringcentral/js-sdk">RingCentral JavaScript SDK</a>.</p>
+
+<p>Call management integration typically includes monitoring of incoming calls, listing calls and performing of RingOuts, all of which are covered in this tutorial.</p>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<h2 id="installing-the-sdk">Installing the SDK</h2>
+
+<p>To install the SDK, follow the online instructions posted at Github:</p>
+
+<p><a href="https://github.com/ringcentral/js-sdk#installation">https://github.com/ringcentral/js-sdk#installation</a></p>
+
+<h2 id="instantiating-the-sdk">Instantiating the SDK</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">RC_SERVER_PRODUCTION</span> <span class="o">=</span> <span class="s1">'https://platform.ringcentral.com'</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">RC_SERVER_SANDBOX</span> <span class="o">=</span> <span class="s1">'https://platform.devtest.ringcentral.com'</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">rcsdk</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RCSDK</span><span class="p">({</span>
+    <span class="na">server</span><span class="p">:</span> <span class="nx">RC_SERVER_SANDBOX</span><span class="p">,</span>
+    <span class="na">appKey</span><span class="p">:</span> <span class="s1">'yourAppKey'</span><span class="p">,</span>
+    <span class="na">appSecret</span><span class="p">:</span> <span class="s1">'yourAppSecret'</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>The SDK is represented by the global RCSDK constructor. Your application must create an instance of this object.</p>
+
+<p>In order to bootstrap the RingCentral JavaScript SDK, you have to first get a reference to the Platform singleton and then configure it. Before you can do anything using the Platform singleton, you need to configure it with the server URL (this tells the SDK which server to connect to) and your unique API key (this is provided by RingCentral’s developer relations team).</p>
+
+<aside class="notice">
+This instance will be used later on to perform calls to API.
+</aside>
+
+<h2 id="getting-the-platform-singleton">Getting the Platform Singleton</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">platform</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getPlatform</span><span class="p">();</span>
+</code></pre>
+
+<p>Now that you have your platform singleton and SDK has been configured with the correct server URL and API key, your application can log in so that it can access the features of the API.</p>
+
+<h2 id="login">Login</h2>
+<pre><code class="highlight javascript"><span class="nx">platform</span><span class="p">.</span><span class="nx">authorize</span><span class="p">({</span>
+    <span class="na">username</span><span class="p">:</span> <span class="s1">'+18001234567'</span><span class="p">,</span> <span class="c1">// your phone number in E.164 format</span>
+    <span class="na">extension</span><span class="p">:</span> <span class="s1">'101'</span><span class="p">,</span> <span class="c1">// leave blank if direct number is used</span>
+    <span class="na">password</span><span class="p">:</span> <span class="s1">'yourpassword'</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ajax</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// your code here</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span>  <span class="o">||</span> <span class="s1">'Server cannot authorize user'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>To log in to RingCentral, get the Platform object and call its authorize method, providing valid username, extension, and password values. Enter your phone number in E.164 format for username. The <code class="prettyprint">+</code> may be omitted.</p>
+
+<p>A Promise is returned, and you can use its then method to specify your continuation function, and its catch method to specify an error handling function.</p>
+
+<h2 id="handling-authn-exceptions">Handling Authn Exceptions</h2>
+<pre><code class="highlight javascript"><span class="nx">platform</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">platform</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">accessViolation</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>To handle possible access or authentication exceptions that may occur while the application is running (after the user has successfully logged in), you can provide a handler for the <code class="prettyprint">accessViolation</code> platform event.</p>
+
+<aside class="success">
+A recommended way to handle access or authentication exceptions is to direct the user to the login page or UI. The login page may attempt to automatically re-authenticate the user using stored authentication data (see below).
+</aside>
+
+<h2 id="determining-authn-status">Determining Authn Status</h2>
+<pre><code class="highlight javascript"><span class="c1">// To check authentication status:</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">isAuthorized</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span> <span class="p">...</span> <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span> <span class="p">...</span> <span class="p">});</span>
+
+<span class="c1">// Checking authn status synchronously</span>
+<span class="c1">// without auto-refresh of the access token</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">platform</span><span class="p">.</span><span class="nx">isTokenValid</span><span class="p">())</span> <span class="p">{...}</span>
+</code></pre>
+
+<p>The <code class="prettyprint">isAuthorized</code> method will automatically perform a refresh of the access token, if needed. This method may be used in the login page of your application for automatic login.</p>
+
+<p>There is also a synchronous method for checking the authentication status that does not automatically perform a refresh of the access token.</p>
+
+<h2 id="manual-access-token-refresh">Manual Access Token Refresh</h2>
+<pre><code class="highlight javascript"><span class="c1">// Refreshing the access token manually</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">refresh</span><span class="p">().</span><span class="nx">then</span><span class="p">(...)</span>
+</code></pre>
+
+<p>Access token refresh normally happens automatically for common use cases. On rare occasions, you may perform a refresh of the access token manually by calling the refresh method using the <code class="prettyprint">platform.refresh()</code> method.</p>
+
+<h2 id="logout">Logout</h2>
+<pre><code class="highlight javascript"><span class="c1">// without callback</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">logout</span><span class="p">()</span>
+<span class="c1">// with callback</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">logout</span><span class="p">().</span><span class="nx">then</span><span class="p">(...)</span>
+</code></pre>
+
+<p>Your application can log out the user by calling the <code class="prettyprint">platform.logout()</code> method.</p>
+
+<h1 id="call-management">Call Management</h1>
+
+<p>If you are integrating with a CRM or ERP system, use of the JavaScript SDK is highly recommended. Following is an example of a call management integration that includes monitoring of incoming calls and performing of RingOuts.</p>
+
+<p>A call management integration usually consists of the following tasks:</p>
+
+<ul>
+<li>Track the telephony status</li>
+<li>View the list of active calls</li>
+<li>View the recent calls</li>
+</ul>
+
+<h2 id="call-states">Call States</h2>
+<pre><code class="highlight javascript">
+<span class="c1">// 1) Missed inbound call  (Ringing -&gt; No Call)</span>
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"Ringing"</span><span class="p">,</span>
+                    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">607457016</span><span class="p">,</span>
+                    <span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Inbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"13027430863"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"Ringing"</span><span class="p">,</span> <span class="s2">"to"</span><span class="p">:</span>   <span class="s2">"18885434778"</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"67029198021"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"8ad4d5ea165f4e2aa00474a666368728"</span><span class="p">}],</span>
+    <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">133702</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-10T18:48:55.133+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"2b5bb8c0-c36c-46af-bd93-fb41e330d87c"</span><span class="p">,</span>
+  <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/607457016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"NoCall"</span><span class="p">,</span>
+    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">607457016</span><span class="p">,</span>
+    <span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Inbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"13027430863"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"NoCall"</span><span class="p">,</span> <span class="s2">"to"</span><span class="p">:</span> <span class="s2">"18885434778"</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"67029198021"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"8ad4d5ea165f4e2aa00474a666368728"</span><span class="p">}],</span>
+    <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">133857</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-10T18:49:14.679+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"a5a876ab-3356-41e5-b1fe-fff91da3a281"</span><span class="p">,</span>
+  <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/607457016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+
+<span class="c1">// 2) Answered inbound call (Ringing -&gt; CallConnected -&gt; NoCall)</span>
+
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"Ringing"</span><span class="p">,</span>
+    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">607457016</span><span class="p">,</span>
+    <span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Inbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"13027430863"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"Ringing"</span><span class="p">,</span> <span class="s2">"to"</span><span class="p">:</span> <span class="s2">"18885434778"</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"67029198021"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"61803278cbf74d7490539a6174a6c094"</span><span class="p">}],</span>
+    <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">133897</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-10T18:49:20.858+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"c394ccf6-85dd-4da4-a87e-d31fac7f1283"</span><span class="p">,</span>
+  <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/607457016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"CallConnected"</span><span class="p">,</span>
+    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">607457016</span><span class="p">,</span>
+    <span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Inbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"13027430863"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"CallConnected"</span><span class="p">,</span> <span class="s2">"to"</span><span class="p">:</span> <span class="s2">"18885434778"</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"67029198021"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"61803278cbf74d7490539a6174a6c094"</span><span class="p">}],</span>
+    <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">133942</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-10T18:49:26.687+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"96df6fdd-a2a4-42fb-bc34-cffb5d637754"</span><span class="p">,</span>
+  <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/607457016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"NoCall"</span><span class="p">,</span>
+    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">607457016</span><span class="p">,</span>
+    <span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Inbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"13027430863"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"NoCall"</span><span class="p">,</span> <span class="s2">"to"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"67029198021"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"61803278cbf74d7490539a6174a6c094"</span><span class="p">}],</span>
+  <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">134051</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-10T18:49:41.828+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"7fa7ac3c-5b7b-4127-88ec-9734f478d4a3"</span><span class="p">,</span>
+  <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/607457016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+
+<span class="c1">// 3) 2-legged Ringout</span>
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"Ringing"</span><span class="p">,</span>
+    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">255537016</span><span class="p">,</span>
+<span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"to"</span><span class="p">:</span> <span class="s2">"16502008440"</span><span class="p">,</span> <span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Outbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"16509540334"</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"915021981016"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"Ringing"</span><span class="p">}],</span>
+    <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">46061598</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-17T19:38:59.718+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"305b8075-5dad-4686-b22a-d26744802566"</span><span class="p">,</span> <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/255537016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"CallConnected"</span><span class="p">,</span>
+    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">255537016</span><span class="p">,</span>
+    <span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Outbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"16509540334"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"CallConnected"</span><span class="p">,</span> <span class="s2">"to"</span><span class="p">:</span> <span class="s2">"16502008440"</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"915021981016"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"b5ea44d61b6a4658aadf948348db069c"</span><span class="p">}],</span>
+    <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">46062162</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-17T19:39:12.950+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"71673991-dad0-4c8e-9c22-78b0244c790c"</span><span class="p">,</span>
+  <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/255537016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+  <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"NoCall"</span><span class="p">,</span>
+    <span class="s2">"extensionId"</span><span class="p">:</span> <span class="mi">255537016</span><span class="p">,</span>
+    <span class="s2">"activeCalls"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"direction"</span><span class="p">:</span> <span class="s2">"Outbound"</span><span class="p">,</span> <span class="s2">"from"</span><span class="p">:</span> <span class="s2">"16509540334"</span><span class="p">,</span> <span class="s2">"telephonyStatus"</span><span class="p">:</span> <span class="s2">"NoCall"</span><span class="p">,</span> <span class="s2">"to"</span><span class="p">:</span> <span class="s2">"16502008440"</span><span class="p">,</span> <span class="s2">"sessionId"</span><span class="p">:</span> <span class="s2">"915021981016"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"b5ea44d61b6a4658aadf948348db069c"</span><span class="p">}],</span>
+    <span class="s2">"sequence"</span><span class="p">:</span> <span class="mi">46063265</span>
+  <span class="p">},</span>
+  <span class="s2">"timestamp"</span><span class="err">:</span> <span class="s2">"2015-04-17T19:39:40.172+0000"</span><span class="p">,</span>
+  <span class="s2">"uuid"</span><span class="err">:</span> <span class="s2">"97b01949-1438-45f2-856a-54f89e83367f"</span><span class="p">,</span>
+  <span class="s2">"event"</span><span class="err">:</span> <span class="s2">"/restapi/v1.0/account/~/extension/255537016/presence?detailedTelephonyState=true"</span>
+<span class="p">}</span>
+</code></pre>
+
+<ul>
+<li>A call may consist of multiple call legs. Top-level telephonyStatus should be aggregated across these multiple call legs. </li>
+<li>A call is identified by its sessionId. For tracking a call, application should match by sessionId across activeCall items from multiple notifications.</li>
+<li>In some rare cases notifications can be delivered in incorrect order. Application should remember largest “sequence” value from an event for a given call (identified by its sessionId) and ignore any events which come later with smaller “sequence”</li>
+</ul>
+
+<p>Some typical event flows for inbound calls are listed for the following scenarios:</p>
+
+<ol>
+<li>Missed inbound call  (Ringing -&gt; No Call)</li>
+<li>Answered inbound call (Ringing -&gt; CallConnected -&gt; NoCall)</li>
+<li>2-legged Ringout</li>
+</ol>
+
+<h2 id="call-notification">Call Notification</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getSubscription</span><span class="p">();</span>
+
+<span class="nx">subscription</span>
+    <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">subscription</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">notification</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">register</span><span class="p">({</span>
+        <span class="na">events</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">'/account/~/extension/~/presence?detailedTelephonyState=true'</span>
+        <span class="p">]</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(...);</span>
+</code></pre>
+
+<p>To get notification of inbound and outbound call events, your application can receive push notifications from the RingCentral Connect Platform by subscribing to specific events, such as the telephony presence event.</p>
+
+<h2 id="caller-id-&amp;-called-number">Caller ID &amp; Called Number</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getSubscription</span><span class="p">();</span>
+
+<span class="nx">subscription</span>
+    <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">subscription</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">notification</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">activeCalls</span><span class="p">[</span><span class="nx">n</span><span class="p">].</span><span class="nx">from</span><span class="p">);</span> <span class="c1">// activeCalls is array</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">activeCalls</span><span class="p">[</span><span class="nx">n</span><span class="p">].</span><span class="nx">to</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">register</span><span class="p">({</span>
+        <span class="na">events</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">'/account/~/extension/~/presence?detailedTelephonyState=true'</span>
+        <span class="p">],</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(...);</span>
+</code></pre>
+
+<p>Subscript to the account using the <code class="prettyprint">detailedTelephonyState</code> to get caller info (caller id and called number) from telephony presence events.</p>
+
+<h2 id="call-information-during-call">Call Information During Call</h2>
+<pre><code class="highlight javascript"><span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">({</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getCallHelper</span><span class="p">().</span><span class="nx">createUrl</span><span class="p">({</span><span class="na">active</span><span class="p">:</span> <span class="kc">true</span><span class="p">}),</span>
+    <span class="na">get</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// this can be omitted</span>
+        <span class="na">page</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">perPage</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ajax</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ajax</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">records</span><span class="p">);</span>
+<span class="p">}.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Active Calls Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>To determine call duration or any other information about the call during the call, the application needs to remember discovered calls and save the time at which they were discovered (had Ringing or Connected status) and then duration can be calculated as difference between now and the saved time.</p>
+
+<p>The application may periodically (around 2-5 minutes) poll the active calls endpoint to make sure that even missed event notifications will not affect the application state. The application may also load a list of active calls after receiving event notifications. Please keep in mind that application may exceed RPS limits and will be throttled in this case, so application must handle this situation.</p>
+
+<h2 id="determining-end-of-call">Determining End of Call</h2>
+
+<p>The application is responsible for caching active calls. A common method is to use a session ID to track a call. 
+Your application may gather information about discovered calls and when it sees “No Call” after “Connected” status it means that the call has ended. Also the call will disappear from active calls list. See the section below on determining call duration of a recently ended call for more info.</p>
+
+<h2 id="call-duration-post-call">Call Duration Post-Call</h2>
+<pre><code class="highlight javascript"><span class="c1">// Determining call duaration of a recently ended call.</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">({</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getCallHelper</span><span class="p">().</span><span class="nx">createUrl</span><span class="p">({</span><span class="na">active</span><span class="p">:</span> <span class="kc">true</span><span class="p">}),</span>
+    <span class="na">get</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// this can be omitted</span>
+        <span class="na">page</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">perPage</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ajax</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ajax</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">records</span><span class="p">);</span>
+<span class="p">}.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Active Calls Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+</code></pre>
+
+<p>Completed calls will stay in Active Calls for a limited time (few minutes). Use the following code to determine the duration of a recently completed call.</p>
+
+<h2 id="call-and-event-matching">Call and Event Matching</h2>
+
+<p>To match calls and events from the call log or active calls, use the <code class="prettyprint">sessionId</code> property of calls from events’ active calls array and call log or active calls response.</p>
+
+<h2 id="multiple-concurrent-calls">Multiple Concurrent Calls</h2>
+
+<p>To handle multiple concurrent calls, each call event will contain information about all calls, application must go through all calls in <code class="prettyprint">msg.body.activeCalls</code> array. The application must remember <code class="prettyprint">sequenceNumber</code> and ignore events with smaller sequence number than already received.</p>
+
+<h2 id="call-control">Call Control</h2>
+
+<p>The RingCentral Connect Platform does not currently support any call control functions.</p>
+
+<h1 id="call-queries">Call Queries</h1>
+
+<p>A call management integration usually consists of tracking the telephony call status per the above and the following call query tasks:</p>
+
+<ul>
+<li>View active calls</li>
+<li>View recently ended calls</li>
+<li>View historical calls</li>
+</ul>
+
+<h2 id="view-active-calls">View Active Calls</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">activeCalls</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">Call</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getCallHelper</span><span class="p">();</span>
+
+<span class="c1">// This call may be repeated when needed, for example as a response to incoming Subscription</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">(</span><span class="nx">Call</span><span class="p">.</span><span class="nx">loadRequest</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">Call</span><span class="p">.</span><span class="nx">createUrl</span><span class="p">({</span><span class="na">active</span><span class="p">:</span> <span class="kc">true</span><span class="p">}),</span>
+    <span class="na">query</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// this can be omitted</span>
+        <span class="na">page</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">perPage</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">})).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">activeCalls</span> <span class="o">=</span> <span class="nx">Call</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">activeCalls</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">records</span><span class="p">);</span> <span class="c1">// safely merge existing active calls with new ones</span>
+<span class="p">}.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Active Calls Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>By default, the load request returns calls that were made during the last week. To alter the time frame, provide custom query.dateTo and query.dateFrom properties.</p>
+
+<h2 id="view-recently-ended-calls">View Recently Ended Calls</h2>
+<pre><code class="highlight javascript"><span class="c1">// Getting historical call information</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">({</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getCallHelper</span><span class="p">().</span><span class="nx">createUrl</span><span class="p">(),</span>
+    <span class="na">get</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// this can be omitted</span>
+        <span class="na">page</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">perPage</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ajax</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ajax</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">records</span><span class="p">);</span>
+<span class="p">}.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Calls Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>Recently ended calls appear in Call Log with some delay (seconds to a minute or so) so the recommended way to retrieve them is to use Active Calls API.</p>
+
+<aside class="notice">
+Completed calls stay in the Call Log for 2 years.
+</aside>
+
+<h2 id="view-historical-calls">View Historical Calls</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">calls</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">Call</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getCallHelper</span><span class="p">();</span>
+
+<span class="c1">// This call may be repeated when needed, for example as a response to incoming Subscription</span>
+<span class="nx">platform</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">(</span><span class="nx">Call</span><span class="p">.</span><span class="nx">loadRequest</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">query</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// this can be omitted</span>
+        <span class="na">page</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">perPage</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">},</span>
+<span class="p">})).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">calls</span> <span class="o">=</span> <span class="nx">Call</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">calls</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">records</span><span class="p">);</span> <span class="c1">// safely merge existing active calls with new ones</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Recent Calls Error: '</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>By default, the load request returns calls that were made during the last week. To alter the time frame, provide custom query.dateTo and query.dateFrom properties.</p>
+
+<h1 id="making-calls-(ringout)">Making Calls (RingOut)</h1>
+
+<p>Outbound calls using RingCentral can be made using the RingOut functionality.</p>
+
+<h2 id="two-legged-calls">Two-Legged Calls</h2>
+
+<p>When making a call, the RingCentral system establishes two calls, one for each of the two parties being connected, and then connects them. This results in events for two calls (2-legged calls) when initiated a single click-to-call?</p>
+
+<h2 id="making-an-outbound-call">Making an Outbound Call</h2>
+<pre><code class="highlight javascript"><span class="c1">// Phone numbers should be in E.164 format.</span>
+<span class="nx">platform</span>
+    <span class="p">.</span><span class="nx">apiCall</span><span class="p">(</span><span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getRingoutHelper</span><span class="p">().</span><span class="nx">saveRequest</span><span class="p">({</span>
+        <span class="na">from</span><span class="p">:</span> <span class="p">{</span><span class="na">phoneNumber</span><span class="p">:</span> <span class="s1">'+16501111111'</span><span class="p">},</span>
+        <span class="na">to</span><span class="p">:</span> <span class="p">{</span><span class="na">phoneNumber</span><span class="p">:</span> <span class="s1">'+18882222222'</span><span class="p">},</span>
+        <span class="na">callerId</span><span class="p">:</span> <span class="p">{</span><span class="na">phoneNumber</span><span class="p">:</span> <span class="s1">'+18882222222'</span><span class="p">},</span> <span class="c1">// optional,</span>
+        <span class="na">playPrompt</span><span class="p">:</span> <span class="kc">false</span> <span class="c1">// optional</span>
+    <span class="p">}))</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ajax</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// here application can start polling</span>
+      <span class="c1">// also save ajax.data as, for example, prevRingoutData</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">handleError</span><span class="p">);</span>
+</code></pre>
+
+<p>The application should stop polling the RingOut when its status changes to error or success because after that there will be no status updates.</p>
+
+<h2 id="polling-outbound-call-status">Polling Outbound Call Status</h2>
+<pre><code class="highlight javascript"><span class="c1">// Poll for the status of an ongoing outbound call</span>
+<span class="kd">function</span> <span class="nx">update</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="nx">delay</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getRingoutHelper</span><span class="p">().</span><span class="nx">isInProgress</span><span class="p">(</span><span class="nx">ringout</span><span class="p">))</span> <span class="k">return</span><span class="p">;</span>
+
+    <span class="nx">platform</span>
+        <span class="p">.</span><span class="nx">apiCall</span><span class="p">(</span><span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getRingoutHelper</span><span class="p">().</span><span class="nx">loadRequest</span><span class="p">(</span><span class="nx">prevRingoutData</span><span class="p">))</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ajax</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// also save ajax.data as, for example, prevRingoutData</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ajax</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span> <span class="c1">// updated status of ringout</span>
+            <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">next</span><span class="p">(</span><span class="nx">delay</span><span class="p">);</span> <span class="c1">// you can increase delay here</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">handleError</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getUtils</span><span class="p">().</span><span class="nx">poll</span><span class="p">(</span><span class="nx">update</span><span class="p">,</span> <span class="mi">3000</span><span class="p">);</span> <span class="c1">// stay in RPS limits</span>
+
+<span class="c1">// To stop polling:</span>
+
+<span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getUtils</span><span class="p">().</span><span class="nx">stopPolling</span><span class="p">(</span><span class="nx">timeout</span><span class="p">);</span>
+</code></pre>
+
+<p>Use polling to get the status of an ongoing outbound call.</p>
+
+<h2 id="outbound-call-control">Outbound Call Control</h2>
+
+<p>The RingCentral Connect Platform does not currently support control of outbound calls. However, you can cancel ringout call while callee party status is <code class="prettyprint">InProgress</code>. To do that make a <code class="prettyprint">DELETE</code> request to ringout URI. </p>
+
+<h2 id="outbound-call-statuses">Outbound Call Statuses</h2>
+
+<ul>
+<li>A 2-legged RingOut call is represented in events as an outbound call between <code class="prettyprint">from</code> and <code class="prettyprint">to</code> numbers provided in RingOut API request. </li>
+<li>There is the known issue: notification with <code class="prettyprint">CallConnected</code> status comes after first leg is connected. So actually a call can be missed by callee but it won’t be reflected in event flow; but it will be reflected in call log.<br></li>
+<li>Phone numbers in notification (<code class="prettyprint">from</code> and <code class="prettyprint">to</code>) may be either E.164 phone numbers (with or without <code class="prettyprint">+</code>) or short extension numbers (e.g. “101”) for calls between extensions</li>
+<li>For some RC phone system configurations when multiple devices are ringing for inbound call, you may get transitional notifications with <code class="prettyprint">NoCall</code> status which will be immediately followed by <code class="prettyprint">Ringing</code> or <code class="prettyprint">CallConnected</code> (for the same <code class="prettyprint">sessionId</code>).</li>
+</ul>
+
+<h2 id="polling-&amp;-events-notification">Polling &amp; Events Notification</h2>
+
+<p>All RingOut calls will appear in event notifications and active calls endpoint. The difference between what RingOut polling provides is more granular status updates (application can track status of both parties). Normally it should be represented by two independent views/flows in application. In general there is no point to match ringout calls with any of active calls, those process may happen concurrently.</p>
+
+<p>If the application needs to track outbound calls and save them somewhere, it is better to initiate the ringout and NOT poll it, but expect a notification and work only with notifications/active calls.</p>
+
+          <h1 id="errors">Errors</h1>
+
+<p>The RingCentral for Developers API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request &ndash; Your request is incorrectly formatted</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized &ndash; Your API key is wrong</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden &ndash; The resource requested is hidden for administrators only</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found &ndash; The specified resource could not be found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed &ndash; You tried to access a resource with an invalid method</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone &ndash; The resource requested has been removed from our servers</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests &ndash; You&rsquo;re making too many requests! Slown down!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

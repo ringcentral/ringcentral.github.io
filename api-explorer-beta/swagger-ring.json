@@ -18,7 +18,34 @@
       "name" : "Authentication"
     },
     {
-      "name": "API Versioning"
+      "name": "REST Overview"
+    },
+    {
+      "name": "API Usage Plans"
+    },
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Exploring Account and Extension Settings"
+    },
+    {
+      "name": "Accessing Call Log"
+    },
+    {
+      "name": "Working with Messages"
+    },
+    {
+      "name": "RingOut"
+    },
+    {
+      "name": "Notifications and Subscriptions"
+    },
+    {
+      "name": "Dictionary: Getting Static Data"
+    },
+    {
+      "name": "API Versions"
     },
     {
       "name": "Account"
@@ -189,7 +216,7 @@
     "/" : {
 
     "get" : {
-          "tags": [ "API Versioning" ],
+          "tags": [ "API Versions" ],
           "summary": "Get API Versions",
           "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns current API version(s) and server info.</p>",
           "consumes": [ "application/json" ],
@@ -209,7 +236,7 @@
     "/{apiVersion}" : {
 
     "get" : {
-          "tags": [ "API Versioning" ],
+          "tags": [ "API Versions" ],
           "summary": "Get Version Info",
           "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns current API version info by apiVersion.</p>",
           "consumes": [ "application/json" ],
@@ -248,7 +275,8 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             }
           ],
           "responses": {
@@ -275,7 +303,8 @@
               "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "page",
@@ -329,14 +358,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             }
           ],
           "responses": {
@@ -363,7 +394,8 @@
               "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "direction",
@@ -430,14 +462,16 @@
               "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionNumber",
@@ -552,14 +586,16 @@
               "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "callRecordId",
@@ -593,7 +629,8 @@
               "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "recordingId",
@@ -627,14 +664,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },{
               "name": "body",
               "type": "string",
@@ -731,14 +770,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },{
               "name": "body",
               "type": "string",
@@ -775,14 +816,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "availability",
@@ -903,14 +946,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "messageId",
@@ -941,14 +986,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "messageId",
@@ -989,14 +1036,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "messageId",
@@ -1030,14 +1079,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "attachmentId",
@@ -1078,14 +1129,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             }
           ],
           "responses": {
@@ -1112,14 +1165,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },{
               "name": "body",
               "type": "string",
@@ -1156,14 +1211,16 @@
               "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "extensionId",
               "type": "string",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
-              "required": true
+              "required": true,
+              "default": "~"
             },
             {
               "name": "ringoutId",

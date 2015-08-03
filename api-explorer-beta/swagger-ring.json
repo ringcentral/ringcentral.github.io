@@ -114,7 +114,8 @@
         "default": "",
         "description": "<b>User's password</b>",
         "required": false,
-        "allowMultiple": false
+        "allowMultiple": false,
+        "format": "password"
       },
       {
         "name": "extension",
@@ -391,9 +392,17 @@
             
             {
               "name": "accountId",
-              "type": "integer",
+              "type": "string",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
+              "required": true,
+              "default": "~"
+            },
+            {
+              "name": "extensionId",
+              "type": "string",
+              "in": "path",
+              "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
               "default": "~"
             },
@@ -936,7 +945,7 @@
     "get" : {
           "tags": [ "Messages" ],
           "summary": "Get Message Info",
-          "description": "<p style='font-style:italic;'></p><p></p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Returns individual message record(s) by the given message ID(s). The length of inbound messages is unlimited. Batch request is supported.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1025,8 +1034,8 @@
           }
       },"delete" : {
           "tags": [ "Messages" ],
-          "summary": "Delete Message",
-          "description": "<p style='font-style:italic;'></p><p>Deletes an individual message or several messages by the given message ID(s). Batch request is supported.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>EditMessages</td><td>Viewing and updating user messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
+          "summary": "Delete Message ",
+          "description": "<p style='font-style:italic;'></p><p>Deletes an individual message or several messages by the given message ID(s). The first call of this method transfers the message to the 'Delete' status. The second call transfers the deleted message to the 'Purged' status. If it is required to make the message 'Purged' immediately (from the first call), then set the query parameter purge to 'True'.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>EditMessages</td><td>Viewing and updating user messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1053,6 +1062,20 @@
               "in": "path",
               "description": "Internal identifier of a message",              
               "required": true
+            },
+            {
+              "name": "purge",
+              "type": "boolean",
+              "in": "query",
+              "description": "If the value is 'True', then the message is purged immediately with all the attachments.The default value is 'False'",
+              "required": false
+            },
+            {
+              "name": "conversationId",
+              "type": "integer",
+              "in": "query",
+              "description": "Internal identifier of a message thread",
+              "required": false
             }
           ],
           "responses": {
@@ -1119,7 +1142,7 @@
     "get" : {
           "tags": [ "Presence" ],
           "summary": "Get Extension Presence Status",
-          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Returns presence status of an extension or several extensions. The presenceStatus is returned as Offline (the parameters telephonyStatus, message, userStatus and dndStatus are not returned at all) for the following extension types: Department/Announcement Only/Take Messages Only (Voicemail)/Fax User/Paging Only Group/Shared Lines Group/IVR Menu/Application Extension. If the user requests his/her own presence status, the response contains actual presence status even if the status publication is turned off. Batch request is supported. For batch requests the number of extensions in one request is limited to 30. If more extensions are included in the request, the error code 400 Bad Request is returned with the logical error code InvalidMultipartRequest and the corresponding message 'Extension Presence Info multipart request is limited to 30 extensions'.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadPresence</td><td>Getting user presence information</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Returns presence status of an extension or several extensions. The presenceStatus is returned as Offline (the parameters telephonyStatus, message, userStatus and dndStatus are not returned at all) for the following extension types: Department/Announcement Only/Take Messages Only (Voicemail)/Fax User/Paging Only Group/Shared Lines Group/IVR Menu/Application Extension/Park Location.If the user requests his/her own presence status, the response contains actual presence status even if the status publication is turned off. Batch request is supported. For batch requests the number of extensions in one request is limited to 30. If more extensions are included in the request, the error code 400 Bad Request is returned with the logical error code InvalidMultipartRequest and the corresponding message 'Extension Presence Info multipart request is limited to 30 extensions'.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadPresence</td><td>Getting user presence information</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1241,11 +1264,34 @@
       },"delete" : {
           "tags": [ "RingOut" ],
           "summary": "Cancel RingOut Call",
-          "description": "<p style='font-style:italic;'></p><p>Cancels the 2-leg RingOut call.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>RingOut</td><td>Performing two-legged ring-out phone calls</td></tr><tr><td class='code'>accountId</td><td>string</td></tr><tr><td class='code'>extensionId</td><td>string</td></tr><tr><td class='code'>ringoutId</td><td>string</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p>",
+          "description": "<p style='font-style:italic;'></p><p>Cancels the 2-leg RingOut call.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>RingOut</td><td>Performing two-legged ring-out phone calls</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
+            {
+              "name": "accountId",
+              "type": "string",
+              "in": "path",
+              "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
+              "required": true,
+              "default": "~"
+            },
+            {
+              "name": "extensionId",
+              "type": "string",
+              "in": "path",
+              "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
+              "required": true,
+              "default": "~"
+            },
+            {
+              "name": "ringoutId",
+              "type": "string",
+              "in": "path",
+              "description": "Internal identifier of a RingOut call",              
+              "required": true
+            }
           ],
           "responses": {
             "200": {
@@ -1347,6 +1393,13 @@
           "produces": [ "application/json" ],
           "parameters" : [
             
+            {
+              "name": "languageId",
+              "type": "string",
+              "in": "path",
+              "description": "Internal identifier of a language",              
+              "required": true
+            }
           ],
           "responses": {
             "200": {
@@ -1678,7 +1731,9 @@
       }}},  
   "definitions" : {
     "CreatePagerMessageRequest": {
-      "required":[      
+      "required":[
+        "text",
+        "to"      
       ],
       "properties": { 
         "from": {
@@ -1691,10 +1746,13 @@
         }, 
         "text": {
           "type": "string",
-          "description": "Text of pager message"                    
+          "description": "Text of pager message. Max length is 1000 symbols"                    
         }, 
         "to": {
-          "$ref": "#/definitions/MessageStoreCallerInfo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageStoreCallerInfo"
+          },
           "description": "Receiver of pager message. The extensionNumber property must be filled"                    
         }
       }    
@@ -1705,7 +1763,10 @@
       ],
       "properties": { 
         "to": {
-          "$ref": "#/definitions/MessageStoreCallerInfo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageStoreCallerInfo"
+          },
           "description": "Recipient information. Phone number property is mandatory. Optional for resend fax request"                    
         }, 
         "resolution": {
@@ -1734,20 +1795,26 @@
     }
   ,
     "CreateSMSMessage": {
-      "required":[      
+      "required":[
+        "from",
+        "to",
+        "text"      
       ],
       "properties": { 
         "from": {
           "$ref": "#/definitions/MessageStoreCallerInfo",
-          "description": "Sender of SMS message. The phoneNumber property must be filled to correspond to one of the account phone numbers which is allowed for given extension to send SMS from"                    
+          "description": "Sender of SMS message. The phoneNumber property must be filled to correspond to one of the account phone numbers which is allowed to send SMS"                    
         }, 
         "to": {
-          "$ref": "#/definitions/MessageStoreCallerInfo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageStoreCallerInfo"
+          },
           "description": "Receiver of SMS message. The phoneNumber property must be filled"                    
         }, 
         "text": {
           "type": "string",
-          "description": "Text of SMS message"                    
+          "description": "Text of SMS message. Max length is 1000 symbols"                    
         }
       }    
     }
@@ -2062,9 +2129,17 @@
           "type": "string",
           "description": "Home country calling code defined by ITU-T recommendations E.123 and E.164, see Calling Codes"                    
         }, 
+        "emergencyCalling": {
+          "type": "boolean",
+          "description": "Emergency calling feature availability/emergency address requirement indicator"                    
+        }, 
         "isoCode": {
           "type": "string",
           "description": "Home country code according to the ISO standard, see ISO 3166"                    
+        }, 
+        "numberSelling": {
+          "type": "boolean",
+          "description": "Determines whether phone numbers are available for the country"                    
         }
       }    
     }
@@ -2263,7 +2338,7 @@
         }, 
         "type": {
           "type": "string", 
-          "enum": ["User","Fax User","VirtualUser","DigitalUser","Department","Announcement","Voicemail","SharedLinesGroup","PagingOnly","IvrMenu","ApplicationExtension"],
+          "enum": ["User","FaxUser","VirtualUser","DigitalUser","Department","Announcement","Voicemail","SharedLinesGroup","PagingOnlyGroup","IvrMenu","ApplicationExtension","ParkLocation"],
           "description": "Extension type"                    
         }
       }    
@@ -2997,7 +3072,10 @@
           "description": "Message subject. For SMS and Pager messages it replicates message text which is also returned as an attachment"                    
         }, 
         "to": {
-          "$ref": "#/definitions/MessageStoreCallerInfo",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageStoreCallerInfo"
+          },
           "description": "Recipient information"                    
         }, 
         "type": {
@@ -3044,7 +3122,8 @@
   ,    
     
     "MessageStoreCallerInfo": {
-      "required":[      
+      "required":[
+        "extensionNumber"      
       ],
       "properties": { 
         "extensionNumber": {
@@ -3086,7 +3165,7 @@
         "dndStatus": {
           "type": "string", 
           "enum": ["TakeAllCalls","DoNotAcceptAnyCalls","DoNotAcceptDepartmentCalls","TakeDepartmentCallsOnly"],
-          "description": "Extended DnD (Do not Disturb) status. Cannot be set for Department/Announcement/Voicemail (Take Messages Only)/Fax User/Shared Lines Group/Paging Only Group/IVR Menu/Application Extension extensions. The 'DoNotAcceptDepartmentCalls' and 'TakeDepartmentCallsOnly' values are applicable only for extensions - members of a Department; if these values are set for department outsiders, the 400 Bad Request error code is returned. The 'TakeDepartmentCallsOnly' status can be set through the old RingCentral user interface and is available for some migrated accounts only."                    
+          "description": "Extended DnD (Do not Disturb) status. Cannot be set for Department/Announcement/Voicemail (Take Messages Only)/Fax User/Shared Lines Group/Paging Only Group/IVR Menu/Application Extension/Park Location extensions. The 'DoNotAcceptDepartmentCalls' and 'TakeDepartmentCallsOnly' values are applicable only for extensions - members of a Department; if these values are set for department outsiders, the 400 Bad Request error code is returned. The 'TakeDepartmentCallsOnly' status can be set through the old RingCentral user interface and is available for some migrated accounts only."                    
         }, 
         "extension": {
           "$ref": "#/definitions/GetPresenceExtensionInfo",
@@ -3111,7 +3190,7 @@
         }, 
         "telephonyStatus": {
           "type": "string", 
-          "enum": ["NoCall","CallConnected","Ringing","OnHold"],
+          "enum": ["NoCall","CallConnected","Ringing","OnHold","ParkedCall"],
           "description": "Telephony presence status"                    
         }, 
         "userStatus": {

@@ -477,6 +477,22 @@
                         "enum": [ "Voice", "Fax" ]
                     },
                     {
+                        "name": "view",
+                        "in": "query",
+                        "description": "Call log record view. The default value is 'Simple' for both account and extension call log Detailed view is experimental and supplies additional call leg information.",
+                        "required": false,
+                        "type": "string",
+                        "enum": [ "Simple", "Detailed" ]
+                    },
+                    {
+                        "name": "withRecording",
+                        "in": "query",
+                        "description": "'True' if only recorded calls have to be returned.",
+                        "required": false,
+                        "type": "string",
+                        "enum": [ "True", "False" ]
+                    },
+                    {
                         "name": "dateTo",
                         "in": "query",
                         "description": "Specifies the ending timestamp for result records. Default: current time",
@@ -586,6 +602,22 @@
                         "description": "'Voice' | 'Fax' Call type of a record. It is allowed to specify more than one type. If not specified, all call types are returned. Multiple values are accepted",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "view",
+                        "in": "query",
+                        "description": "Call log record view. The default value is 'Simple' for both account and extension call log Detailed view is experimental and supplies additional call leg information.",
+                        "required": false,
+                        "type": "string",
+                        "enum": [ "Simple", "Detailed" ]
+                    },
+                    {
+                        "name": "withRecording",
+                        "in": "query",
+                        "description": "'True' if only recorded calls have to be returned.",
+                        "required": false,
+                        "type": "string",
+                        "enum": [ "True", "False" ]
                     },
                     {
                         "name": "dateTo",

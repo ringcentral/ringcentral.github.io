@@ -355,7 +355,7 @@ This instance will be used later on to perform calls to API.
 
 <pre class="highlight javascript"><code><span class="c1">// Get user authorization URL</span>
 <span class="kd">var</span> <span class="nx">myRedirectUri</span> <span class="o">=</span> <span class="s1">'https://example.com/oauth'</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">authorizeUrl</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">rcDemo</span><span class="p">.</span><span class="nx">Core</span><span class="p">.</span><span class="nx">rcSdk</span><span class="p">.</span><span class="nx">getPlatform</span><span class="p">().</span><span class="nx">getAuthURL</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">authorizeUrl</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getPlatform</span><span class="p">().</span><span class="nx">getAuthURL</span><span class="p">({</span>
     <span class="na">redirectUri</span><span class="p">:</span> <span class="nx">myRedirectUri</span>
 <span class="p">});</span>
 <span class="c1">// Open window for authorizeUrl</span>
@@ -866,6 +866,7 @@ Completed calls stay in the Call Log for 2 years.
 <span class="kd">var</span> <span class="nx">recordingUrl</span> <span class="o">=</span> <span class="nx">callLogRecord</span><span class="p">[</span><span class="s1">'recording'</span><span class="p">][</span><span class="s1">'contentUri'</span><span class="p">];</span>
 <span class="kd">var</span> <span class="nx">recordingUrlWithToken</span> <span class="o">=</span> <span class="nx">rcsdk</span><span class="p">.</span><span class="nx">getPlatform</span><span class="p">().</span><span class="nx">apiUrl</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="p">{</span><span class="na">addToken</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
 </code></pre>
+
 
           <h1 id="errors">Errors</h1>
 

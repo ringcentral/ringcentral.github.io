@@ -2,7 +2,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "<p>This is a beta interactive API explorer for the RingCentral Connect Platform. To use this service, you will need to have an account with the proper credentials to generate an OAuth2 access token.</p><p><b>Quick Start</b></p><ol><li>1) Go to <b>Authentication > /oauth/token</b></li><li>2) Enter <b>app_key, app_secret, username, password</b> fields and then click \"Try it out!\"</li><li>3) Upon success, your access_token is loaded and you can access any form requiring authorization.</li></ol><b>Links</b><ul><li><a href=\"https://developer.ringcentral.com/\">RingCentral Developer Program and API Docs</a></li><li><a href=\"https://github.com/ringcentral\">RingCentral SDKs on Github</a></li><li><a href=\"mailto:devsupport@ringcentral.com\">RingCentral Developer Support Email</a></li></ul>",
+    "description": "<p>This is a beta interactive API explorer for the RingCentral Connect Platform. To use this service, you will need to have an account with the proper credentials to generate an OAuth2 access token.</p><p><h2>Quick Start</h2></p><ol><li>1) Go to <b>Authentication > /oauth/token</b></li><li>2) Enter <b>app_key, app_secret, username, password</b> fields and then click \"Try it out!\"</li><li>3) Upon success, your access_token is loaded and you can access any form requiring authorization.</li></ol><h2>Links</h2><ul><li><a href=\"https://github.com/ringcentral\" target=\"_blank\">RingCentral SDKs on Github</a></li><li><a href=\"mailto:devsupport@ringcentral.com\">RingCentral Developer Support Email</a></li></ul>",
     "version": "1.0",
     "title": "RingCentral Connect Platform API Explorer",
     "termsOfService": "https://developer.ringcentral.com"
@@ -45,6 +45,12 @@
       "name": "Dictionary: Getting Static Data"
     },
     {
+      "name": "Common Data Types and Structures"
+    },
+    {
+      "name": "Authentication"
+    },
+    {
       "name": "API Versions"
     },
     {
@@ -80,7 +86,7 @@
     "post": {
     "tags": [ "Authentication" ],
     "summary": "Get Token",
-    "description": "<p>This endpoint supports two flows:</p><p> <b>1) Resource Owner Password Credentials Flow:</b> Issues new access and refresh tokens. Requests to this endpoint must be authenticated with HTTP Basic scheme. The following paramters are required for this flow: </p><ul style=\"margin:0 0 1em 2em\"> <li> <b>1) api_key</b> </li> <li> <b>2) api_secret</b> </li> <li> <b>3) username</b> </li> <li> <b>4) password</b> </li> </ul><p> This flow can use all the parameters below except for the <b>refresh_token</b> parameter which is used for the Refresh Token Flow decribed below. Since 1.0.4 (Release 5.13) </p><p> <b>2) Refresh Token Flow:</b> Issues new access and refresh tokens by previously issued refresh token. Requests to this endpoint must be authenticated with HTTP Basic scheme. The following parameters are required for this flow: </p><ul style=\"margin:0 0 1em 2em\"> <li> <b>1) api_key</b> </li> <li> <b>2) api_secret</b> </li> <li> <b>3) refresh_token</b> </li> </ul><p> The only formData paramter used for this flow is the <b>refresh_token</b> parameter. Since 1.0.4 (Release 5.13) </p>",
+    "description": "<p>This endpoint supports two flows:</p><p> <h3>1) Resource Owner Password Credentials Flow:</h3> Issues new access and refresh tokens. Requests to this endpoint must be authenticated with HTTP Basic scheme. The following paramters are required for this flow: </p><ul style=\"margin:0 0 1em 2em\"> <li> <b>1) api_key</b> </li> <li> <b>2) api_secret</b> </li> <li> <b>3) username</b> </li> <li> <b>4) password</b> </li> </ul><p> This flow can use all the parameters below except for the <b>refresh_token</b> parameter which is used for the Refresh Token Flow decribed below. Since 1.0.4 (Release 5.13) </p><p> <h3>2) Refresh Token Flow:</h3> Issues new access and refresh tokens by previously issued refresh token. Requests to this endpoint must be authenticated with HTTP Basic scheme. The following parameters are required for this flow: </p><ul style=\"margin:0 0 1em 2em\"> <li> <b>1) api_key</b> </li> <li> <b>2) api_secret</b> </li> <li> <b>3) refresh_token</b> </li> </ul><p> The only formData paramter used for this flow is the <b>refresh_token</b> parameter. Since 1.0.4 (Release 5.13) </p>",
     "consumes": [ "application/x-www-form-urlencoded" ],
     "produces": [ "application/json", "application/xml" ],
     "parameters": [
@@ -206,7 +212,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "default": {
             "description": "OK"
           }
         }
@@ -219,14 +225,14 @@
     "get" : {
           "tags": [ "API Versions" ],
           "summary": "Get API Versions",
-          "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns current API version(s) and server info.</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns current API version(s) and server info.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/ HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQQVMwMXxBQUFWZmY4ZXoxMlhvSmlGdjlQc1 <br/><br/>HTTP/1.1 200 OK<br>Date: Mon, 13 Oct 2014 13:24:10 GMT<br>RoutingKey: SJC01P01PAS01<br>Content-Type: application/json<br>Content-Language: en<br>Content-Length: 312<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/&quot;,<br>  &quot;apiVersions&quot; : [ {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0&quot;,<br>    &quot;versionString&quot; : &quot;1.0.14&quot;,<br>    &quot;releaseDate&quot; : &quot;2014-10-31T00:00:00.000Z&quot;,<br>    &quot;uriString&quot; : &quot;v1.0&quot;<br>  } ],<br>  &quot;serverVersion&quot; : &quot;7.0.0.551&quot;,<br>  &quot;serverRevision&quot; : &quot;598ed4edcc56&quot;<br>}            </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetVersionsResponse"
@@ -239,7 +245,7 @@
     "get" : {
           "tags": [ "API Versions" ],
           "summary": "Get Version Info",
-          "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns current API version info by apiVersion.</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns current API version info by apiVersion.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQQVMwMXxBQUFWZmY4ZXoxMlhvSmlGdjlQc1f           <br/><br/>HTTP/1.1 200 OK<br>Date: Mon, 13 Oct 2014 13:57:02 GMT<br>RoutingKey: SJC01P01PAS01<br>Content-Type: application/json<br>Content-Language: en<br>Content-Length: 156<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0&quot;,<br>  &quot;versionString&quot; : &quot;1.0.14&quot;,<br>  &quot;releaseDate&quot; : &quot;2014-10-31T00:00:00.000Z&quot;,<br>  &quot;uriString&quot; : &quot;v1.0&quot;<br>}<br>                    </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -253,7 +259,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetVersionResponse"
@@ -273,7 +279,7 @@
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -281,7 +287,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetAccountInfoResponse"
@@ -289,12 +295,15 @@
             }
           }
       }},
+    "/v1.0/account/{accountId}/phone-number/{phoneNumberId}" : {
+
+    },
     "/v1.0/account/{accountId}/extension" : {
 
     "get" : {
           "tags": [ "Extension" ],
           "summary": "Get Extension List",
-          "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns the list of extensions created for a particular account. All types of extensions are included in this list.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadAccounts</td><td>Viewing user account info (including name, business name, address and phone number/account number)</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.0</p><p>Returns the list of extensions created for a particular account. All types of extensions are included in this list.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadAccounts</td><td>Viewing user account info (including name, business name, address and phone number/account number)</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/~/extension HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFKV1MwMXz6J_ixC7_yYvon-KUZ31Lx-if4rw<br/><br/>HTTP/1.1 200 OK<br>Content-Language: en-US<br>Content-Type: application/json; charset=UTF-8<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/account/5121800004/extension?page=1&perPage=100&quot;,<br>  &quot;records&quot; : [ {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/account/5121800004/extension/5121800004&quot;,<br>    &quot;id&quot; : 5121800004,<br>    &quot;extensionNumber&quot; : &quot;101&quot;,<br>    &quot;contact&quot; : {<br>      &quot;firstName&quot; : &quot;Jane&quot;,<br>      &quot;lastName&quot; : &quot;Smith&quot;,<br>      &quot;company&quot; : &quot;MyCompany Inc.&quot;,<br>      &quot;email&quot; : &quot;jane.smith@mycompany.com&quot;,<br>      &quot;businessPhone&quot; : &quot;+15414655302&quot;<br>    },<br>    &quot;name&quot; : &quot;Jane Smith&quot;,<br>    &quot;type&quot; : &quot;User&quot;,<br>    &quot;status&quot; : &quot;Enabled&quot;,<br>    &quot;permissions&quot; : {<br>      &quot;admin&quot; : {<br>        &quot;enabled&quot; : true<br>      },<br>      &quot;internationalCalling&quot; : {<br>        &quot;enabled&quot; : true<br>      }<br>    }<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/account/5121800004/extension/5121802004&quot;,<br>    &quot;id&quot; : 5121802004,<br>    &quot;extensionNumber&quot; : &quot;102&quot;,<br>    &quot;contact&quot; : {<br>      &quot;firstName&quot; : &quot;John&quot;,<br>      &quot;lastName&quot; : &quot;Smith&quot;,<br>      &quot;email&quot; : &quot;john.smith@mycompany.com&quot;<br>    },<br>    &quot;name&quot; : &quot;John Smith&quot;,<br>    &quot;type&quot; : &quot;User&quot;,<br>    &quot;status&quot; : &quot;Enabled&quot;,<br>    &quot;permissions&quot; : {<br>      &quot;admin&quot; : {<br>        &quot;enabled&quot; : true<br>      },<br>      &quot;internationalCalling&quot; : {<br>        &quot;enabled&quot; : true<br>      }<br>    }<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/account/5121800004/extension/5121804004&quot;,<br>    &quot;id&quot; : 5121804004,<br>    &quot;extensionNumber&quot; : &quot;201&quot;,<br>    &quot;contact&quot; : {<br>      &quot;firstName&quot; : &quot;Department&quot;,<br>      &quot;email&quot; : &quot;department@mycompany.com&quot;<br>    },<br>    &quot;name&quot; : &quot;Department&quot;,<br>    &quot;type&quot; : &quot;Department&quot;,<br>    &quot;status&quot; : &quot;Enabled&quot;,<br>    &quot;permissions&quot; : {<br>      &quot;admin&quot; : {<br>        &quot;enabled&quot; : false<br>      },<br>      &quot;internationalCalling&quot; : {<br>        &quot;enabled&quot; : false<br>      }<br>    }<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/account/5121800004/extension/5121803004&quot;,<br>    &quot;id&quot; : 5121803004,<br>    &quot;extensionNumber&quot; : &quot;103&quot;,<br>    &quot;contact&quot; : {<br>      &quot;firstName&quot; : &quot;Suzanne&quot;,<br>      &quot;lastName&quot; : &quot;Sunny&quot;,<br>      &quot;email&quot; : &quot;suzanne.sunny@mycompany.com&quot;<br>    },<br>    &quot;name&quot; : &quot;Suzanne Sunny&quot;,<br>    &quot;type&quot; : &quot;User&quot;,<br>    &quot;status&quot; : &quot;Enabled&quot;,<br>    &quot;permissions&quot; : {<br>      &quot;admin&quot; : {<br>        &quot;enabled&quot; : false<br>      },<br>      &quot;internationalCalling&quot; : {<br>        &quot;enabled&quot; : true<br>      }<br>    }<br>  } ],<br>  &quot;paging&quot; : {<br>    &quot;page&quot; : 1,<br>    &quot;totalPages&quot; : 1,<br>    &quot;perPage&quot; : 100,<br>    &quot;totalElements&quot; : 4,<br>    &quot;pageStart&quot; : 0,<br>    &quot;pageEnd&quot; : 3<br>  },<br>  &quot;navigation&quot; : {<br>    &quot;firstPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/account/5121800004/extension?page=1&perPage=100&quot;<br>    },<br>    &quot;lastPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/account/5121800004/extension?page=1&perPage=100&quot;<br>    }<br>  }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -331,12 +340,25 @@
               "allowEmptyValue" : true,
               "enum": ["Enabled","Disabled","NotActivated","Unassigned"],
               "in": "query",
-              "description": "Extension current state. If 'Unassigned' is specified, then extensions without extensionNumber are returned. If not specified, then all extensions are returned",
+              "description": "Extension current state. Multiple values are supported. If 'Unassigned' is specified, then extensions without extensionNumber are returned. If not specified, then all extensions are returned",
+              "required": false
+            },
+            {
+              "name": "type",
+              "type": "array",
+              "items": {  
+                     "type":"string"
+                  },
+              "collectionFormat": "multi",
+              "allowEmptyValue" : true,
+              "enum": ["User","FaxUser","VirtualUser","DigitalUser","Department","Announcement","Voicemail","SharedLinesGroup","PagingOnlyGroup","IvrMenu","ApplicationExtension","ParkLocation"],
+              "in": "query",
+              "description": "Extension type. Multiple values are supported",
               "required": false
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetExtensionListResponse"
@@ -356,7 +378,7 @@
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -364,7 +386,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -372,7 +394,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetExtensionInfoResponse"
@@ -385,14 +407,14 @@
     "get" : {
           "tags": [ "Call Log" ],
           "summary": "Get Active Calls",
-          "description": "<p style='font-style:italic;'>Since 1.0.13 (Release 6.5)</p><p>Returns records of all extension calls that are in progress, ordered by start time in descending order.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadCallLog</td><td>Viewing user call logs</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.13 (Release 6.5)</p><p>Returns records of all extension calls that are in progress, ordered by start time in descending order.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadCallLog</td><td>Viewing user call logs</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/400618687004/extension/400618687004/active-calls HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQQVMwMnxBQUFWZmY4ZXoxMlhvUFI5dmhYVzV            <br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br>Content-Length: 941<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/account/400618687004/extension/400618687004/active-calls?page=1&perPage=100&quot;,<br>  &quot;records&quot; : [ {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/account/400618687004/extension/400618687004/call-log/IV5fj9D8vHjs8fw&quot;,<br>    &quot;id&quot; : &quot;IV5fj9D8vHjs8fw&quot;,<br>    &quot;sessionId&quot; : &quot;403402173004&quot;,<br>    &quot;startTime&quot; : &quot;2014-08-15T15:16:12.000Z&quot;,<br>    &quot;duration&quot; : 0,<br>    &quot;type&quot; : &quot;Voice&quot;,<br>    &quot;direction&quot; : &quot;Outbound&quot;,<br>    &quot;action&quot; : &quot;RingOut Web&quot;,<br>    &quot;result&quot; : &quot;Call connected&quot;,<br>    &quot;to&quot; : {<br>      &quot;phoneNumber&quot; : &quot;18556620006&quot;,<br>      &quot;name&quot; : &quot;John Smith&quot;<br>    },<br>    &quot;from&quot; : {<br>      &quot;name&quot; : &quot;Jane Smith&quot;<br>    }<br>  } ],<br>  &quot;paging&quot; : {<br>    &quot;page&quot; : 1,<br>    &quot;perPage&quot; : 100,<br>    &quot;pageStart&quot; : 0,<br>    &quot;pageEnd&quot; : 0<br>  },<br>  &quot;navigation&quot; : {<br>    &quot;firstPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/account/400618687004/extension/400618687004/active-calls?page=1&perPage=100&quot;<br>    }<br>  }<br>}            </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -400,7 +422,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -448,7 +470,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/ExtensionActiveCallsResponse"
@@ -572,7 +594,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/ExtensionCallLogResponse"
@@ -585,7 +607,7 @@
     "get" : {
           "tags": [ "Call Log" ],
           "summary": "Get Call Log Record",
-          "description": "<p style='font-style:italic;'>Since 1.0.3 (Release 5.11)</p><p>Returns individual call log record by callRecordId(s).</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadCallLog</td><td>Viewing user call logs</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.3 (Release 5.11)</p><p>Returns individual call log record by callRecordId(s).</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadCallLog</td><td>Viewing user call logs</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/401190149008/extension/401190149008/call-log/IXPCm_tIkCduk4I HTTP/1.1<br>Authorization: Bearer U0pDMDFQMDFQQVMwMnxBQUJFU3VOMlp2bjZFSUNPU3BWV2wyZmZ4YkVPSFNDSlVFT3FaRmZTdFdraUx<br>Accept: application/json<br/><br/>{<br>   &quot;uri&quot;: &quot;https.../restapi/v1.0/account/401190149008/extension/401190149008/call-log/IXPCm_tIkCduk4I?view=Simple&quot;,<br>   &quot;id&quot;: &quot;IXPCm_tIkCduk4I&quot;,<br>   &quot;sessionId&quot;: &quot;404412141008&quot;,<br>   &quot;startTime&quot;: &quot;2015-06-25T14:57:30.000Z&quot;,<br>   &quot;duration&quot;: 60,<br>   &quot;type&quot;: &quot;Voice&quot;,<br>   &quot;direction&quot;: &quot;Inbound&quot;,<br>   &quot;action&quot;: &quot;Phone Call&quot;,<br>   &quot;result&quot;: &quot;Accepted&quot;,<br>   &quot;to&quot;:    {<br>      &quot;phoneNumber&quot;: &quot;18772160007&quot;,<br>      &quot;name&quot;: &quot;Something New&quot;<br>   },<br>   &quot;from&quot;:    {<br>      &quot;phoneNumber&quot;: &quot;18882400004&quot;,<br>      &quot;name&quot;: &quot;Something New&quot;<br>   },<br>   &quot;recording&quot;:    {<br>      &quot;uri&quot;: &quot;https.../restapi/v1.0/account/401190149008/recording/401547458008&quot;,<br>      &quot;id&quot;: &quot;401547458008&quot;,<br>      &quot;type&quot;: &quot;OnDemand&quot;,<br>      &quot;contentUri&quot;: &quot;https.../restapi/v1.0/account/401190149008/recording/401547458008/content&quot;<br>   }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -615,7 +637,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetExtensionCallLogRecordResponse"
@@ -628,7 +650,7 @@
     "get" : {
           "tags": [ "Call Log" ],
           "summary": "Get Call Recording",
-          "description": "<p style='font-style:italic;'>Since 1.0.18</p><p>Returns call recording metadata.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadCallRecording</td><td>Downloading call recording content</td></tr><tr><td class='code'>ReadCallLog</td><td>Viewing user call logs</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.18</p><p>Returns call recording metadata.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadCallRecording</td><td>Downloading call recording content</td></tr><tr><td class='code'>ReadCallLog</td><td>Viewing user call logs</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/401452676008/recording/401786818008<br>Authorization: Bearer U0pDMDFQMDFKV1MwMXy9Si---LvnH71KL52CevzJvUovkt<br>Content-Type=application/json;charset=UTF-8<br/><br/>HTTP 200 OK<br><br>{<br>  &quot;id&quot; : &quot;401786818008&quot;,<br>  &quot;contentUri&quot; : &quot;https.../restapi/v1.0/account/401452676008/recording/401786818008/content&quot;,<br>  &quot;contentType&quot; : &quot;audio/x-wav&quot;,<br>  &quot;duration&quot; : 30<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -650,10 +672,45 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetCallRecordingResponse"
+              }
+            }
+          }
+      }},
+    "/v1.0/account/{accountId}/recording/{recordingId}/content" : {
+
+    "get" : {
+          "tags": [ "Call Log" ],
+          "summary": "Get Call Recording Data",
+          "description": "<p style='font-style:italic;'></p><p></p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadCallRecording</td><td>Downloading call recording content</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/10979280004/recording/59497406004/content HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQQVMwMnxBQUJFU3VOMlp2bjZFSUNPU3BWV2wyZmZ4YkVPSFNDSlVFT3FaRmZTdFdraUxYajg5<br>Range: bytes=1-10             <br/><br/>HTTP/1.1 200 OK<br>Accept-Ranges: bytes<br>Content-Type: audio/x-wav<br>Content-Language: en-US<br>Content-Length: 119808<br><br><...binary data...>      <br></code></pre></div></span>",
+          "consumes": [ "application/json" ],
+          "produces": [ "application/json" ],
+          "parameters" : [
+            
+            {
+              "name": "accountId",
+              "type": "integer",
+              "in": "path",
+              "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
+              "required": true,
+              "default": "~"
+            },
+            {
+              "name": "recordingId",
+              "type": "integer",
+              "in": "path",
+              "description": "Internal identifier of a call recording, see Recording Info",              
+              "required": true
+            }
+          ],
+          "responses": {
+            "default": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/"
               }
             }
           }
@@ -663,14 +720,14 @@
     "post" : {
           "tags": [ "Messages" ],
           "summary": "Create Pager Message",
-          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Creates and sends a pager message.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>InternalMessages</td><td>Sending and receiving intra-company text messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Creates and sends a pager message.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>InternalMessages</td><td>Sending and receiving intra-company text messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>POST /restapi/v1.0/account/~/extension/~/company-pager HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U1BCMDFUMDRKV1MwMXzidVlSWLyuMeJ1WV-VfMBf4nVZWg<br>Content-Type: application/json<br><br>{<br>&quot;to&quot;: [{&quot;extensionNumber&quot;: &quot;102&quot;}, <br>       {&quot;extensionNumber&quot;: &quot;103&quot;}<br> ],<br>&quot;from&quot;: {&quot;extensionNumber&quot;: &quot;101&quot;},<br>&quot;text&quot;: &quot;Hello!&quot;<br>}<br>                <br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>    &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315458412010&quot;,<br>    &quot;id&quot; : 315458412010,<br>    &quot;to&quot; : [ <br>        {&quot;extensionNumber&quot; : &quot;102&quot;},<br>        {&quot;extensionNumber&quot; : &quot;103&quot;} ],<br>    <br>    &quot;from&quot; : {<br>        &quot;extensionNumber&quot; : &quot;101&quot;<br>    },<br>    &quot;type&quot; : &quot;Pager&quot;,<br>    &quot;creationTime&quot; : &quot;2012-09-13T16:03:04.000Z&quot;,<br>    &quot;readStatus&quot; : &quot;Unread&quot;,<br>    &quot;priority&quot; : &quot;Normal&quot;,<br>    &quot;attachments&quot; : [ {<br>        &quot;id&quot; : 1,<br>        &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315458412010/content/1&quot;,<br>        &quot;contentType&quot; : &quot;text/plain&quot;<br>    } ],<br>    &quot;direction&quot; : &quot;Outbound&quot;,<br>    &quot;availability&quot; : &quot;Alive&quot;,<br>    &quot;subject&quot; : &quot;Hello!&quot;,<br>    &quot;messageStatus&quot; : &quot;Sent&quot;,<br>    &quot;conversationId&quot; : 315458412010,<br>    &quot;lastModifiedTime&quot; : &quot;2012-09-13T16:03:04.000Z&quot;<br>}<br>                </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -678,7 +735,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -696,7 +753,7 @@
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetMessageInfoResponse"
@@ -757,9 +814,9 @@
                         "name": "body",
                         "in": "body",
                         "consumes": [ "multipart/mixed; boundary=Boundary_1_14413901_1361871080888" ],
-                        "default": "--Boundary_1_14413901_1361871080888\nContent-Type: application/json\n\n{\n  \"to\":[{\"phoneNumber\":\"18005630003\"}],\n  \"faxResolution\":\"High\",\n  \"sendTime\":\"2013-02-26T09:31:20.882Z\"\n}\n\n--Boundary_1_14413901_1361871080888\nContent-Type: text/plain\n\nHello, World!\n\n--Boundary_1_14413901_1361871080888--",
+                        "default": "--Boundary_1_14413901_1361871080888\nContent-Type: application/json\n\n{\n  \"to\":[{\"phoneNumber\":\"18005630003\"}],\n  \"faxResolution\":\"High\",\n  \"sendTime\":\"2015-02-26T09:31:20.882Z\"\n}\n\n--Boundary_1_14413901_1361871080888\nContent-Type: text/plain\n\nHello, World!\n\n--Boundary_1_14413901_1361871080888--",
                         "type": "string",
-                        "description": "Multi-part MIME consisting of one part JSON body and one part text. For the MIME boundary, in this UI, use \"Boundary_1_14413901_1361871080888\". JSON body values:<br><br><table style=\"border:1px #aaa black\"><tr><td>Property</td><td>Data type</td><td>Description</td></tr><tr><td><b>to</b></td><td>Contact Info object</td><td>Recipient information. <b>phoneNumber</b> property is mandatory</td></tr><tr><td>resolution</td><td><select><option>High</option><option>Low</option></select></td><td>Fax resolution</td></tr><tr><td>sendTime</td><td>datetime</td><td>Optional. Timestamp to send fax at. If not specified (current or the past), the fax is sent immediately</td></tr><tr><td>coverIndex</td><td>Integer (0-13)<br><select><option>0 (none - no cover page)</option><option>1 (\"Ancient\" cover page)</option><option>2 (\"Birthday\" cover page)</option><option>3 (\"Blank\" cover page)</option><option>4 (\"Clasmod\" cover page)</option><option>5 (\"Classic\" cover page)</option><option>6 (\"Confidential\" cover page)</option><option>7 (\"Contempo\" cover page)</option><option>8 (\"Elegant\" cover page)</option><option>9 (\"Express\" cover page)</option><option>10 (\"Formal\" cover page)</option><option>11 (\"Jazzy\" cover page)</option><option>12 (\"Modern\" cover page)</option><option>13 (\"Urgent\" cover page)</option></select></td><td>Optional. Cover page index. If not specified, the default cover page which is configured in \"Outbound Fax Settings\" is attached. See also \"Available Cover Pages\" table below</td></tr><tr><td>coverPageText</td><td>string</td><td>Optional. Cover page text, entered by the fax sender and printed on the cover page. Maximum length is limited to 1024 symbols</td></tr></table>"
+                        "description": "Multi-part MIME consisting of one part JSON body and one part text. For the MIME boundary, in this UI, use \"Boundary_1_14413901_1361871080888\". JSON body values: <table class=\"tabular-description\"><tr class=\"property row\" style=\"border-top: 1px solid #e8e8e8\"><td class=\"property-name\">Property</td><td class=\"property-value\">to</td></tr><tr class=\"row\"><td class=\"property-name\">Data type</td><td class=\"property-value\">Contact Info object</td></tr><tr class=\"row\"><td class=\"property-name\">Description</td><td class=\"property-value\">Recipient information. <b>phoneNumber</b> property is mandatory</td></tr><tr class=\"property row\" style=\"border-top: 1px solid #e8e8e8\"><td class=\"property-name\">Property</td><td class=\"property-value\">resolution</td></tr><tr class=\"row\"><td class=\"property-name\">Data type</td><td class=\"property-value\"><select><option>High</option><option>Low</option></select></td></tr><tr class=\"row\"><td class=\"property-name\">Description</td><td class=\"property-value\">Fax resolution</td></tr><tr class=\"property row\" style=\"border-top: 1px solid #e8e8e8\"><td class=\"property-name\">Property</td><td class=\"property-value\">sendTime</td></tr><tr class=\"row\"><td class=\"property-name\">Data type</td><td class=\"property-value\">datetime</td></tr><tr class=\"row\"><td class=\"property-name\">Description</td><td class=\"property-value\">Optional. Timestamp to send fax at. If not specified (current or the past),the fax issent immediately</td></tr><tr class=\"property row\" style=\"border-top: 1px solid #e8e8e8\"><td class=\"property-name\">Property</td><td class=\"property-value\">coverIndex</td></tr><tr class=\"row\"><td class=\"property-name\">Data type</td><td class=\"property-value\">Integer (0-13)<br><select><option>0 (none - no cover page)</option><option>1 (\"Ancient\" cover page)</option><option>2 (\"Birthday\" cover page)</option><option>3 (\"Blank\" cover page)</option><option>4 (\"Clasmod\" cover page)</option><option>5 (\"Classic\" cover page)</option><option>6 (\"Confidential\" cover page)</option><option>7 (\"Contempo\" cover page)</option><option>8 (\"Elegant\" cover page)</option><option>9 (\"Express\" cover page)</option><option>10 (\"Formal\" cover page)</option><option>11 (\"Jazzy\" cover page)</option><option>12 (\"Modern\" cover page)</option><option>13 (\"Urgent\" cover page)</option></select></td></tr><tr class=\"row\"><td class=\"property-name\">Description</td><td class=\"property-value\">Optional. Cover page index. If not specified, the default cover pagewhichisconfigured in \"Outbound FaxSettings\" is attached. See also \"Available Cover Pages\" table below</td></tr><tr class=\"property row\" style=\"border-top: 1px solid #e8e8e8\"><td class=\"property-name\">Property</td><td class=\"property-value\">coverPageText</td></tr><tr class=\"row\"><td class=\"property-name\">Data type</td><td class=\"property-value\">string</td></tr><tr class=\"row\"><td class=\"property-name\">Description</td><td class=\"property-value\">Optional. Cover page text, entered by the fax sender and printed on thecover page.Maximum length is limited to 1024 symbols</td></tr></table>"
                     }
                 ]
             }
@@ -769,14 +826,14 @@
     "post" : {
           "tags": [ "Messages" ],
           "summary": "Create SMS Message",
-          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Creates and sends new SMS message.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>SMS</td><td>Sending and receiving SMS (text) messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Creates and sends new SMS message.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>SMS</td><td>Sending and receiving SMS (text) messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>POST /restapi/v1.0/account/~/extension/~/sms HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U1BCMDFUMDRKV1MwMXwVVOaPwPu88hVU5oR0u-FQFVTmhA<br>Content-Type: application/json<br><br>{<br>&quot;to&quot;: [{&quot;phoneNumber&quot;: &quot;18551003738&quot;}],<br>&quot;from&quot;: {&quot;phoneNumber&quot;: &quot;18559100010}&quot;},<br>&quot;text&quot;: &quot;Test SMS message from Platform server&quot;<br>}<br>                <br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>    &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315450330010&quot;,<br>    &quot;id&quot; : 315450330010,<br>    &quot;to&quot; : [ {<br>        &quot;phoneNumber&quot; : &quot;18551003738&quot;<br>    } ],<br>    &quot;from&quot; : {<br>        &quot;phoneNumber&quot; : &quot;18559100010&quot;<br>    },<br>    &quot;type&quot; : &quot;SMS&quot;,<br>    &quot;creationTime&quot; : &quot;2012-09-13T15:21:08.000Z&quot;,<br>    &quot;readStatus&quot; : &quot;Unread&quot;,<br>    &quot;priority&quot; : &quot;Normal&quot;,<br>    &quot;attachments&quot; : [ {<br>        &quot;id&quot; : 1,<br>        &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315450330010/content/1&quot;,<br>        &quot;contentType&quot; : &quot;text/plain&quot;<br>    } ],<br>    &quot;direction&quot; : &quot;Outbound&quot;,<br>    &quot;availability&quot; : &quot;Alive&quot;,<br>    &quot;subject&quot; : &quot;Test SMS message from Platform server&quot;,<br>    &quot;messageStatus&quot; : &quot;Sent&quot;,<br>    &quot;conversationId&quot; : 4481650717038104652,<br>    &quot;lastModifiedTime&quot; : &quot;2012-09-13T15:21:09.000Z&quot;<br>}                </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -784,7 +841,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -802,7 +859,7 @@
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetMessageInfoResponse"
@@ -815,14 +872,14 @@
     "get" : {
           "tags": [ "Messages" ],
           "summary": "Get Message List",
-          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Returns the list of messages from an extension mailbox.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Returns the list of messages from an extension mailbox.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/~/extension/~/message-store HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U1BCMDFUMDRKV1MwMXwVVOaPwPu88hVU5oR0u-FQFVTmhA<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>    &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store?availability=Alive&page=1&perPage=100&quot;,<br>    &quot;records&quot; : [ {<br>        &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315433012010&quot;,<br>        &quot;id&quot; : 315433012010,<br>        &quot;to&quot; : [ {<br>            &quot;phoneNumber&quot; : &quot;18559100010&quot;<br>        } ],<br>        &quot;from&quot; : {<br>            &quot;phoneNumber&quot; : &quot;16509101086&quot;<br>        },<br>        &quot;type&quot; : &quot;SMS&quot;,<br>        &quot;creationTime&quot; : &quot;2012-09-13T14:46:37.000Z&quot;, <br>        &quot;readStatus&quot; : &quot;Unread&quot;,<br>        &quot;priority&quot; : &quot;Normal&quot;,<br>        &quot;attachments&quot; : [ {<br>            &quot;id&quot; : 1,<br>            &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315433012010/content/1&quot;,<br>            &quot;type&quot;: &quot;Text&quot;,<br>            &quot;contentType&quot; : &quot;text/plain&quot;<br>        } ],<br>        &quot;direction&quot; : &quot;Inbound&quot;,<br>        &quot;availability&quot; : &quot;Alive&quot;,<br>        &quot;subject&quot; : &quot;This is a sample message&quot;,<br>        &quot;messageStatus&quot; : &quot;Received&quot;,<br>        &quot;conversationId&quot; : 141549019326272744,<br>        &quot;lastModifiedTime&quot; : &quot;2012-09-13T14:46:37.000Z&quot;<br>    }, {<br>        &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315432888010&quot;,<br>        &quot;id&quot; : 315432888010,<br>        &quot;to&quot; : [ {<br>            &quot;phoneNumber&quot; : &quot;18559100010&quot;<br>        } ],<br>        &quot;from&quot; : {<br>            &quot;phoneNumber&quot; : &quot;16509101086&quot;<br>        },<br>        &quot;type&quot; : &quot;VoiceMail&quot;,<br>        &quot;creationTime&quot; : &quot;2012-09-13T14:44:27.000Z&quot;,<br>        &quot;readStatus&quot; : &quot;Unread&quot;,<br>        &quot;priority&quot; : &quot;Normal&quot;,<br>        &quot;attachments&quot; : [ {<br>            &quot;id&quot; : 1,<br>            &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/315432888010/content/1&quot;,<br>            &quot;type&quot;: &quot;AudioRecording&quot;,<br>            &quot;contentType&quot; : &quot;audio/x-wav&quot;,<br>            &quot;vmDuration&quot; : 25<br>        } ],<br>        &quot;direction&quot; : &quot;Inbound&quot;,<br>        &quot;availability&quot; : &quot;Alive&quot;,<br>        &quot;messageStatus&quot; : &quot;Received&quot;,<br>        &quot;lastModifiedTime&quot; : &quot;2012-09-13T14:44:27.000Z&quot;,<br>        &quot;vmTranscriptionStatus&quot; : &quot;NotAvailable&quot;<br>    }],<br>    &quot;paging&quot;:    {<br>        &quot;page&quot;: 1,<br>        &quot;totalPages&quot;: 1,<br>        &quot;perPage&quot;: 100,<br>        &quot;totalElements&quot;: 2,<br>        &quot;pageStart&quot;: 0,<br>        &quot;pageEnd&quot;: 1<br>    },<br>    &quot;navigation&quot;:    {<br>        &quot;firstPage&quot;: {&quot;uri&quot;: &quot;.../account/1346632010/extension/1346632010/message-store?availability=Alive&page=1&perPage=100&quot;},<br>        &quot;lastPage&quot;: {&quot;uri&quot;: &quot;.../account/1346632010/extension/1346632010/message-store?availability=Alive&page=1&perPage=100&quot;}<br>    }<br>} </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -830,7 +887,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -884,6 +941,13 @@
               "required": false
             },
             {
+              "name": "distinctConversation",
+              "type": "boolean",
+              "in": "query",
+              "description": "If 'True', then the latest messages per every conversation ID are returned",
+              "required": false
+            },
+            {
               "name": "messageType",
               "type": "array",
               "items": {  
@@ -932,7 +996,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetMessageList"
@@ -952,7 +1016,7 @@
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -960,7 +1024,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -975,7 +1039,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetMessageInfoResponse"
@@ -985,14 +1049,14 @@
       },"put" : {
           "tags": [ "Messages" ],
           "summary": "Update Message",
-          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Updates an individual message or several messages. Batch request is supported. Currently, only the message read status updating is supported.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>EditMessages</td><td>Viewing and updating user messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Updates an individual message or several messages. Batch request is supported. Currently, only the message read status updating is supported.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>EditMessages</td><td>Viewing and updating user messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>PUT /restapi/v1.0/account/1346632010/extension/1346632010/message-store/315433012010 HTTP/1.1<br>Authorization: Bearer U1BCMDFUMDRKV1MwMXwVVOaPwPu88hVU5oR0u-FQFVTmhA<br>Content-Type: application/json<br><br>{&quot;readStatus&quot;: &quot;Read&quot;}<br>                <br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>    &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/1346632010/message-store/315433012010&quot;,<br>    &quot;id&quot; : 315433012010,<br>    &quot;to&quot; : [ {<br>        &quot;phoneNumber&quot; : &quot;18559100010&quot;<br>    } ],<br>    &quot;from&quot; : {<br>        &quot;phoneNumber&quot; : &quot;16509101086&quot;<br>    },<br>    &quot;type&quot; : &quot;SMS&quot;,<br>    &quot;creationTime&quot; : &quot;2012-09-13T14:46:37.000Z&quot;,<br>    &quot;readStatus&quot; : &quot;Read&quot;,<br>    &quot;priority&quot; : &quot;Normal&quot;,<br>    &quot;attachments&quot; : [ {<br>        &quot;id&quot; : 1,<br>        &quot;uri&quot; : &quot;.../account/1346632010/extension/1346632010/message-store/1346632010/message-store/315433012010/content/1&quot;,<br>        &quot;type&quot; : &quot;Text&quot;,<br>        &quot;contentType&quot; : &quot;text/plain&quot;<br>    } ],<br>    &quot;direction&quot; : &quot;Inbound&quot;,<br>    &quot;availability&quot; : &quot;Alive&quot;,<br>    &quot;subject&quot; : &quot;This is a sample message&quot;,<br>    &quot;messageStatus&quot; : &quot;Received&quot;,<br>    &quot;conversationId&quot; : 141549019326272744,<br>    &quot;lastModifiedTime&quot; : &quot;2012-09-13T15:14:46.000Z&quot;<br>}                </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -1000,7 +1064,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -1025,7 +1089,7 @@
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetMessageInfoResponse"
@@ -1034,15 +1098,15 @@
           }
       },"delete" : {
           "tags": [ "Messages" ],
-          "summary": "Delete Message ",
-          "description": "<p style='font-style:italic;'></p><p>Deletes an individual message or several messages by the given message ID(s). The first call of this method transfers the message to the 'Delete' status. The second call transfers the deleted message to the 'Purged' status. If it is required to make the message 'Purged' immediately (from the first call), then set the query parameter purge to 'True'.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>EditMessages</td><td>Viewing and updating user messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
+          "summary": "Delete Message",
+          "description": "<p style='font-style:italic;'></p><p>Deletes an individual message or several messages by the given message ID(s). The first call of this method transfers the message to the 'Delete' status. The second call transfers the deleted message to the 'Purged' status. If it is required to make the message 'Purged' immediately (from the first call), then set the query parameter purge to 'True'.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>EditMessages</td><td>Viewing and updating user messages</td></tr><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>DELETE /restapi/v1.0/account/1346632010/extension/1346632010/message-store/315433012010 HTTP/1.1<br>Authorization: Bearer U1BCMDFUMDRKV1MwMXwVVOaPwPu88hVU5oR0u-FQFVTmhA             <br/><br/>HTTP/1.1 204 No Content             </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -1050,7 +1114,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -1067,7 +1131,7 @@
               "name": "purge",
               "type": "boolean",
               "in": "query",
-              "description": "If the value is 'True', then the message is purged immediately with all the attachments.The default value is 'False'",
+              "description": "If the value is 'True', then the message is purged immediately with all the attachments. The default value is 'False'",
               "required": false
             },
             {
@@ -1079,7 +1143,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/"
@@ -1092,14 +1156,14 @@
     "get" : {
           "tags": [ "Messages" ],
           "summary": "Get Message Attachment",
-          "description": "<p style='font-style:italic;'>Since 1.0.4 (Release 5.13)</p><p>Returns particular message attachment data as a media stream.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.4 (Release 5.13)</p><p>Returns particular message attachment data as a media stream.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadMessages</td><td>Viewing user messages</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>1.<br>GET /restapi/v1.0/account/1346632010/extension/1346632010/message-store/313600045010/content/1 HTTP/1.1<br>Authorization: Bearer U1BCMDFUMDRKV1MwMXwVVOaPwPu88hVU5oR0u-FQFVTmhA<br><br>2.<br>GET /restapi/v1.0/account/~/extension/~/message-store/402373285008/content/1 HTTP/1.1<br>Authorization: Bearer U0pDMDFQMDFQV1MwM3w7y3hoN4VOvT1Vat2crMSnYJE6Sw<br>                <br/><br/>1.<br>HTTP/1.1 200 OK<br>Content-Type: text/plain;charset=utf-8<br><br>Test message from Platform server<br><br>2.<br>HTTP/1.1 200 OK<br>Content-Type: image/tiff<br>Content-Disposition: inline;filename=402373285008.tiff<br><br><...binary...><br>                </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -1107,7 +1171,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -1129,7 +1193,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/"
@@ -1142,14 +1206,14 @@
     "get" : {
           "tags": [ "Presence" ],
           "summary": "Get Extension Presence Status",
-          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Returns presence status of an extension or several extensions. The presenceStatus is returned as Offline (the parameters telephonyStatus, message, userStatus and dndStatus are not returned at all) for the following extension types: Department/Announcement Only/Take Messages Only (Voicemail)/Fax User/Paging Only Group/Shared Lines Group/IVR Menu/Application Extension/Park Location.If the user requests his/her own presence status, the response contains actual presence status even if the status publication is turned off. Batch request is supported. For batch requests the number of extensions in one request is limited to 30. If more extensions are included in the request, the error code 400 Bad Request is returned with the logical error code InvalidMultipartRequest and the corresponding message 'Extension Presence Info multipart request is limited to 30 extensions'.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadPresence</td><td>Getting user presence information</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.2</p><p>Returns presence status of an extension or several extensions. The presenceStatus is returned as Offline (the parameters telephonyStatus, message, userStatus and dndStatus are not returned at all) for the following extension types: Department/Announcement Only/Take Messages Only (Voicemail)/Fax User/Paging Only Group/Shared Lines Group/IVR Menu/Application Extension/Park Location.If the user requests his/her own presence status, the response contains actual presence status even if the status publication is turned off. Batch request is supported. For batch requests the number of extensions in one request is limited to 30. If more extensions are included in the request, the error code 400 Bad Request is returned with the logical error code InvalidMultipartRequest and the corresponding message 'Extension Presence Info multipart request is limited to 30 extensions'.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>ReadPresence</td><td>Getting user presence information</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/400792315004/extension/400792315004/presence HTTP/1.1<br>Authorization: Bearer U1BCMDFUMDRKV1MwMXwpWCipXIQTrClYKKwK5DkfKVgorg<br>Accept: application/json           <br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br>Content-Length: 530<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/account/400792315004/extension/400792315004/presence&quot;,<br>  &quot;extension&quot; : {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/account/400792315004/extension/400792315004&quot;,<br>    &quot;id&quot; : 400792315004,<br>    &quot;extensionNumber&quot; : &quot;101&quot;<br>},<br>  &quot;presenceStatus&quot; : &quot;Available&quot;,<br>  &quot;telephonyStatus&quot; : &quot;NoCall&quot;,<br>  &quot;userStatus&quot; : &quot;Available&quot;,<br>  &quot;dndStatus&quot; : &quot;TakeAllCalls&quot;,<br>  &quot;message&quot; : &quot;Hello, World&quot;,<br>  &quot;allowSeeMyPresence&quot; : true,<br>  &quot;ringOnMonitoredCall&quot; : false,<br>  &quot;pickUpCallsOnHold&quot; : false<br>}            </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -1157,7 +1221,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -1165,7 +1229,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetPresenceInfo"
@@ -1185,7 +1249,7 @@
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -1193,7 +1257,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -1211,7 +1275,7 @@
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetRingOutStatusResponse"
@@ -1224,14 +1288,14 @@
     "get" : {
           "tags": [ "RingOut" ],
           "summary": "Get Status of RingOut Call",
-          "description": "<p style='font-style:italic;'>Since 1.0.7 (Release 5.16)</p><p>Returns the status of a 2-leg RingOut call.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>RingOut</td><td>Performing two-legged ring-out phone calls</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.7 (Release 5.16)</p><p>Returns the status of a 2-leg RingOut call.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>RingOut</td><td>Performing two-legged ring-out phone calls</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/account/~/extension/~/ringout/2 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQV1MwM3zcKcfZlnowKxw6lxYDv9mfS1b6eQ<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>  &quot;uri&quot; : &quot;https:.../restapi/v1.0/account/400162076008/extension/400162076009/ringout/2&quot;,<br>    &quot;id&quot; : 2,<br>    &quot;status&quot; : {<br>      &quot;callStatus&quot; : &quot;Success&quot;,<br>      &quot;callerStatus&quot; : &quot;Success&quot;,<br>      &quot;calleeStatus&quot; : &quot;Success&quot;<br>    }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -1239,7 +1303,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -1247,14 +1311,14 @@
             },
             {
               "name": "ringoutId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingOut call",              
               "required": true
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetRingOutStatusResponse"
@@ -1264,14 +1328,14 @@
       },"delete" : {
           "tags": [ "RingOut" ],
           "summary": "Cancel RingOut Call",
-          "description": "<p style='font-style:italic;'></p><p>Cancels the 2-leg RingOut call.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>RingOut</td><td>Performing two-legged ring-out phone calls</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p>",
+          "description": "<p style='font-style:italic;'></p><p>Cancels the 2-leg RingOut call.</p><h4>Required Permissions</h4><table class='fullwidth'><thead><tr><th>Permission</th><th>Description</th></tr></thead><tbody><tr><td class='code'>RingOut</td><td>Performing two-legged ring-out phone calls</td></tr></tbody></table><h4>Usage Plan Group</h4><p>Heavy</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>DELETE /restapi/v1.0/account/~/extension/~/ringout/44 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQV1MwM3ynkntrtBfuwxg4QnTdVPcFSUL_Fi            <br/><br/>HTTP/1.1 204 No Content            </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "accountId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingCentral account or tilde (~) to indicate the account logged-in within the current session",              
               "required": true,
@@ -1279,7 +1343,7 @@
             },
             {
               "name": "extensionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of an extension or tilde (~) to indicate the extension assigned to the account logged-in within the current session",              
               "required": true,
@@ -1287,14 +1351,14 @@
             },
             {
               "name": "ringoutId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a RingOut call",              
               "required": true
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/"
@@ -1307,7 +1371,7 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get Country List",
-          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all the countries available for calling.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all the countries available for calling.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/country?perPage=1000 HTTP/1.1<br>Authorization: Bearer U0pDMDFQMDFQQVMwMXxBQUJFU3VOMlp2bjZFT2lRSXFiT<br><br/><br/>HTTP/1.1 200 OK<br>Content-Language: en-US<br>Content-Type: application/json; charset=UTF-8<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country?page=1&perPage=1000&quot;,<br>  &quot;records&quot; : [ {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/89&quot;,<br>    &quot;id&quot; : &quot;89&quot;,<br>    &quot;name&quot; : &quot;Afghanistan&quot;,<br>    &quot;isoCode&quot; : &quot;AF&quot;,<br>    &quot;callingCode&quot; : &quot;93&quot;,<br>    &quot;emergencyCalling&quot; : false,<br>    &quot;numberSelling&quot; : false<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/3&quot;,<br>    &quot;id&quot; : &quot;3&quot;,<br>    &quot;name&quot; : &quot;Albania&quot;,<br>    &quot;isoCode&quot; : &quot;AL&quot;,<br>    &quot;callingCode&quot; : &quot;355&quot;,<br>    &quot;emergencyCalling&quot; : false,<br>    &quot;numberSelling&quot; : false<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/4&quot;,<br>    &quot;id&quot; : &quot;4&quot;,<br>    &quot;name&quot; : &quot;Algeria&quot;,<br>    &quot;isoCode&quot; : &quot;DZ&quot;,<br>    &quot;callingCode&quot; : &quot;213&quot;,<br>    &quot;emergencyCalling&quot; : false,<br>    &quot;numberSelling&quot; : false<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/5&quot;,<br>    &quot;id&quot; : &quot;5&quot;,<br>    &quot;name&quot; : &quot;American Samoa&quot;,<br>    &quot;isoCode&quot; : &quot;AS&quot;,<br>    &quot;callingCode&quot; : &quot;1&quot;,<br>    &quot;emergencyCalling&quot; : false,<br>    &quot;numberSelling&quot; : false<br>  }, <br>     {...}<br>    ],<br><br>   &quot;paging&quot;:    {<br>      &quot;page&quot;: 1,<br>      &quot;totalPages&quot;: 1,<br>      &quot;perPage&quot;: 1000,<br>      &quot;totalElements&quot;: 247,<br>      &quot;pageStart&quot;: 0,<br>      &quot;pageEnd&quot;: 246<br>   },<br>   &quot;navigation&quot;:    {<br>      &quot;firstPage&quot;: {&quot;uri&quot;: &quot;https.../restapi/v1.0/dictionary/country?page=1&perPage=1000&quot;},<br>      &quot;lastPage&quot;: {&quot;uri&quot;: &quot;https.../restapi/v1.0/dictionary/country?page=1&perPage=1000&quot;}<br>   }<br>}<br> </code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1316,19 +1380,19 @@
               "name": "page",
               "type": "integer",
               "in": "query",
-              "description": "Indicates the page number to retrieve. Only positive number values are allowed. Default value is '1'.",
+              "description": "Indicates the page number to retrieve. Only positive number values are allowed. Default value is '1'",
               "required": false
             },
             {
               "name": "perPage",
               "type": "integer",
               "in": "query",
-              "description": "Indicates the page size (number of items). If not specified, the value is '100' by default.",
+              "description": "Indicates the page size (number of items). If not specified, the value is '100' by default",
               "required": false
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetCountryListResponse"
@@ -1341,24 +1405,24 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get Country",
-          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns the information on the required country.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns the information on the required country.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/country/1 HTTP/1.1<br>Authorization: Bearer U0pDMDFQMDFQQVMwMXxBQUJFU3VOMlp2bjZFT2lRSXFiTmJ<br><br/><br/>HTTP/1.1 200 OK<br>Content-Language: en-US<br>Content-Type: application/json; charset=UTF-8<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/1&quot;,<br>  &quot;id&quot; : &quot;1&quot;,<br>  &quot;name&quot; : &quot;United States&quot;,<br>  &quot;isoCode&quot; : &quot;US&quot;,<br>  &quot;callingCode&quot; : &quot;1&quot;,<br>  &quot;emergencyCalling&quot; : false,<br>  &quot;numberSelling&quot; : true<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "countryId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a country",              
               "required": true
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
-                "$ref": "#/definitions/CountryInfo"
+                "$ref": "#/definitions/GetCountryInfoDictionaryResponse"
               }
             }
           }
@@ -1368,14 +1432,14 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get Language List",
-          "description": "<p style='font-style:italic;'>Since 1.0.14 (Release 6.6)</p><p>Returns the information about supported languages.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.14 (Release 6.6)</p><p>Returns the information about supported languages.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/language HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQQVMwMnxBQUFWZmY4ZXoxMlhv<br/><br/>HTTP/1.1 200 OK<br>Content-Language: en-US<br>Content-Type: application/json; charset=UTF-8<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/language?page=1&perPage=100&quot;,<br>  &quot;records&quot; : [ {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/language/1033&quot;,<br>    &quot;id&quot; : &quot;1033&quot;,<br>    &quot;name&quot; : &quot;English (United States)&quot;,<br>    &quot;isoCode&quot; : &quot;en&quot;,<br>    &quot;localeCode&quot; : &quot;en-US&quot;,<br>    &quot;ui&quot; : true,<br>    &quot;greeting&quot; : true,<br>    &quot;formattingLocale&quot; : true<br>  } ],<br>  &quot;paging&quot; : {<br>    &quot;page&quot; : 1,<br>    &quot;totalPages&quot; : 1,<br>    &quot;perPage&quot; : 100,<br>    &quot;totalElements&quot; : 1,<br>    &quot;pageStart&quot; : 0,<br>    &quot;pageEnd&quot; : 0<br>  },<br>  &quot;navigation&quot; : {<br>    &quot;firstPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/language?page=1&perPage=100&quot;<br>    },<br>    &quot;lastPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/language?page=1&perPage=100&quot;<br>    }<br>  }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/"
@@ -1388,21 +1452,21 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get Language",
-          "description": "<p style='font-style:italic;'>Since 1.0.14 (Release 6.6)</p><p>Returns language by its respective ID.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.14 (Release 6.6)</p><p>Returns language by its respective ID.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/language/1033 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFQQVMwMXxBQUFWZmY4ZXoxMlhvSDBfczRRd2ZMclB1dG<br/><br/>HTTP/1.1 200 OK<br>Content-Language: en-US<br>Content-Type: application/json; charset=UTF-8<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/language/1033&quot;,<br>  &quot;id&quot; : &quot;1033&quot;,<br>  &quot;name&quot; : &quot;English (United States)&quot;,<br>  &quot;isoCode&quot; : &quot;en&quot;,<br>  &quot;localeCode&quot; : &quot;en-US&quot;,<br>  &quot;ui&quot; : true,<br>  &quot;greeting&quot; : true,<br>  &quot;formattingLocale&quot; : true<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "languageId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a language",              
               "required": true
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/LanguageInfo"
@@ -1415,7 +1479,7 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get Location List",
-          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all the available locations for the certain state.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all the available locations for the certain state.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/location?stateId=16&orderBy=City&page=1&perPage=5&withNxx=true HTTP/1.1<br>Authorization: Bearer U0pDMDFQMDFQQVMwMXxBQUJFU3VOMlp2bjZFUHBCQlMyTVk5VlhlTmlJOUh4eHJJU0ZidGplN<br/><br/>HTTP/1.1 200 OK<br>Content-Language: en-US<br>Content-Type: application/json; charset=UTF-8<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/location?stateId=16&withNxx=true&orderBy=City&page=1&perPage=5&quot;,<br>  &quot;records&quot; : [ {<br>    &quot;city&quot; : &quot;Adelanto&quot;,<br>    &quot;areaCode&quot; : &quot;760&quot;,<br>    &quot;npa&quot; : &quot;760&quot;,<br>    &quot;nxx&quot; : &quot;246&quot;,<br>    &quot;state&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/16&quot;,<br>      &quot;id&quot; : &quot;16&quot;<br>    }<br>  }, {<br>    &quot;city&quot; : &quot;Adelanto&quot;,<br>    &quot;areaCode&quot; : &quot;760&quot;,<br>    &quot;npa&quot; : &quot;760&quot;,<br>    &quot;nxx&quot; : &quot;530&quot;,<br>    &quot;state&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/16&quot;,<br>      &quot;id&quot; : &quot;16&quot;<br>    }<br>  }, {<br>    &quot;city&quot; : &quot;Adelanto, Victorville Adelanto&quot;,<br>    &quot;areaCode&quot; : &quot;760&quot;,<br>    &quot;npa&quot; : &quot;760&quot;,<br>    &quot;nxx&quot; : &quot;523&quot;,<br>    &quot;state&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/16&quot;,<br>      &quot;id&quot; : &quot;16&quot;<br>    }<br>  }, {<br>    &quot;city&quot; : &quot;Adelanto, Victorville Adelanto&quot;,<br>    &quot;areaCode&quot; : &quot;760&quot;,<br>    &quot;npa&quot; : &quot;760&quot;,<br>    &quot;nxx&quot; : &quot;561&quot;,<br>    &quot;state&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/16&quot;,<br>      &quot;id&quot; : &quot;16&quot;<br>    }<br>  }, {<br>    &quot;city&quot; : &quot;Agoura&quot;,<br>    &quot;areaCode&quot; : &quot;747&quot;,<br>    &quot;npa&quot; : &quot;747&quot;,<br>    &quot;nxx&quot; : &quot;222&quot;,<br>    &quot;state&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/16&quot;,<br>      &quot;id&quot; : &quot;16&quot;<br>    }<br>  } ],<br>  &quot;paging&quot; : {<br>    &quot;page&quot; : 1,<br>    &quot;totalPages&quot; : 1205,<br>    &quot;perPage&quot; : 5,<br>    &quot;totalElements&quot; : 6022,<br>    &quot;pageStart&quot; : 0,<br>    &quot;pageEnd&quot; : 4<br>  },<br>  &quot;navigation&quot; : {<br>    &quot;nextPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/location?stateId=16&withNxx=true&orderBy=City&page=2&perPage=5&quot;<br>    },<br>    &quot;firstPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/location?stateId=16&withNxx=true&orderBy=City&page=1&perPage=5&quot;<br>    },<br>    &quot;lastPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/location?stateId=16&withNxx=true&orderBy=City&page=1205&perPage=5&quot;<br>    }<br>  }<br>}<br></code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1453,10 +1517,17 @@
               "in": "query",
               "description": "Internal identifier of a state",
               "required": false
+            },
+            {
+              "name": "withNxx",
+              "type": "boolean",
+              "in": "query",
+              "description": "Specifies if nxx codes are returned",
+              "required": false
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetLocationListResponse"
@@ -1469,14 +1540,14 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get State List",
-          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all the states for the certain country.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all the states for the certain country.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/state?countryId=39 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer UExBMDFUMDRQV1MwMXz4fLQaUGXzS41vGnEw43d0JVPIUw<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state?countryId=39&page=1&perPage=100&quot;,<br>  &quot;records&quot; : [ {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/501&quot;,<br>    &quot;id&quot; : &quot;501&quot;,<br>    &quot;name&quot; : &quot;Alberta&quot;,<br>    &quot;isoCode&quot; : &quot;AB&quot;,<br>    &quot;country&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/39&quot;,<br>      &quot;id&quot; : &quot;39&quot;<br>    }<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/505&quot;,<br>    &quot;id&quot; : &quot;505&quot;,<br>    &quot;name&quot; : &quot;British Columbia&quot;,<br>    &quot;isoCode&quot; : &quot;BC&quot;,<br>    &quot;country&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/39&quot;,<br>      &quot;id&quot; : &quot;39&quot;<br>    }<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/516&quot;,<br>    &quot;id&quot; : &quot;516&quot;,<br>    &quot;name&quot; : &quot;Manitoba&quot;,<br>    &quot;isoCode&quot; : &quot;MB&quot;,<br>    &quot;country&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/39&quot;,<br>      &quot;id&quot; : &quot;39&quot;<br>    }<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/517&quot;,<br>    &quot;id&quot; : &quot;517&quot;,<br>    &quot;name&quot; : &quot;New Brunswick&quot;,<br>    &quot;isoCode&quot; : &quot;NB&quot;,<br>    &quot;country&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/39&quot;,<br>      &quot;id&quot; : &quot;39&quot;<br>    }<br>  }, {...}<br> ],<br>  &quot;paging&quot; : {<br>    &quot;page&quot; : 1,<br>    &quot;totalPages&quot; : 1,<br>    &quot;perPage&quot; : 100,<br>    &quot;totalElements&quot; : 13,<br>    &quot;pageStart&quot; : 0,<br>    &quot;pageEnd&quot; : 12<br>  },<br>  &quot;navigation&quot; : {<br>    &quot;firstPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state?countryId=39&page=1&perPage=100&quot;<br>    },<br>    &quot;lastPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state?countryId=39&page=1&perPage=100&quot;<br>    }<br>  }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "countryId",
-              "type": "string",
+              "type": "integer",
               "in": "query",
               "description": "Internal identifier of a country",
               "required": false
@@ -1504,7 +1575,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetStateListResponse"
@@ -1517,21 +1588,21 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get State",
-          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns the information on the required state.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns the information on the required state.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/state/13 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer UExBMDFUMDRQV1MwMXz4fLQaUGXzS41vGnEw43d0JVPIUw<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/state/13&quot;,<br>  &quot;id&quot; : &quot;13&quot;,<br>  &quot;name&quot; : &quot;ALASKA&quot;,<br>  &quot;isoCode&quot; : &quot;AK&quot;,<br>  &quot;country&quot; : {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/country/1&quot;,<br>    &quot;id&quot; : &quot;1&quot;<br>  }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "stateId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a state",              
               "required": true
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetStateInfoResponse"
@@ -1544,7 +1615,7 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get Timezone List",
-          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all available timezones.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns all available timezones.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/timezone?perPage=7 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer UExBMDFUMDRQV1MwMXwpRl4bV49QPA2GrecHHauJzSKX5w<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone?page=1&perPage=7&quot;,<br>  &quot;records&quot; : [ {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/1&quot;,<br>    &quot;id&quot; : &quot;1&quot;,<br>    &quot;name&quot; : &quot;GMT&quot;,<br>    &quot;description&quot; : &quot;Casablanca, Monrovia, Reykjavik&quot;<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/2&quot;,<br>    &quot;id&quot; : &quot;2&quot;,<br>    &quot;name&quot; : &quot;WET&quot;,<br>    &quot;description&quot; : &quot;Dublin, Edinburgh, Lisbon, London&quot;<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/3&quot;,<br>    &quot;id&quot; : &quot;3&quot;,<br>    &quot;name&quot; : &quot;CET&quot;,<br>    &quot;description&quot; : &quot;Brussels, Copenhagen, Madrid, Paris&quot;<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/4&quot;,<br>    &quot;id&quot; : &quot;4&quot;,<br>    &quot;name&quot; : &quot;CET&quot;,<br>    &quot;description&quot; : &quot;Sarajevo, Skopje, Warsaw, Zagreb&quot;<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/5&quot;,<br>    &quot;id&quot; : &quot;5&quot;,<br>    &quot;name&quot; : &quot;CET&quot;,<br>    &quot;description&quot; : &quot;Belgrade, Bratislava, Budapest, Ljubljana, Prague&quot;<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/6&quot;,<br>    &quot;id&quot; : &quot;6&quot;,<br>    &quot;name&quot; : &quot;CET&quot;,<br>    &quot;description&quot; : &quot;Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna&quot;<br>  }, {<br>    &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/7&quot;,<br>    &quot;id&quot; : &quot;7&quot;,<br>    &quot;name&quot; : &quot;EET&quot;,<br>    &quot;description&quot; : &quot;Athens, Bucharest, Istanbul&quot;<br>  } ],<br>  &quot;paging&quot; : {<br>    &quot;page&quot; : 1,<br>    &quot;totalPages&quot; : 13,<br>    &quot;perPage&quot; : 7,<br>    &quot;totalElements&quot; : 90,<br>    &quot;pageStart&quot; : 0,<br>    &quot;pageEnd&quot; : 6<br>  },<br>  &quot;navigation&quot; : {<br>    &quot;nextPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone?page=2&perPage=7&quot;<br>    },<br>    &quot;firstPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone?page=1&perPage=7&quot;<br>    },<br>    &quot;lastPage&quot; : {<br>      &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone?page=13&perPage=7&quot;<br>    }<br>  }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1565,7 +1636,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetTimezoneListResponse"
@@ -1578,14 +1649,14 @@
     "get" : {
           "tags": [ "Dictionary" ],
           "summary": "Get Timezone",
-          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns the information on the certain timezone.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.10 (Release 6.2)</p><p>Returns the information on the certain timezone.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/dictionary/timezone/57 HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer UExBMDFUMDRQV1MwMXw3nyAG7E-TvrhWGS8VjCNy3VIiNQ<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>  &quot;uri&quot; : &quot;https.../restapi/v1.0/dictionary/timezone/57&quot;,<br>  &quot;id&quot; : &quot;57&quot;,<br>  &quot;name&quot; : &quot;US/Mountain&quot;,<br>  &quot;description&quot; : &quot;Mountain Time (US & Canada)&quot;<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "timezoneId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a timezone",              
               "required": true
@@ -1606,7 +1677,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetTimezoneInfoResponse"
@@ -1636,7 +1707,7 @@
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetSubscriptionInfoResponse"
@@ -1649,21 +1720,21 @@
     "get" : {
           "tags": [ "Notifications: Subscription API" ],
           "summary": "Get Subscription",
-          "description": "<p style='font-style:italic;'>Since 1.0.6 (Release 5.15)</p><p>Returns the requested subscription.</p><h4>Usage Plan Group</h4><p>Light</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.6 (Release 5.15)</p><p>Returns the requested subscription.</p><h4>Usage Plan Group</h4><p>Light</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>GET /restapi/v1.0/subscription/60ce3d67-9104-478c-bcb3-768d93c0151c HTTP/1.1<br>Authorization: Bearer U0pDMDFQMDFQQVMwMnxBQUFWZmY4ZXoxMlhvUFI5dmhYVzVsb1h5SnVT<br>Accept: application/json<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br>Content-Length: 760<br><br>{<br>    &quot;id&quot;: &quot;60ce3d67-9104-478c-bcb3-768d93c0151c&quot;,<br>    &quot;creationTime&quot;: &quot;2014-08-20T06:07:04.614Z&quot;,<br>    &quot;status&quot;: &quot;Active&quot;,<br>    &quot;uri&quot;: &quot;https.../restapi/v1.0/subscription/60ce3d67-9104-478c-bcb3-768d93c0151c&quot;,<br>    &quot;eventFilters&quot;: [<br>        &quot;/restapi/v1.0/account/~/extension/400700290004/presence?detailedTelephonyState=true&quot;<br>    ],<br>    &quot;expirationTime&quot;: &quot;2014-08-20T06:22:04.614Z&quot;,<br>    &quot;expiresIn&quot;: 687,<br>    &quot;deliveryMode&quot;: {<br>        &quot;transportType&quot;: &quot;PubNub&quot;,<br>        &quot;encryption&quot;: true,<br>        &quot;address&quot;: &quot;410843294189492_7777a1d1&quot;,<br>        &quot;subscriberKey&quot;: &quot;sub-c-b8b9cd8c-e906-11e2-b383-02ee2ddab7fe&quot;,<br>        &quot;secretKey&quot;: &quot;sec-c-ZDNlYjY0OWMtMWFmOC00OTg2LWJjMTMtYjBkMzgzOWRmMzUz&quot;,<br>        &quot;encryptionAlgorithm&quot;: &quot;AES&quot;,<br>        &quot;encryptionKey&quot;: &quot;/boiP9IObgz6mrDalnl5lA==&quot;<br>    }<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
             
             {
               "name": "subscriptionId",
-              "type": "string",
+              "type": "integer",
               "in": "path",
               "description": "Internal identifier of a subscription",              
               "required": true
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetSubscriptionInfoResponse"
@@ -1673,7 +1744,7 @@
       },"put" : {
           "tags": [ "Notifications: Subscription API" ],
           "summary": "Renew Subscription / Modify Event Filters",
-          "description": "<p style='font-style:italic;'>Since 1.0.6 (Release 5.15)</p><p>With empty request body - renews the existent subscription. If event filters specified - modifies the event filters for the existing subscription. The client application can extend or narrow the events for which it receives notifications in the frame of one subscription.</p><h4>Usage Plan Group</h4><p>Medium</p>",
+          "description": "<p style='font-style:italic;'>Since 1.0.6 (Release 5.15)</p><p>With empty request body - renews the existent subscription. If event filters specified - modifies the event filters for the existing subscription. The client application can extend or narrow the events for which it receives notifications in the frame of one subscription.</p><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>PUT /restapi/v1.0/subscription/78c53776-6aa5-4089-b080-150089c097bf HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFKV1MwMnxXEhpuK23FJtRSi_rafOgPSMOorQ<br>Content-Type: application/json<br>Content-Length: 159<br><br>{<br>    &quot;eventFilters&quot;: [<br>        &quot;/restapi/v1.0/account/~/extension/~/message-store&quot;,<br>        &quot;/restapi/v1.0/account/~/extension/~/presence&quot;<br>    ]<br>}<br/><br/>HTTP/1.1 200 OK<br>Content-Type: application/json<br><br>{<br>    &quot;eventFilters&quot;: [<br>        &quot;/restapi/v1.0/account/~/extension/400978708008/message-store&quot;,<br>        &quot;/restapi/v1.0/account/~/extension/400978708008/presence&quot;<br>    ],<br>    &quot;expirationTime&quot;: &quot;2014-04-28T15:41:32.272Z&quot;,<br>    &quot;deliveryMode&quot;: {<br>        &quot;transportType&quot;: &quot;PubNub&quot;,<br>        &quot;encryption&quot;: true,<br>        &quot;address&quot;: &quot;3695317637993668_ac84962a&quot;,<br>        &quot;subscriberKey&quot;: &quot;sub-c-b8b9cd8c-e906-11e2-b383-02ee2ddab7fe&quot;,<br>        &quot;secretKey&quot;: &quot;sec-c-ZDNlYjY0OWMtMWFmOC00OTg2LWJjMTMtYjBkMzgzOWRmMzUz&quot;,<br>        &quot;encryptionAlgorithm&quot;: &quot;AES&quot;,<br>        &quot;encryptionKey&quot;: &quot;WchkzJuAJT9BqoDffzg2Kg==&quot;<br>    },<br>    &quot;id&quot;: &quot;a2206de0-1eca-48be-a951-2899e89c03bf&quot;,<br>    &quot;creationTime&quot;: &quot;2014-04-28T14:26:32.272Z&quot;,<br>    &quot;status&quot;: &quot;Active&quot;,<br>    &quot;uri&quot;: &quot;https.../restapi/v1.0/subscription/a2206de0-1eca-48be-a951-2899e89c03bf&quot;<br>}</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1697,7 +1768,7 @@
             
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/GetSubscriptionInfoResponse"
@@ -1707,7 +1778,7 @@
       },"delete" : {
           "tags": [ "Notifications: Subscription API" ],
           "summary": "Cancel Subscription",
-          "description": "<p style='font-style:italic;'></p><p>Cancels the existent subscription.</p><h4>Usage Plan Group</h4><p>Medium</p>",
+          "description": "<p style='font-style:italic;'></p><p>Cancels the existent subscription.</p><h4>Usage Plan Group</h4><p>Medium</p><h4>Example</h4><span class='example'><div class='snippet'><pre><code>DELETE /restapi/v1.0/subscription/a2206de0-1eca-48be-a951-2899e89c03bf HTTP/1.1<br>Accept: application/json<br>Authorization: Bearer U0pDMDFQMDFKV1MwMnxXEhpuK23FJtRSi_rafOgPSMOorQ<br/><br/>HTTP/1.1 204 No Content</code></pre></div></span>",
           "consumes": [ "application/json" ],
           "produces": [ "application/json" ],
           "parameters" : [
@@ -1721,7 +1792,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "default": {
               "description": "Success",
               "schema": {
                 "$ref": "#/definitions/"
@@ -1732,17 +1803,17 @@
   "definitions" : {
     "CreatePagerMessageRequest": {
       "required":[
-        "text",
-        "to"      
+        "from",
+        "text"      
       ],
       "properties": { 
         "from": {
-          "$ref": "#/definitions/MessageStoreCallerInfo",
+          "$ref": "#/definitions/MessageStoreCallerInfoRequest",
           "description": "Sender of pager message. The extensionNumber property must be filled"                    
         }, 
         "replyOn": {
           "type": "integer",
-          "description": "Optional. ID of a message this message replies to"                    
+          "description": "Internal identifier of a message this message replies to"                    
         }, 
         "text": {
           "type": "string",
@@ -1751,9 +1822,34 @@
         "to": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MessageStoreCallerInfo"
+            "$ref": "#/definitions/MessageStoreCallerInfoRequest"
           },
-          "description": "Receiver of pager message. The extensionNumber property must be filled"                    
+          "description": "Optional if replyOn parameter is specified. Receiver of pager message. The extensionNumber property must be filled"                    
+        }
+      }    
+    }
+  ,    
+    
+    "MessageStoreCallerInfoRequest": {
+      "required":[
+        "extensionNumber"      
+      ],
+      "properties": { 
+        "extensionNumber": {
+          "type": "string",
+          "description": "Extension short number (usually 3 or 4 digits). This property is filled when parties communicate by means of short internal numbers, for example when calling to other extension or sending/receiving Company Pager message"                    
+        }, 
+        "location": {
+          "type": "string",
+          "description": "Contains party location (city, state) if one can be determined from phoneNumber. This property is filled only when phoneNumber is not empty and server can calculate location information from it (for example, this information is unavailable for US toll-free numbers)"                    
+        }, 
+        "name": {
+          "type": "string",
+          "description": "Symbolic name associated with a party. If the phone does not belong to the known extension,only the location is returned, the name is not determined then"                    
+        }, 
+        "phoneNumber": {
+          "type": "string",
+          "description": "Phone number of a party. Usually it is a plain number including country and area code like 18661234567. But sometimes it could be returned from database with some formatting applied, for example (866)123-4567. This property is filled in all cases where parties communicate by means of global phone numbers, for example when calling to direct numbers or sending/receiving SMS"                    
         }
       }    
     }
@@ -1765,7 +1861,7 @@
         "to": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MessageStoreCallerInfo"
+            "$ref": "#/definitions/MessageStoreCallerInfoRequest"
           },
           "description": "Recipient information. Phone number property is mandatory. Optional for resend fax request"                    
         }, 
@@ -1802,13 +1898,13 @@
       ],
       "properties": { 
         "from": {
-          "$ref": "#/definitions/MessageStoreCallerInfo",
+          "$ref": "#/definitions/MessageStoreCallerInfoRequest",
           "description": "Sender of SMS message. The phoneNumber property must be filled to correspond to one of the account phone numbers which is allowed to send SMS"                    
         }, 
         "to": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MessageStoreCallerInfo"
+            "$ref": "#/definitions/MessageStoreCallerInfoRequest"
           },
           "description": "Receiver of SMS message. The phoneNumber property must be filled"                    
         }, 
@@ -1838,7 +1934,7 @@
       ],
       "properties": { 
         "from": {
-          "$ref": "#/definitions/MakeRingOutCallerInfoRequest",
+          "$ref": "#/definitions/MakeRingOutCallerInfoRequestFrom",
           "description": "Phone number of the caller. This number corresponds to the 1st leg of the RingOut call. This number can be one of user's configured forwarding numbers or arbitrary number."                    
         }, 
         "to": {
@@ -1852,6 +1948,22 @@
         "playPrompt": {
           "type": "boolean",
           "description": "The audio prompt that the calling party hears when the call is connected."                    
+        }
+      }    
+    }
+  ,    
+    
+    "MakeRingOutCallerInfoRequestFrom": {
+      "required":[      
+      ],
+      "properties": { 
+        "phoneNumber": {
+          "type": "string",
+          "description": "Specified if forwardingNumberId Phone number of a party. Usually it is a plain number including country and area code like 18661234567. But sometimes it could be returned from database with some formatting applied, for example (866)123-4567. This property is filled in all cases where parties communicate by means of global phone numbers, for example when calling to direct numbers or sending/receiving SMS"                    
+        }, 
+        "forwardingNumberId": {
+          "type": "string",
+          "description": "Internal identifier of a forwarding number returned in response as ID"                    
         }
       }    
     }
@@ -1874,7 +1986,10 @@
       ],
       "properties": { 
         "eventFilters": {
-          "type": "string",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "Mandatory. Collection of URIs to API resources (see Event Types for details). For APNS transport type only message event filter is available"                    
         }, 
         "deliveryMode": {
@@ -1922,7 +2037,7 @@
       "properties": { 
         "uri": {
           "type": "string",
-          "description": "Сanonical URI of the API version"                    
+          "description": "Canonical URI of the API version"                    
         }, 
         "apiVersions": {
           "type": "array",
@@ -2014,7 +2129,7 @@
           "description": "Additional account identifier, developed and applied by the client"                    
         }, 
         "serviceInfo": {
-          "$ref": "#/definitions/ServiceInfoResponse",
+          "$ref": "#/definitions/ServiceInfo",
           "description": "Account service information, including brand, service plan and billing plan"                    
         }, 
         "setupWizardState": {
@@ -2035,7 +2150,7 @@
     }
   ,    
     
-    "ServiceInfoResponse": {
+    "ServiceInfo": {
       "required":[      
       ],
       "properties": { 
@@ -2056,7 +2171,7 @@
           "description": "Information on account service plan"                    
         }, 
         "targetServicePlan": {
-          "$ref": "#/definitions/TragetServicePlanInfo",
+          "$ref": "#/definitions/TargetServicePlanInfo",
           "description": "Information on account target service plan"                    
         }
       }    
@@ -2123,23 +2238,11 @@
         }, 
         "uri": {
           "type": "string",
-          "description": "Home country URI"                    
+          "description": "Canonical URI of a home country"                    
         }, 
-        "callingCode": {
+        "name": {
           "type": "string",
-          "description": "Home country calling code defined by ITU-T recommendations E.123 and E.164, see Calling Codes"                    
-        }, 
-        "emergencyCalling": {
-          "type": "boolean",
-          "description": "Emergency calling feature availability/emergency address requirement indicator"                    
-        }, 
-        "isoCode": {
-          "type": "string",
-          "description": "Home country code according to the ISO standard, see ISO 3166"                    
-        }, 
-        "numberSelling": {
-          "type": "boolean",
-          "description": "Determines whether phone numbers are available for the country"                    
+          "description": "Official name of a home country"                    
         }
       }    
     }
@@ -2181,7 +2284,7 @@
     }
   ,    
     
-    "ExtensionStatusInfo": {
+    "AccountStatusInfo": {
       "required":[      
       ],
       "properties": { 
@@ -2198,7 +2301,10 @@
     }
   ,
     "GetExtensionListResponse": {
-      "required":[      
+      "required":[
+        "records",
+        "navigation",
+        "paging"      
       ],
       "properties": { 
         "records": {
@@ -2276,16 +2382,20 @@
     }
   ,
     "GetExtensionInfoResponse": {
-      "required":[      
+      "required":[
+        "id",
+        "uri",
+        "status",
+        "type"      
       ],
       "properties": { 
         "id": {
           "type": "string",
-          "description": "Internal identifier of an extension"                    
+          "description": "Internal identifier of an extension. Returned for extensions with any status parameter value"                    
         }, 
         "uri": {
           "type": "string",
-          "description": "Canonical URI of an extension"                    
+          "description": "Canonical URI of an extension. Returned for extensions with any status parameter value"                    
         }, 
         "contact": {
           "$ref": "#/definitions/ContactInfo",
@@ -2305,11 +2415,25 @@
         }, 
         "partnerId": {
           "type": "string",
-          "description": "For Partner Applications Internal identifier of an extension created by partner. The RingCentral supports the mapping of accounts and stores the corresponding accountId/extensionId for each partnerId of a client application. In request URIs partnerIds are accepted instead of regular RingCentral native IDs as path parameters using pid = XXX clause. Though in response URIs contain the corresponding account Ids and extension IDs. In all request and response bodies these values are reflected via  partnerId  attributes of account and extension"                    
+          "description": "For Partner Applications Internal identifier of an extension created by partner. The RingCentral supports the mapping of accounts and stores the corresponding account ID/extension ID for each partner ID of a client application. In request URIs partner IDs are accepted instead of regular RingCentral native IDs as path parameters using pid = XXX clause. Though in response URIs contain the corresponding account IDs and extension IDs. In all request and response bodies these values are reflected via partnerId attributes of account and extension"                    
         }, 
         "permissions": {
           "$ref": "#/definitions/ExtensionPermissions",
           "description": "Extension permissions, corresponding to the Service Web permissions 'Admin' and 'InternationalCalling'"                    
+        }, 
+        "profileImage": {
+          "type": "array",
+          "items": {
+            "type": "URIs"
+          },
+          "description": "List of links to profile picture of variant sizings. Can be returned for extensions with any status parameter value"                    
+        }, 
+        "": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReferenceInfo"
+          },
+          "description": "List of non-RC internal identifiers assigned to an extension"                    
         }, 
         "regionalSettings": {
           "$ref": "#/definitions/RegionalSettings",
@@ -2330,7 +2454,7 @@
         "status": {
           "type": "string", 
           "enum": ["Enabled","Disabled","NotActivated","Unassigned"],
-          "description": "Extension current state"                    
+          "description": "Extension current state. If the status is 'Unassigned'. Returned for all extensions"                    
         }, 
         "statusInfo": {
           "$ref": "#/definitions/ExtensionStatusInfo",
@@ -2339,7 +2463,7 @@
         "type": {
           "type": "string", 
           "enum": ["User","FaxUser","VirtualUser","DigitalUser","Department","Announcement","Voicemail","SharedLinesGroup","PagingOnlyGroup","IvrMenu","ApplicationExtension","ParkLocation"],
-          "description": "Extension type"                    
+          "description": "Extension type. Returned for extensions with any status parameter value"                    
         }
       }    
     }
@@ -2453,12 +2577,29 @@
     }
   ,    
     
-    "RegionalSettingsInfo": {
+    "ReferenceInfo": {
+      "required":[      
+      ],
+      "properties": { 
+        "type": {
+          "type": "string", 
+          "enum": ["PartnerId","CustomerDirectoryId"],
+          "description": "Non-RC internal identifier of an extension"                    
+        }, 
+        "ref": {
+          "type": "string",
+          "description": "Reference of an"                    
+        }
+      }    
+    }
+  ,    
+    
+    "RegionalSettings": {
       "required":[      
       ],
       "properties": { 
         "homeCountry": {
-          "$ref": "#/definitions/HomeCountryInfo",
+          "$ref": "#/definitions/CountryInfo",
           "description": "Extension country information"                    
         }, 
         "timezone": {
@@ -2627,9 +2768,29 @@
         }
       }    
     }
+  ,    
+    
+    "ExtensionStatusInfo": {
+      "required":[      
+      ],
+      "properties": { 
+        "comment": {
+          "type": "string",
+          "description": "A free-form user comment, describing the status change reason"                    
+        }, 
+        "reason": {
+          "type": "string", 
+          "enum": ["Voluntarily","Involuntarily"],
+          "description": "Type of suspension"                    
+        }
+      }    
+    }
   ,
     "ExtensionActiveCallsResponse": {
-      "required":[      
+      "required":[
+        "records",
+        "navigation",
+        "paging"      
       ],
       "properties": { 
         "records": {
@@ -2640,11 +2801,11 @@
           "description": "List of call log records"                    
         }, 
         "navigation": {
-          "$ref": "#/definitions/ExtensionCallLogNavigationInfo",
+          "$ref": "#/definitions/NavigationInfo",
           "description": "Information on navigation"                    
         }, 
         "paging": {
-          "$ref": "#/definitions/ExtensionCallLogPagingInfo",
+          "$ref": "#/definitions/PagingInfo",
           "description": "Information on paging"                    
         }
       }    
@@ -2653,8 +2814,8 @@
     "ExtensionCallLogResponse": {
       "required":[
         "records",
-        "paging",
-        "navigation"      
+        "navigation",
+        "paging"      
       ],
       "properties": { 
         "records": {
@@ -2664,13 +2825,13 @@
           },
           "description": "List of call log records"                    
         }, 
-        "paging": {
-          "$ref": "#/definitions/ExtensionCallLogPagingInfo",
-          "description": "Information on paging"                    
-        }, 
         "navigation": {
-          "$ref": "#/definitions/ExtensionCallLogNavigationInfo",
+          "$ref": "#/definitions/NavigationInfo",
           "description": "Information on navigation"                    
+        }, 
+        "paging": {
+          "$ref": "#/definitions/PagingInfo",
+          "description": "Information on paging"                    
         }
       }    
     }
@@ -2718,7 +2879,7 @@
         }, 
         "result": {
           "type": "string", 
-          "enum": ["Unknown","ResultInProgress","Missed","Call accepted","Voicemail","Rejected","Reply","Received","Receive Error","Fax on Demand","Partial Receive","Blocked","Call сonnected","No Answer","International Disabled","Busy","Send Error","Sent","No fax machine","ResultEmpty","Account","Suspended","Call Failed","Call Failure","Internal Error","IP Phone offline","Restricted Number","Wrong Number","Stopped","Hang up","Poor Line Quality","Partially Sent","International Disabled","International Restriction","Abandoned","Declined","Fax Receipt Error","Fax Send Error"],
+          "enum": ["Unknown","ResultInProgress","Missed","Call accepted","Voicemail","Rejected","Reply","Received","Receive Error","Fax on Demand","Partial Receive","Blocked","Call connected","No Answer","International Disabled","Busy","Send Error","Sent","No fax machine","ResultEmpty","Account","Suspended","Call Failed","Call Failure","Internal Error","IP Phone offline","Restricted Number","Wrong Number","Stopped","Hang up","Poor Line Quality","Partially Sent","International Disabled","International Restriction","Abandoned","Declined","Fax Receipt Error","Fax Send Error"],
           "description": "Status description of the call operation."                    
         }, 
         "startTime": {
@@ -2813,7 +2974,7 @@
         }, 
         "result": {
           "type": "string", 
-          "enum": ["Unknown","ResultInProgress","Missed","Call accepted","Voicemail","Rejected","Reply","Received","Receive Error","Fax on Demand","Partial Receive","Blocked","Call сonnected","No Answer","International Disabled","Busy","Send Error","Sent","No fax machine","ResultEmpty","Account","Suspended","Call Failed","Call Failure","Internal Error","IP Phone offline","Restricted Number","Wrong Number","Stopped","Hang up","Poor Line Quality","Partially Sent","International Disabled","International Restriction","Abandoned","Declined","Fax Receipt Error","Fax Send Error"],
+          "enum": ["Unknown","ResultInProgress","Missed","Call accepted","Voicemail","Rejected","Reply","Received","Receive Error","Fax on Demand","Partial Receive","Blocked","Call connected","No Answer","International Disabled","Busy","Send Error","Sent","No fax machine","ResultEmpty","Account","Suspended","Call Failed","Call Failure","Internal Error","IP Phone offline","Restricted Number","Wrong Number","Stopped","Hang up","Poor Line Quality","Partially Sent","International Disabled","International Restriction","Abandoned","Declined","Fax Receipt Error","Fax Send Error"],
           "description": "Status description of the call operation."                    
         }, 
         "from": {
@@ -2915,7 +3076,7 @@
         }, 
         "result": {
           "type": "string", 
-          "enum": ["Unknown","ResultInProgress","Missed","Call accepted","Voicemail","Rejected","Reply","Received","Receive Error","Fax on Demand","Partial Receive","Blocked","Call сonnected","No Answer","International Disabled","Busy","Send Error","Sent","No fax machine","ResultEmpty","Account","Suspended","Call Failed","Call Failure","Internal Error","IP Phone offline","Restricted Number","Wrong Number","Stopped","Hang up","Poor Line Quality","Partially Sent","International Disabled","International Restriction","Abandoned","Declined","Fax Receipt Error","Fax Send Error"],
+          "enum": ["Unknown","ResultInProgress","Missed","Call accepted","Voicemail","Rejected","Reply","Received","Receive Error","Fax on Demand","Partial Receive","Blocked","Call connected","No Answer","International Disabled","Busy","Send Error","Sent","No fax machine","ResultEmpty","Account","Suspended","Call Failed","Call Failure","Internal Error","IP Phone offline","Restricted Number","Wrong Number","Stopped","Hang up","Poor Line Quality","Partially Sent","International Disabled","International Restriction","Abandoned","Declined","Fax Receipt Error","Fax Send Error"],
           "description": "Status description of the call operation."                    
         }, 
         "startTime": {
@@ -2958,7 +3119,10 @@
     }
   ,
     "GetMessageList": {
-      "required":[      
+      "required":[
+        "records",
+        "navigation",
+        "paging"      
       ],
       "properties": { 
         "records": {
@@ -3031,7 +3195,7 @@
           "description": "Fax only. Resolution of fax message. ('High' for black and white image scanned at 200 dpi, 'Low' for black and white image scanned at 100 dpi)"                    
         }, 
         "from": {
-          "$ref": "#/definitions/MessageStoreCallerInfo",
+          "$ref": "#/definitions/MessageStoreCallerInfoResponse",
           "description": "Sender information"                    
         }, 
         "lastModifiedTime": {
@@ -3074,7 +3238,7 @@
         "to": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MessageStoreCallerInfo"
+            "$ref": "#/definitions/MessageStoreCallerInfoResponse"
           },
           "description": "Recipient information"                    
         }, 
@@ -3121,7 +3285,7 @@
     }
   ,    
     
-    "MessageStoreCallerInfo": {
+    "MessageStoreCallerInfoResponse": {
       "required":[
         "extensionNumber"      
       ],
@@ -3261,6 +3425,7 @@
   ,
     "GetCountryListResponse": {
       "required":[
+        "records",
         "navigation",
         "paging"      
       ],
@@ -3268,7 +3433,7 @@
         "records": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/CountryInfo"
+            "$ref": "#/definitions/GetCountryInfoDictionaryResponse"
           },
           "description": "List of countries with the country data"                    
         }, 
@@ -3283,8 +3448,45 @@
       }    
     }
   ,
-    "GetLocationListResponse": {
+    "GetCountryInfoDictionaryResponse": {
       "required":[      
+      ],
+      "properties": { 
+        "id": {
+          "type": "string",
+          "description": "Internal identifier of a country"                    
+        }, 
+        "uri": {
+          "type": "string",
+          "description": "Canonical URI of a country"                    
+        }, 
+        "callingCode": {
+          "type": "string",
+          "description": "Country calling code defined by ITU-T recommendations E.123 and E.164, see Calling Codes"                    
+        }, 
+        "emergencyCalling": {
+          "type": "boolean",
+          "description": "Emergency calling feature availability/emergency address requirement indicator"                    
+        }, 
+        "isoCode": {
+          "type": "string",
+          "description": "Country code according to the ISO standard, see ISO 3166"                    
+        }, 
+        "name": {
+          "type": "string",
+          "description": "Official name of a country"                    
+        }, 
+        "numberSelling": {
+          "type": "boolean",
+          "description": "Determines whether phone numbers are available for a country"                    
+        }
+      }    
+    }
+  ,
+    "GetLocationListResponse": {
+      "required":[
+        "navigation",
+        "paging"      
       ],
       "properties": { 
         "records": {
@@ -3314,6 +3516,10 @@
           "type": "string",
           "description": "Canonical URI of a location"                    
         }, 
+        "areaCode": {
+          "type": "string",
+          "description": "Area code of the location"                    
+        }, 
         "city": {
           "type": "string",
           "description": "Official name of the city, belonging to the certain state"                    
@@ -3334,7 +3540,10 @@
     }
   ,
     "GetStateListResponse": {
-      "required":[      
+      "required":[
+        "records",
+        "navigation",
+        "paging"      
       ],
       "properties": { 
         "records": {
@@ -3368,8 +3577,8 @@
           "description": "Canonical URI of a state"                    
         }, 
         "country": {
-          "type": "string",
-          "description": "ID and URI of the country the state is in, as a part of the Country Info"                    
+          "$ref": "#/definitions/GetCountryInfoState",
+          "description": "Information on a country the state belongs to"                    
         }, 
         "isoCode": {
           "type": "string",
@@ -3381,9 +3590,28 @@
         }
       }    
     }
+  ,    
+    
+    "GetCountryInfoState": {
+      "required":[      
+      ],
+      "properties": { 
+        "id": {
+          "type": "string",
+          "description": "Internal identifier of a state"                    
+        }, 
+        "uri": {
+          "type": "string",
+          "description": "Canonical URI of a state"                    
+        }
+      }    
+    }
   ,
     "GetTimezoneListResponse": {
-      "required":[      
+      "required":[
+        "records",
+        "navigation",
+        "paging"      
       ],
       "properties": { 
         "records": {

@@ -1,4 +1,3 @@
-/* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
 .swagger-section pre code {
     display: block;
     padding: 0.5em;
@@ -237,6 +236,10 @@
         list-style: none;
     }
 
+    .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content select {
+        max-width: 310px;
+    }
+
     .swagger-section .swagger-ui-wrap h1 a,
     .swagger-section .swagger-ui-wrap h2 a,
     .swagger-section .swagger-ui-wrap h3 a,
@@ -419,6 +422,12 @@
         line-height: 1.5em;
     }
 
+        .swagger-section .swagger-ui-wrap .example {
+        font-family: "Lato", sans-serif;
+        font-size: 1em;
+        line-height: 1.5em;
+    }
+
         .swagger-section .swagger-ui-wrap .model-signature .signature-nav a {
             text-decoration: none;
             color: #AAA;
@@ -430,6 +439,22 @@
             }
 
         .swagger-section .swagger-ui-wrap .model-signature .signature-nav .selected {
+            color: black;
+            text-decoration: none;
+        }
+
+        .swagger-section .swagger-ui-wrap .example-nav a {
+            text-decoration: none;
+            color: #AAA;
+            cursor: pointer;
+        }
+
+            .swagger-section .swagger-ui-wrap .example-nav a:hover {
+                text-decoration: underline;
+                color: black;
+            }
+
+        .swagger-section .swagger-ui-wrap .example-nav .selected {
             color: black;
             text-decoration: none;
         }
@@ -450,6 +475,18 @@
             cursor: pointer;
         }
 
+        .swagger-section .swagger-ui-wrap .example pre {
+            font-size: .85em;
+            line-height: 1.2em;
+            overflow: auto;
+            max-height: 300px;
+            cursor: pointer;
+        }
+
+        .swagger-section .swagger-ui-wrap .example pre:hover {
+            background-color: #ffffdd;
+        }
+
         .swagger-section .swagger-ui-wrap .model-signature ul.signature-nav {
             display: block;
             margin: 0;
@@ -462,6 +499,25 @@
             }
 
             .swagger-section .swagger-ui-wrap .model-signature ul.signature-nav li {
+                float: left;
+                margin: 0 5px 5px 0;
+                padding: 2px 5px 2px 0;
+                border-right: 1px solid #ddd;
+            }
+
+            .swagger-section .swagger-ui-wrap ul.example-nav {
+            display: block;
+            margin: 0;
+            padding: 16px 0 32px 0;
+        }
+
+            .swagger-section .swagger-ui-wrap ul.example-nav li:last-child {
+                padding-right: 0;
+                border-right: none;
+            }
+
+            .swagger-section .swagger-ui-wrap ul.example-nav li {
+                font-size: 12pt;
                 float: left;
                 margin: 0 5px 5px 0;
                 padding: 2px 5px 2px 0;

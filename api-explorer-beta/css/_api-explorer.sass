@@ -1,0 +1,499 @@
+$borderColor: #ccc
+$codeBlockBackgroundColor: #ffffef
+$paragraphFontSize: 14px
+$headerFontSize: 18px
+$buttonHoverOrange: #ff9d2a
+$jsonEditorBorderColor: rgb(221, 221, 221)
+
+$blue: #0073ae
+$lighterBlack: #585858
+$orange: #ff8800
+$fontWeightLighter: 200
+$fontWeightBold: 500
+$fontWeightStrongBold: 700
+
+=css3-prefix($property, $value)
+  -webkit-#{$property}: #{$value}
+  -khtml-#{$property}: #{$value}
+  -moz-#{$property}: #{$value}
+  -ms-#{$property}: #{$value}
+  -o-#{$property}: #{$value}
+  #{$property}: #{$value}
+  
+=border-radius($radius: 5px)
+  +css3-prefix("border-radius", $radius)  
+  
+=box-shadow($color: rgba(0, 0, 0, 0.4), $x: 2px, $y: 2px, $blur: 5px, $inset: "")
+  @if $inset != ""
+    +css3-prefix("box-shadow", $inset $x $y $blur $color)
+  @else
+    +css3-prefix("box-shadow", $x $y $blur $color)  
+
+[class^="icon-"], [class*=" icon-"]
+  font-family: 'DPW_Font'
+  speak: none
+  font-style: normal
+  font-weight: normal
+  font-variant: normal
+  text-transform: none
+  line-height: 1
+
+  /* Better Font Rendering =========== */H
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+.icon-icon_add:before
+  content: "\e905"
+
+.icon-icon_minus:before
+  content: "\e906"
+
+.icon-arrow_rightsvg:before
+  content: "\e904"
+
+.icon-icon_group:before
+  content: "\e902"
+
+.icon-icon_stack:before
+  content: "\e903"
+
+.icon-checkBox_check:before
+  content: "\e901"
+
+.icon-checkBox:before
+  content: "\e900"
+
+.icon-icon_delete:before
+  content: "\e801"
+
+.icon-icon_dropDown_arrow:before
+  content: "\e802"
+
+.icon-icon_window_fold:before
+  content: "\e805"
+
+.icon-icon_window_open:before
+  content: "\e806"
+
+.icon-info:before
+  content: "\e609"
+
+.icon-ico_production:before
+  content: "\e606"
+
+.icon-ico_sandbox:before
+  content: "\e607"
+
+.icon-btn_dropdown:before
+  content: "\e600"
+
+.icon-btn_go:before
+  content: "\e601"
+
+.icon-btn_refresh:before
+  content: "\e602"
+
+.icon-btn_sort_down:before
+  content: "\e603"
+
+.icon-btn_sort_up:before
+  content: "\e604"
+
+.icon-ico_unlock:before
+  content: "\e60b"
+
+.icon-ico_lock:before
+  content: "\e605"
+
+.icon-ico_search:before
+  content: "\e608"
+
+.icon-Analysis:before
+  content: "\e60a"    
+
+.ie9 .api-explorer .swagger-section .swagger-ui-wrap
+  ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content select
+    background: none
+    padding-right: 3px
+
+.api-explorer
+  li
+    list-style: none
+  h2
+    color: $lighterBlack
+  select, input, textarea
+    color: $lighterBlack
+    font-size: $paragraphFontSize
+
+  .editor_holder
+    div
+      border: none !important
+      padding: 0 !important
+      margin: 0 !important
+      position: static !important
+    div[data-schemaid="root"]
+      border: 1px solid $jsonEditorBorderColor !important
+      @include border-radius(3px !important)
+      > h3 + div + div // Locate the actual content of the JSON editor
+        border-top: 1px solid $jsonEditorBorderColor !important
+        @include border-radius(0 !important)
+      > h3
+        .json-editor-btn-collapse, .json-editor-btn-expand
+          cursor: pointer
+          position: absolute
+          left: 7px
+          top: 7px
+        .swagger-expand:before, .swagger-collapse:before
+          font-size: 14px
+          font-weight: 700
+        .swagger-expand:before
+          @extend .icon-icon_add:before
+        .swagger-collapse:before
+          @extend .icon-icon_minus:before
+    div[data-schematype="array"], div[data-schematype="object"], div[data-schematype="string"]
+      position: relative !important
+    div[data-schematype="array"], div[data-schematype="object"]
+      border-bottom: 1px solid $jsonEditorBorderColor !important
+    div[data-schematype="array"] div[data-schematype="object"]
+      margin-left: 12px !important
+    div[data-schemaid="root"] div[data-schematype="array"]
+      &:last-child
+        border-bottom: none !important
+    .json-editor-btn-add, .json-editor-btn-delete, .json-editor-btn-moveup, .json-editor-btn-movedown
+      padding: 3px 5px
+      @include border-radius(3px)
+      margin: 10px 10px 10px 0px
+      cursor: pointer
+      background-color: $orange
+      color: white
+      display: inline-block
+      font-size: 12px
+      font-weight: $fontWeightLighter
+    .json-editor-btn-add:hover, .json-editor-btn-delete:hover, .json-editor-btn-moveup:hover, .json-editor-btn-movedown:hover
+      background-color: $buttonHoverOrange
+    .swagger-collapse, .swagger-expand
+      margin-right: 6px
+      font-size: 10px
+      &:before
+        @extend [class^="icon-"]
+        color: $blue
+    .swagger-expand:before
+      @extend .icon-arrow_rightsvg:before
+    .swagger-collapse:before
+      @extend .icon-btn_dropdown:before
+    div.row
+      position: relative !important
+      margin: 12px 16px !important
+      .json-editor-btn-collapse, .json-editor-btn-expand
+        cursor: pointer
+        position: absolute
+        left: -13px
+        top: 6px
+      .form-control
+        margin: 5px 0 !important
+        p
+          font-weight: $fontWeightBold
+      div[data-schematype="object"] > p
+        padding-bottom: 10px
+      div[data-schematype="object"], div[data-schematype="string"]
+        input[type="text"]
+          width: 97%
+        .json-editor-btn-delete, .json-editor-btn-moveup, .json-editor-btn-movedown
+          position: absolute
+          color: white
+          width: 25px
+          height: 25px
+          overflow: hidden
+          background-color: transparent
+          padding: 1px
+          margin: 0
+          right: 14px
+        .json-editor-btn-movedown, .json-editor-btn-moveup
+          right: -1px
+          width: 14px
+          height: 14px
+        .json-editor-btn-delete
+          top: -3px
+        .json-editor-btn-movedown
+          top: 7px
+        .json-editor-btn-moveup
+          top: -5px
+        h3 .json-editor-btn-delete
+          top: 5px
+        h3 .json-editor-btn-movedown
+          top: 15px
+        h3 .json-editor-btn-moveup
+          top: 3px
+        .json-editor-btn-delete:before, .json-editor-btn-moveup:before, .json-editor-btn-movedown:before
+          @extend [class^="icon-"]
+          color: $blue
+          cursor: pointer
+        .json-editor-btn-delete:before
+          @extend .icon-icon_delete:before
+          font-size: 20px
+        .json-editor-btn-movedown:before
+          @extend .icon-btn_sort_down:before
+          font-size: 12px
+          font-weight: $fontWeightStrongBold
+        .json-editor-btn-moveup:before
+          @extend .icon-btn_sort_up:before
+          font-size: 12px
+          font-weight: $fontWeightStrongBold
+
+
+  .swagger-section #message-bar
+    padding-top: 0
+  .swagger-section .swagger-ui-wrap
+    table thead tr th
+      border: none
+      &:first-child
+        min-width: 168px
+    table td
+      font-weight: $fontWeightLighter
+    table strong
+      font-weight: $fontWeightBold
+    h3
+      padding: 8px 0
+    p
+      padding-bottom: 0
+    input
+      border: 1px solid #eaeaea
+      height: 20px
+      padding: 4px
+      @include border-radius(3px)
+      &:focus
+        border-color: $blue
+    table .markdown ul
+      padding: 0
+    .markdown ul li
+      color: $lighterBlack
+
+    .tabular-description
+      tr.row td
+        padding: 6px 6px 6px 0px
+      tr.first.property.row td
+        padding-top: 15px
+      tr.last.property.row td
+        padding-bottom: 15px
+      tr.row td.property-name
+        font-weight: $fontWeightBold
+        vertical-align: top
+        padding-right: 24px
+
+    .container
+      margin: 0 auto
+      width: 980px
+    .info_description
+      max-width: 980px
+    .info
+      padding: 24px 0 10px
+      .info_title
+        max-width: 988px
+      h2
+        font-size: $headerFontSize
+        font-weight: $fontWeightBold
+      b
+        font-weight: $fontWeightLighter
+      a
+        font-size: $paragraphFontSize
+
+      .markdown
+        p
+          font-size: $headerFontSize
+          line-height: 18px
+        ol, ul
+          padding-left: 37px
+        ol li
+          line-height: 24px
+          padding: 0
+          color: $lighterBlack
+        ul li
+          line-height: 18px
+          padding: 0
+    .options a
+      color: $lighterBlack
+      &:hover
+        color: $blue
+    .body-textarea
+      background-color: $codeBlockBackgroundColor
+    .footer
+      position: static
+      font-size: 14px
+      background-color: white
+      margin-top: 30px
+      color: $lighterBlack
+
+    ul#resources li.resource
+      border-bottom: 1px solid #a9a9a9
+      div.heading h2 a
+        color: $lighterBlack
+      ul.endpoints
+        border-top: 1px solid $borderColor
+    ul#resources li.resource.active
+      border-bottom: none
+    ul#resources li.resource ul.endpoints li.endpoint ul.operations
+      li.operation
+        margin: 0
+      li.operation div.heading
+        position: relative
+        padding: 0 22px
+        border-top: none
+        border-bottom: 1px solid $borderColor
+        border-left: 1px solid $borderColor
+        border-right: 1px solid $borderColor
+        &:before, &:after
+          display: block
+          content: ' '
+          width: 9px
+          height: 45px
+          position: absolute
+        &:before
+          left: 0
+        &:after
+          right: 0
+        &:hover
+          background-color: #f9f9f9
+        h3
+          font-weight: $fontWeightLighter
+          font-size: $paragraphFontSize
+        span.http_method a
+          width: 91px
+          display: inline-block
+          text-align: left
+          font-size: $headerFontSize
+          font-weight: $fontWeightBold
+          padding: 0
+          margin: 0
+          height: 45px
+          line-height: 45px
+        ul.options
+          height: 45px
+          line-height: 45px
+          padding: 0
+          margin: 0
+          li
+            font-size: $paragraphFontSize
+            border-right: 1px solid $borderColor
+      li.post.operation div.heading
+        border-left-color: #d6efdb
+        border-right-color: #d6efdb
+        h3 span.http_method a
+          color: #10a54a
+        &:before, &:after
+          background-color: #d6efdb
+      li.get.operation div.heading
+        border-left-color: #d7f4ff
+        border-right-color: #d7f4ff
+        h3 span.http_method a
+          color: $blue
+        &:before, &:after
+          background-color: #d7f4ff
+      li.put.operation div.heading
+        border-left-color: #f4ca98
+        border-right-color: #f4ca98
+        h3 span.http_method a
+          color: #d98f1a
+        &:before, &:after
+          background-color: #f4ca98
+      li.delete.operation div.heading
+        border-left-color: #ffcdce
+        border-right-color: #ffcdce
+        h3 span.http_method a
+          color: #f04f4f
+        &:before, &:after
+          background-color: #ffcdce
+
+      li.operation div.content
+        border-bottom: 1px solid $borderColor
+        @include border-radius(0)
+        margin-bottom: 0
+        form input[type='text'].error
+          border: 1px solid #ff0000
+          @include border-radius(2px)
+          height: 20px
+          outline: none
+        select
+          border: 1px solid #e9e9e9
+          @include border-radius(3px)
+          padding: 1px 30px 3px 3px
+          min-width: 175px
+          max-width: 310px
+          -webkit-appearance: none
+          -moz-appearance: none
+          appearance: none
+          background: image_url("drop_down_arrow.svg") no-repeat right top
+          background-color: #fbfbfb
+          @include box-shadow(#999 1px 1px 1px)
+          &::-ms-expand
+            display: none
+        select[multiple]
+          border: 1px solid #aaa
+          @include border-radius(0)
+          @include box-shadow(none)
+          padding: 0
+          margin: 0
+          background: none
+        .response-content-type select
+          margin-left: 20px
+        p
+          font-size: $paragraphFontSize
+        h4
+          color: $blue
+          font-size: 24px
+        h3
+          color: $lighterBlack
+          font-size: $headerFontSize
+        ul li
+          line-height: 24px
+          padding: 0
+          b
+            font-weight: $fontWeightLighter
+        .sandbox
+          border-top: 1px solid #a9a9a9
+          margin-top: 12px
+          padding-top: 17px
+          h4
+            margin-bottom: 14px
+        div.sandbox_header input.submit
+          padding: 0
+        .response_hider
+          font-size: $paragraphFontSize
+          font-weight: $fontWeightBold
+          padding-left: 14px
+          position: relative
+          &:before
+            position: absolute
+            left: 0
+            top: 8px
+            display: block
+            content: ' '
+            width: 0
+            height: 0
+            border-style: solid
+            border-width: 6.9px 4px 0 4px
+            border-color: $blue transparent transparent transparent
+        .model-signature
+          line-height: 24px
+          pre
+            max-height: 400px
+        .propType
+          color: $blue
+        .signature-nav
+          li
+            margin: 14px 12px 10px 0
+            padding-right: 12px
+            line-height: 10px
+          .selected
+            color: $blue
+            font-weight: $fontWeightBold
+        .signature-container p
+          display: inline
+        .response
+          border: 1px solid $orange
+          @include border-radius(5px)
+          padding: 7px 24px 24px
+          margin-top: 24px
+          h4
+            color: $orange
+          pre
+            background-color: $codeBlockBackgroundColor

@@ -6081,7 +6081,7 @@ JSONEditor.AbstractTheme = Class.extend({
   },
   getFormInputLabel: function(text) {
     var el = document.createElement('label');
-    el.className = el.className + " json-editor-tooltip"; // " json-editor-form-input-label"; // TOOLTIPSTER
+    el.className = el.className + " json-editor-tooltip"; // TOOLTIPSTER CLASS
     el.appendChild(document.createTextNode(text));
     return el;
   },
@@ -6090,16 +6090,16 @@ JSONEditor.AbstractTheme = Class.extend({
     el.style.fontWeight = 'normal';
     return el;
   },
-  getHeader: function(text,description="") {
+  getHeader: function(text,description) {
     var el = document.createElement('h3');
     if(typeof text === "string") {
       el.textContent = text;
-      el.className = el.className + " json-editor-tooltip"; // " json-editor-header"; // TOOLTIPSTER
+      el.className = el.className + " json-editor-tooltip"; // TOOLTIPSTER CLASS
       el.setAttribute("title", description);
     }
     else {
       if(text.tagName === "SPAN") {
-        text.className = text.className + " json-editor-tooltip"; // " json-editor-header"; // TOOLTIPSTER HEADER
+        text.className = text.className + " json-editor-tooltip"; // TOOLTIPSTER CLASS
         text.setAttribute("title", description);
       }
       el.appendChild(text);

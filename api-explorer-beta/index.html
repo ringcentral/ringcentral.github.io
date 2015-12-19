@@ -39,7 +39,7 @@ var init_je_tooltipster = function(tooltipster_config) {
     tooltipster_config = {position: 'right'};
   }
 
-  $('label.jeFormInputLabel').each(
+  $('.json-editor-tooltip').each(
     function(i, el) {
       if (input.test($(el).html())) {
         return;
@@ -130,7 +130,7 @@ var init_je_tooltipster = function(tooltipster_config) {
     }
     /* BEGIN JSON EDITOR TOOLTIPSTER CSS */
     .je-info-circle {
-      font-size: 80%;
+      font-size: 12px;
       margin-left: 0.3em;
       color: #005DA0;
     }

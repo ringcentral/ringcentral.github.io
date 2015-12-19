@@ -2565,7 +2565,8 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
     else {
       this.header = document.createElement('span');
       this.header.textContent = this.getTitle();
-      this.title = this.theme.getHeader(this.header);
+      //this.title = this.theme.getHeader(this.header);
+      this.title = this.theme.getHeader(this.header, this.schema.description); // TOOLTIPSTER
       this.container.appendChild(this.title);
       this.container.style.position = 'relative';
 
@@ -6080,7 +6081,7 @@ JSONEditor.AbstractTheme = Class.extend({
   },
   getFormInputLabel: function(text) {
     var el = document.createElement('label');
-    el.className = el.className + " jeFormInputLabel";
+    el.className = el.className + " json-editor-tooltip"; // " json-editor-form-input-label"; // TOOLTIPSTER
     el.appendChild(document.createTextNode(text));
     return el;
   },
@@ -6089,12 +6090,18 @@ JSONEditor.AbstractTheme = Class.extend({
     el.style.fontWeight = 'normal';
     return el;
   },
-  getHeader: function(text) {
+  getHeader: function(text,description="") {
     var el = document.createElement('h3');
     if(typeof text === "string") {
       el.textContent = text;
+      el.className = el.className + " json-editor-tooltip"; // " json-editor-header"; // TOOLTIPSTER
+      el.setAttribute("title", description);
     }
     else {
+      if(text.tagName === "SPAN") {
+        text.className = text.className + " json-editor-tooltip"; // " json-editor-header"; // TOOLTIPSTER HEADER
+        text.setAttribute("title", description);
+      }
       el.appendChild(text);
     }
 

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>RingCentral CTI Demo</title>
+    <link href="./images/favicon.ico" type="image/vnd.microsoft.icon" rel="shortcut icon">
+    <link href="./images/favicon.ico" type="image/vnd.microsoft.icon" rel="icon">
+
+    <!-- Demo Prereqs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg==" crossorigin="anonymous">
+    <!--link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css" rel="stylesheet"-->
+    <link href="./css/highlight.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+    <script src="./vendor/hideShowPassword/2.0.7/hideShowPassword.min.js"></script>
+    <script src="./vendor/nathanhammond/libphonenumber/0.9.3/dist/libphonenumber.js"></script>
+    <!-- RC SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.1.2/es6-promise.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.min.js"></script>
+    <script src="https://cdn.pubnub.com/pubnub-3.7.13.min.js"></script>
+    <script src="./components/ringcentral/build/ringcentral.min.js"></script>
+    <script src="./components/ringcentral-helpers/build/ringcentral-helpers.min.js"></script>
+    <!-- Demo scripts -->
+    <link rel="stylesheet" href="./css/fontawesome-more.css">
+    <link rel="stylesheet" href="./css/ctidemo.css">
+    <script src="./js/ctidemodata.js"></script>
+    <script src="./js/ctidemo.js"></script>
+    <script src="./js/ctiscreenpop.js"></script>
+    <script>
+
+var rcPgCfgPg = {
+  rcPgTitle: 'Call Log',
+  rcPgCrumbStub: 'call-log'
+};
+rcDemo = new rcDemo(rcPgCfgGen, rcPgCfgPg);
+var rcsdk = rcDemo.Core.rcSdk;
+var rcCallWin = new rcCallWinMgr();
+var rcCallLog = new rcDemoCallLog();
+
+var helpers = RingCentral.Helpers;
+
+$(function() {
+    rcDemo.init();
+    rcCallLog.rcSdk = rcDemo.Core.rcSdk;
+    rcDemo.Core.rcSdk.platform().loggedIn()
+        .then(function () {
+            rcCallLog.populateRecords();
+            rcCallWin.rcSdk = rcDemo.Core.rcSdk;
+            rcCallWin.startSubscription();  
+        }).catch(function (e) {
+            console.log("ERROR: " + e)
+            $('#appMessage').show();
+        })
+    $(window).unload(function() {
+        rcCallWin.endSubscription();  
+    });
+});
+
+    </script>
+  </head>
+  <body role="document">
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./index.html" style="color:#FFF;font-size:150%"><span style="color:deepskyblue">CTI</span> <span style="color:orange">Demo</span> <i class="fa fa-rss fa-rotate-45" style="color:deepskyblue"></i></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul id="menu-bar-items" class="nav navbar-nav"></ul>
+
+          <div class="btn-group pull-right" style="margin-top:10px">
+            <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#rcDemoConfigModal" > <i class="fa fa-wrench"></i> Configure</button>
+          </div>
+
+          <ul class="top-menu-right"></ul>
+        </div><!--/.nav-collapse -->
+
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <ol class="breadcrumb">
+            <li><a href="./index.html"><i class="fa fa-home"></i> Home</a></li>
+            <li id="rcPgCrumbLeaf" class="active"></li>
+          </ol>
+          <h2 id="rcPgTitle" class="rcPgTitle"></h2>
+        </div>
+      </div>
+    </div>
+
+    <div id="appMessage" class="container theme-showcase" role="main" style="display:none">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> Note: you need to <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#rcDemoConfigModal"><i class="fa fa-wrench"></i> Configure</button> the demo and <a href="./linked-accounts.html">link your RingCentral account</a> before you use integrated communications and data functionality. See <a href="./instructions.html"><i class="fa fa-book"></i>&nbsp;Instructions</a> for more.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Recent Call Log Activity</h3>
+            </div>
+            <div class="panel-body" style="overflow-x:scroll">
+
+              <table id="calllog_table" class="table">
+                <tr>
+                  <th>Type</th><th>Phone Number</th><th>Name</th><th>Date / Time</th><th>Action</th><th>Result</th><th>Length</th><th>Recording</th>
+                </tr>
+                <tbody>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Demo Instructions</h3>
+            </div>
+            <div class="panel-body">
+              <ol>
+                <li>Ensure that you have Configured this demo app and authorized it to access your RingCentral account.</li>
+                <li>Note that the icons in the left most column indicate inbound or outbound call.</li>
+                <li>Optionally play and/or download a HTML5 recording if present. If no recordings are available, you can make one by placing a call via the RingCentral for Desktop softphone under the <a href="./contacts.html">Contacts page</a> and then clicking the record button.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Developer Instructions</h3>
+            </div>
+            <div class="panel-body">
+
+              <h3>Overview</h3>
+
+              <p>There are several major use cases for accessing call logs and call recordings including the following:</p>
+
+              <ol>
+                <li><b><a href="#call-log-retrieval">Call Log Retrieval</a>:</b> applications can retrieve Call Log Records for multple purposes:
+                  <ol>
+                    <li>reports and dashboards</li>
+                    <li>call log sync with other applications, e.g. CRM</li>
+                  </ol>
+                </li>
+                <li><b><a href="#call-recording-retrival">Call Recording Retrieval</a>:</b> Batch download of call recordings</li>
+                <li><b><a href="#call-recording-streaming-playback">Call Recording Streaming Playback</a>:</b> Stream call recordings from browser applications</li>
+              </ol>
+
+              <a name="call-log-retrieval"></a>
+              <h3>Call Log Retrieval</h3>
+
+              <p>Call Log retrieval is done using the call log API end point. This can be done for all extensions if the authorizing user is the admin user or on a per extension level for extension-based authorization.</p>
+
+<pre><code class="javascript">        var Call = helpers.call();
+    // This call may be repeated when needed, for example as a response to incoming Subscription
+    platform.send(Call.loadRequest(null, {
+    query: { // this can be omitted
+    page: 1,
+    perPage: 10
+    }
+    })).then(function(response) {
+    console.log("RESPONSE_CALLS: " + response.text());
+    calls = Call.merge(calls, response.json().records); // safely merge existing active calls with new ones
+    t.populateCalls(calls);
+    }).catch(function(e) {
+    console.log("E_RESPONSE_CALL_LOG: " + e);
+    alert('Recent Calls Error: ' + e.message);
+    });
+</code></pre>
+
+              <p>The following is an example report with an optional Call Recording object:</p>
+
+<pre><code class="json">{
+   "uri": "https.../restapi/v1.0/account/401190149008/extension/401190149008/call-log/IXPCm_tIkCduk4I?view=Simple",
+   "id": "IXPCm_tIkCduk4I",
+   "sessionId": "404412141008",
+   "startTime": "2015-06-25T14:57:30.000Z",
+   "duration": 60,
+   "type": "Voice",
+   "direction": "Inbound",
+   "action": "Phone Call",
+   "result": "Accepted",
+   "to":    {
+      "phoneNumber": "18772160007",
+      "name": "Something New"
+   },
+   "from":    {
+      "phoneNumber": "18882400004",
+      "name": "Something New"
+   },
+   "recording":    {
+      "uri": "https.../restapi/v1.0/account/401190149008/recording/401547458008",
+      "id": "401547458008",
+      "type": "OnDemand",
+      "contentUri": "https.../restapi/v1.0/account/401190149008/recording/401547458008/content"
+   }
+}</code></pre>
+
+              <a name="call-recording-retrieval"></a>
+              <h3>Call Recording Retrieval</h3>
+
+              <p>To retrieve call recordings you can simply add the access token to the uri provided or add the access token as a header. The URL method is shown below:</p>
+
+<pre><code class="javascript">var recordingUrl = call['recording']['contentUri'];
+    var recordingUrl = rcsdk.platform().createUrl(uri, {addToken: true});</code></pre>
+
+              <p>This approach can be used to batch download or individual streaming playback.</p>
+
+              <a name="call-recording-streaming-playback"></a>
+              <h4>Call Recording Streaming Playback</h4>
+
+              <p>The easiest way to stream audio is directly from the RingCentral servers using HTML5. When you do this you can use the JavaScript SDK to automatically add an access token to the URI provided by the Call Recording API endpoint which you can use to create HTML5 audio as follows:</p>
+
+<pre><code class="html">&lt;audio controls="controls"&gt;
+&lt;source src="https://platform.ringcentral.com/...?access_token=myAccessToken" type="audio/mpeg" /&gt;
+&lt;em&gt;HTML5 Audio is required for playback&lt;/em&gt;
+&lt;audio&gt;</code></pre>
+
+              <p>This demo uses jQuery to create the HTML5 audio element as follows:</p>
+
+<pre><code class="javascript">var recordingUrl = call['recording']['contentUri'];
+recordingUrl = rcsdk.platform().createUrl(uri, {addToken: true});
+var recordingEl = $('&lt;audio&gt;').attr('controls', 'controls').append(
+    $('&lt;source&gt;').attr('src', recordingUrl).attr('type', 'audio/mpeg')
+.append(
+    $('&lt;em&gt;').append('HTML5 Audio is required for playback')
+)</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footerBar"></div>
+    <div class="footerContainer container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <h3><a href="http://ringcentral.github.io">Resources <i class="fa fa-external-link"></i></a></h3>
+              <ol>  
+                <li><a href="https://developers.ringcentral.com">Developer Portal <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://developers.ringcentral.com/api-docs/latest/index.html">API Docs <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://developer.ringcentral.com/api-explorer/">API Explorer <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://github.com/ringcentral">SDKs <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://ringcentral.github.io/cti-tutorial">CTI Tutorial <i class="fa fa-external-link"></i></a></li>
+              </ol>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <h3><a href="https://developers.ringcentral.com/support.html">Support <i class="fa fa-external-link"></i></a></h3>
+              <ol>
+                <li><a href="https://devcommunity.ringcentral.com">Developer Community <i class="fa fa-external-link"></i></a></li>
+                <li><a href="http://stackoverflow.com/questions/tagged/ringcentral">Stack Overflow <i class="fa fa-external-link"></i></a></li>
+              </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- BEGIN DEMO CONFIG MODAL -->
+<div class="modal fade" id="rcDemoConfigModal" tabindex="-1" role="dialog" aria-labelledby="rcDemoConfigModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content"><form>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="rcDemoConfigModalLabel">RingCentral Demo Control Panel</h4>
+      </div>
+      <div class="modal-body">
+
+<div class="form-group"><!-- BEGIN DEMO CONFIG MODAL BODY -->
+  <table border="0" style="width:100%">
+    <tr>
+      <td colspan="2">
+        <p style="font-weight:bold">App Information</p>
+        <p>Application Key:</p>
+        <input type="text" id="rcAppKey" class="form-control" value="" placeholder="Sandbox App Key" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p>Application Secret:</p>
+        <input type="text" id="rcAppSecret" class="form-control" value="" placeholder="Sandbox App Secret" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p>OAuth 2.0 Redirect URI:</p>
+        <input type="text" id="rcAppRedirectUri" class="form-control" value="" placeholder="Redirect URI, e.g. http://grokify.github.io/cti-demo/oauth.html" />
+      </td>
+    </tr>
+    <tr class="rcDemoCfgAuth2L">
+      <td colspan="2"><hr>
+        <p style="font-weight:bold">Authorization Information</p>
+        <p style="display:none">
+          <input type="radio" name="rcAuth" id="rcAuth3L" disabled="checked" /> 3-legged OAuth
+          <input type="radio" name="rcAuth" id="rcAuth2L" checked="disabled" /> 2-legged OAuth
+        </p>
+        <p style="font-weight:bold">2-legged OAuth: Default User Information (pre-filled in authorization form)</p>
+      </td>
+    </tr>
+    <tr class="rcDemoCfgAuth2L">
+      <td style="width:80%;padding-right:1em">
+        <div style="clear:both"></div>
+        <p>Username:</p>
+        <input type="text" id="rcUserUsername" class="form-control" value="AA" placeholder="Username" />
+      </td>
+      <td>
+        <p>Extension:</p>
+        <input type="text" id="rcUserExtension" class="form-control" value="BB" placeholder="Extension" />
+      </td>
+    </tr>
+    <tr class="rcDemoCfgAuth2L">
+      <td colspan="2">
+        <p>Password:</p>
+        <input type="password" id="rcUserPassword" class="form-control" value="" placeholder="Password" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <hr>
+        <p style="font-weight:bold">Debug</p>
+        <button type="button" class="btn btn-default" onclick="rcCallWin.toggle();return false;">Toggle Call Window</button>
+        <button type="button" class="btn btn-default" onclick="rcDemo.Core.retrieveAndSetUserNumbers();return false;">Retrieve User Numbers</button>
+      </td>
+    </tr>
+  </table>
+</div><!-- END DEMO CONFIG MODAL BODY -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="rcDemo.Auth.logoutAndClear()">Clear Demo</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="rcDemo.Core.setInfoFromDom()">Save</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- END DEMO CONFIG MODAL -->
+
+<div id="rcCallWindow" style="display:none"><div id="rcCallWindowContent" class="panel panel-primary">
+  <div id="rcCallWindowHead" class="panel-heading"><span id="rcCallWindowTitle"><b><span style="color:orange">RingCentral</span> <span id="rcCallWindowStatus"></span> <label id="rcMin">00</label>:<label id="rcSec">00</label></b></span> <span style="float:right" onclick="rcCallWin.hide();return false;"><i class="fa fa-close"></i></span></div>
+  <div id="rcCallWindowBody" class="panel-body">
+    <table class="table">
+      <tr><td>Call From</td><td><span id="rcCallFrom"></span></td></tr>
+      <tr><td>Call To</td><td><span id="rcCallTo"></span></td></tr>
+      <tr><td>Name</td><td><a href="">John Wang</a></td></tr>
+      <tr><td>Company</td><td>RingCentral</td></tr>
+      <tr><td>Current Opportunity</td><td><a href="">Subscription Add-on</a></td>
+      <tr><td>Temperature</td><td>Green <i class="fa fa-thumbs-o-up"></i></td></tr>
+    </table>
+  </div>
+</div></div>
+
+  </body>
+</html>

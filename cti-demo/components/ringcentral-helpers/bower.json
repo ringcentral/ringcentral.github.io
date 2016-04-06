@@ -1,0 +1,35 @@
+{
+  "name": "ringcentral-helpers",
+  "version": "0.1.0",
+  "main": "./build/ringcentral-helpers.min.js",
+  "ignore": [
+    "**/*",
+    "!README.md",
+    "!build/ringcentral-helpers.js",
+    "!build/ringcentral-helpers.js.map",
+    "!build/ringcentral-helpers.min.js",
+    "!build/ringcentral-helpers.min.js.map",
+    "!demo/**/*",
+    "!docs/**/*",
+    "!src/**/*"
+  ],
+  "dependencies": {
+    "ringcentral": "^2.0.0"
+  },
+  "devDependencies": {},
+  "private": false,
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "RingCentral, Inc.",
+      "email": "devsupport@ringcentral.com"
+    },
+    {
+      "name": "Kirill Konshin"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ringcentral/ringcentral-js-helpers.git"
+  }
+}

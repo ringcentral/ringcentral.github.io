@@ -181,9 +181,10 @@ function rcDemoCore(rcPgCfgGen, rcPgCfgPg) {
         var fields = t.lsAppFields;
         for (var i=0,l=fields.length;i<l;i++) {
             var name = fields[i];
-            $('#' + name).val(appInfo[name]);
             if (name == 'rcAppRedirectUri' && !appInfo[name]) {
                 $('#' + name).val(rcPgCfgGen['demoConfig']['url']['rcOAuthRedirectUri']);
+            } else {
+                $('#' + name).val(appInfo[name]);
             }
         }
     }

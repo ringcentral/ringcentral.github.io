@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>RingCentral CTI Demo</title>
+    <link href="./images/favicon.ico" type="image/vnd.microsoft.icon" rel="shortcut icon">
+    <link href="./images/favicon.ico" type="image/vnd.microsoft.icon" rel="icon">
+
+    <!-- Demo Prereqs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg==" crossorigin="anonymous">
+    <!--link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css" rel="stylesheet"-->
+    <link href="./css/highlight.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+    <script src="./vendor/hideShowPassword/2.0.7/hideShowPassword.min.js"></script>
+    <script src="./vendor/nathanhammond/libphonenumber/0.9.3/dist/libphonenumber.js"></script>
+    <!-- RC SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.1.2/es6-promise.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.min.js"></script>
+    <script src="https://cdn.pubnub.com/pubnub-3.7.13.min.js"></script>
+    <script src="./components/ringcentral/build/ringcentral.min.js"></script>
+    <!-- Demo scripts -->
+    <link rel="stylesheet" href="./css/fontawesome-more.css">
+    <link rel="stylesheet" href="./css/ctidemo.css">
+    <script src="./js/ctidemodata.js"></script>
+    <script src="./js/ctidemo.js"></script>
+    <script src="./js/ctiscreenpop.js"></script>
+    <script>
+
+$.oauthpopup = function(options)
+{
+    options.windowName = options.windowName ||  'ConnectWithOAuth'; // should not include space for IE
+    options.windowOptions = options.windowOptions || 'location=0,status=0,width=400,height=660';
+    options.callback = options.callback || function(){ window.location.reload(); };
+    var that = this;
+    console.log(options.path);
+    that._oauthWindow = window.open(options.path, options.windowName, options.windowOptions);
+    that._oauthInterval = window.setInterval(function(){
+        if (that._oauthWindow.closed) {
+            window.clearInterval(that._oauthInterval);
+            options.callback();
+        }
+    }, 1000);
+};
+
+var rcPgCfgPg = {
+  rcPgTitle: 'Linked Accounts',
+  rcPgCrumbStub: 'linked-accounts'
+};
+rcDemo = new rcDemo(rcPgCfgGen, rcPgCfgPg);
+var rcsdk = rcDemo.Core.rcSdk;
+var rcCallWin = new rcCallWinMgr();
+
+function Auth3l(rcDemo) {
+    var t=this;
+    t.rcDemo = rcDemo;
+
+    t.authorize = function() {
+        var appInfo = t.rcDemo.Core.getAppInfo();
+        var redirectUri = appInfo['rcAppRedirectUri']
+        console.log("REDIRECT_URI " + redirectUri);
+        var urltoopen = t.rcDemo.Core.rcSdk.platform().authUrl({
+            redirectUri: redirectUri
+        })
+        console.log("OAUTH3L_URI " + urltoopen);
+        $.oauthpopup({
+            path: urltoopen,
+            callback: function()
+            {
+                console.log('callback');
+            }
+        });
+    }
+}
+
+$(function() {
+    rcDemo.init();
+    rcDemo.Auth.init();
+    var appInfo = rcDemo.Core.getAppInfo();
+    console.log('APPINFO LISTEN ' + JSON.stringify(appInfo));
+    rcDemo.Auth3l = new Auth3l(rcDemo);
+    rcDemo.Core.rcSdk.platform().loggedIn()
+        .then(function () {
+            rcCallWin.rcSdk = rcDemo.Core.rcSdk;
+            rcCallWin.startSubscription();
+        }).catch(function (e) {
+            console.log("NOT_LOGGED_IN: " + e);
+            $('#appMessage').show();
+            rcDemo.Auth.setAuthData({});
+            rcDemo.Auth.pageAuthPopulate();
+        })
+    $(window).unload(function() {
+        rcCallWin.endSubscription();  
+    });
+});
+
+    </script>
+  </head>
+  <body role="document">
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./index.html" style="color:#FFF;font-size:150%"><span style="color:deepskyblue">CTI</span> <span style="color:orange">Demo</span> <i class="fa fa-rss fa-rotate-45" style="color:deepskyblue"></i></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul id="menu-bar-items" class="nav navbar-nav"></ul>
+          <div class="btn-group pull-right" style="margin-top:10px">
+            <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#rcDemoConfigModal"> <i class="fa fa-wrench"></i> Configure</button>
+          </div>
+          <ul class="top-menu-right"></ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <ol class="breadcrumb">
+            <li><a href="./index.html"><i class="fa fa-home"></i> Home</a></li>
+            <li id="rcPgCrumbLeaf" class="active"></li>
+          </ol>
+          <h2 id="rcPgTitle" class="rcPgTitle"></h2>
+        </div>
+      </div>
+    </div>
+
+    <div id="appMessage" class="container theme-showcase" role="main" style="display:none">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> Note: you need to <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#rcDemoConfigModal"><i class="fa fa-wrench"></i> Configure</button> the demo and <a href="./linked-accounts.html">link your RingCentral account</a> before you use integrated communications and data functionality. See <a href="./instructions.html"><i class="fa fa-book"></i>&nbsp;Instructions</a> for more.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">RingCentral Account <span id="linked_status" style="font-size:80%"></span></h3>
+            </div>
+            <div class="panel-body">
+                <div id="linked_accounts_message"></div>
+
+                <div style="overflow:scroll">
+                    <table id="linkedaccounts" class="table" style="width:100%">
+                        <tr>
+                          <th>Access Token</th>
+                          <td id="rcLinkAccessToken"></td>
+                        </tr>
+                        <tr>
+                          <th class="nowrap">Access Token TTL</th>
+                          <td id="rcLinkAccessTokenTtl"></td>
+                        </tr>
+                        <tr>
+                          <th>Refresh Token</th>
+                          <td id="rcLinkRefreshToken"></td>
+                        </tr>
+                        <tr>
+                          <th class="nowrap">Refresh Token TTL</th>
+                          <td id="rcLinkRefreshTokenTtl"></td>
+                        </tr>
+                        <tr>
+                          <th>Scope</th>
+                          <td id="rcLinkScope"></td>
+                        </tr>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-default rcDemoCfgAuth2L" data-toggle="modal" data-target="#linkAccountModal"><i class="fa fa-link"></i> Link Account</button>
+                <button type="button" class="btn btn-default" onclick="$('#linked_accounts_message').html('');rcDemo.Auth3l.authorize()"><i class="fa fa-link"></i> Link Account</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#unlinkAccountModal" onclick="$('#linked_accounts_message').html('');"><i class="fa fa-unlink"></i> Unlink Account </button>
+                <button type="button" class="btn btn-default" onclick="$('#linked_accounts_message').html('');rcDemo.Auth.refresh();return false;"><i class="fa fa-refresh"></i> Refresh</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Demo Instructions</h3>
+            </div>
+            <div class="panel-body">
+              <ol>
+                <li>Ensure that you have Configured this demo app by entering the app key, app secret and OAuth 2.0 redirect URI.</li>
+                <li>Click the "Link Account", "Unlink Account" and "Refresh" links to view what happens.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Developer Instructions</h3>
+            </div>
+            <div class="panel-body">
+
+              <h3>Link Account - Authorizaton</h3>
+
+              <p>To access a user's RingCentral data, the app needs to request and receive OAuth 2.0 access token to access that data. In this demo, clicking the <button data-toggle="modal" data-target="#linkAccountModal"><i class="fa fa-link"></i> Link Account</button> will allow the user to enter their username, extension and password which the app then uses to call the <span class="fixed">authorize()</span> method as shown below to receive an access token / refresh token pair.</p>
+
+              <pre><code class="javascript">platform.authorize({
+    username: username,
+    extension: extension,
+    password: password
+}).then(function(response) {
+    // run success code
+}).catch(function(e) {
+    //run exception code
+});</code></pre>
+
+              <h3>Unlink Account - Logout</h3>
+
+              <p>Using the SDK's logout functionality will end revoke the current token. The <button data-toggle="modal" data-target="#unlinkAccountModal"><i class="fa fa-unlink"></i> Unlink Account</button> button will exercise the <span class="fixed">platform.logout()</span> method to end the user's authorization grant.</p>
+
+<pre><code class="javascript">platform.logout().then(...).catch(...);</code></pre>
+
+              <h3>Refresh Token - Refresh</h3>
+
+              <p>During standard usage, token refresh will be handled automatically by the JavaScript SDK. By default, OAuth 2.0 values for <span class="fixed">expires_in</span> and <span class="fixed">refresh_token_expires_in</span> are set and the SDK will automatically perform a refresh with the access token has expired but the refresh token is still valid. To manually execute a refresh, you can use the following code.</p>
+
+<pre><code class="javascript">platform.refresh().then(...).catch(...);</code></pre>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footerBar"></div>
+    <div class="footerContainer container theme-showcase" role="main">
+      <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <h3><a href="http://ringcentral.github.io">Resources <i class="fa fa-external-link"></i></a></h3>
+              <ol>  
+                <li><a href="https://developers.ringcentral.com">Developer Portal <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://developers.ringcentral.com/api-docs/latest/index.html">API Docs <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://developer.ringcentral.com/api-explorer/">API Explorer <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://github.com/ringcentral">SDKs <i class="fa fa-external-link"></i></a></li>
+                <li><a href="https://ringcentral.github.io/cti-tutorial">CTI Tutorial <i class="fa fa-external-link"></i></a></li>
+              </ol>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <h3><a href="https://developers.ringcentral.com/support.html">Support <i class="fa fa-external-link"></i></a></h3>
+              <ol>
+                <li><a href="https://devcommunity.ringcentral.com">Developer Community <i class="fa fa-external-link"></i></a></li>
+                <li><a href="http://stackoverflow.com/questions/tagged/ringcentral">Stack Overflow <i class="fa fa-external-link"></i></a></li>
+              </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Authorize Modal -->
+<div class="modal fade" id="linkAccountModal" tabindex="-1" role="dialog" aria-labelledby="linkAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Link RingCentral Account</h4>
+      </div>
+      <div class="modal-body">
+
+<div class="form-group">
+  <table border="0" style="width:100%">
+      <tr>
+        <td style="width:80%">
+        <p>Phone Number:</p>
+        <input type="text" id="rcAuthUsername" class="form-control" value="" placeholder="Direct, Fax or Main Number" />
+      </td>
+      <td style="padding-left:1em;width:20%;white-space:nowrap">
+        <p>Extension <em>(optional):</em></p>
+        <input type="text" id="rcAuthExtension" class="form-control" value="" placeholder="Extension" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Password:</p>
+        <input type="password" id="rcAuthPassword" class="form-control" value="" placeholder="Enter your password" />
+      </td>
+      <td>
+      </td>
+    </tr>
+  </table>
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="rcDemo.Auth.login($('#rcAuthUsername').val(),$('#rcAuthExtension').val(),$('#rcAuthPassword').val());" data-dismiss="modal" >Login</button>
+      </div>
+    </div>
+  </div>
+</div><!-- end modal -->
+
+<!-- BEGIN UNLINK-ACCOUNT MODAL -->
+<div class="modal fade" id="unlinkAccountModal" tabindex="-1" role="dialog" aria-labelledby="unlinkAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="tokenModalLabel">Unlink Account</h4>
+      </div>
+      <div class="modal-body">
+
+<p>Please confirm you wish to unlink your RingCentral account.</p>
+
+<p>If you do not wish to unlink your account, click Cancel.</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="rcDemo.Auth.logout();return false;">Unlink</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END UNLINK-ACCOUNT MODAL -->
+
+<!-- BEGIN DEMO CONFIG MODAL -->
+<div class="modal fade" id="rcDemoConfigModal" tabindex="-1" role="dialog" aria-labelledby="rcDemoConfigModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content"><form>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="rcDemoConfigModalLabel">RingCentral Demo Control Panel</h4>
+      </div>
+      <div class="modal-body">
+
+<div class="form-group"><!-- BEGIN DEMO CONFIG MODAL BODY -->
+  <table border="0" style="width:100%">
+    <tr>
+      <td colspan="2">
+        <p style="font-weight:bold">App Information</p>
+        <p>Application Key:</p>
+        <input type="text" id="rcAppKey" class="form-control" value="" placeholder="Sandbox App Key" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p>Application Secret:</p>
+        <input type="text" id="rcAppSecret" class="form-control" value="" placeholder="Sandbox App Secret" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p>OAuth 2.0 Redirect URI:</p>
+        <input type="text" id="rcAppRedirectUri" class="form-control" value="" placeholder="Redirect URI, e.g. http://grokify.github.io/cti-demo/oauth.html" />
+      </td>
+    </tr>
+    <tr class="rcDemoCfgAuth2L">
+      <td colspan="2"><hr>
+        <p style="font-weight:bold">Authorization Information</p>
+        <p style="display:none">
+          <input type="radio" name="rcAuth" id="rcAuth3L" disabled="checked" /> 3-legged OAuth
+          <input type="radio" name="rcAuth" id="rcAuth2L" checked="disabled" /> 2-legged OAuth
+        </p>
+        <p style="font-weight:bold">2-legged OAuth: Default User Information (pre-filled in authorization form)</p>
+      </td>
+    </tr>
+    <tr class="rcDemoCfgAuth2L">
+      <td style="width:80%;padding-right:1em">
+        <div style="clear:both"></div>
+        <p>Username:</p>
+        <input type="text" id="rcUserUsername" class="form-control" value="AA" placeholder="Username" />
+      </td>
+      <td>
+        <p>Extension:</p>
+        <input type="text" id="rcUserExtension" class="form-control" value="BB" placeholder="Extension" />
+      </td>
+    </tr>
+    <tr class="rcDemoCfgAuth2L">
+      <td colspan="2">
+        <p>Password:</p>
+        <input type="password" id="rcUserPassword" class="form-control" value="" placeholder="Password" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <hr>
+        <p style="font-weight:bold">Debug</p>
+        <button type="button" class="btn btn-default" onclick="rcCallWin.toggle();return false;">Toggle Call Window</button>
+        <button type="button" class="btn btn-default" onclick="rcDemo.Core.retrieveAndSetUserNumbers();return false;">Retrieve User Numbers</button>
+      </td>
+    </tr>
+  </table>
+</div><!-- END DEMO CONFIG MODAL BODY -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="rcDemo.Auth.logoutAndClear()">Clear Demo</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="rcDemo.Core.setInfoFromDom()">Save</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- END DEMO CONFIG MODAL -->
+
+<div id="rcCallWindow" style="display:none"><div id="rcCallWindowContent" class="panel panel-primary">
+  <div id="rcCallWindowHead" class="panel-heading"><span id="rcCallWindowTitle"><b><span style="color:orange">RingCentral</span> <span id="rcCallWindowStatus"></span> <label id="rcMin">00</label>:<label id="rcSec">00</label></b></span> <span style="float:right" onclick="rcCallWin.hide();return false;"><i class="fa fa-close"></i></span></div>
+  <div id="rcCallWindowBody" class="panel-body">
+    <table class="table">
+      <tr><td>Call From</td><td><span id="rcCallFrom"></span></td></tr>
+      <tr><td>Call To</td><td><span id="rcCallTo"></span></td></tr>
+      <tr><td>Name</td><td><a href="">John Wang</a></td></tr>
+      <tr><td>Company</td><td>RingCentral</td></tr>
+      <tr><td>Current Opportunity</td><td><a href="">Subscription Add-on</a></td>
+      <tr><td>Temperature</td><td>Green <i class="fa fa-thumbs-o-up"></i></td></tr>
+    </table>
+  </div>
+</div></div>
+
+  </body>
+</html>

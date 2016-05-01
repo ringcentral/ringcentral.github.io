@@ -7,7 +7,7 @@ var rcPgCfgGen = {
   demoConfig : {
     url: {
       rcServerSandbox: 'https://platform.devtest.ringcentral.com',
-      rcOAuthRedirectUri: 'http://ringcentral.github.io/cti-demo/oauth.html'
+      rcOAuthRedirectUri: 'https://ringcentral.github.io/cti-demo/oauth.html'
     },
     model : {
       contacts : {

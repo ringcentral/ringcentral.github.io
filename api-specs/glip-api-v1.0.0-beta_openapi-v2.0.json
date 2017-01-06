@@ -1,0 +1,893 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "RingCentral Glip REST API",
+    "description": "RingCentral Glip Messaging API",
+    "version": "1.0.0"
+  },
+  "host": "platform.ringcentral.com",
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/restapi/v1.0",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/restapi/v1.0/glip/persons/{personId}": {
+      "get": {
+        "summary": "Get Person by ID",
+        "description": "Returns a person by id. If the person cannot be accessed by current user, API must return HTTP 404.",
+        "tags": [
+          "glip"
+        ],
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId being requested. Can be `~` for current user.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a Person object.",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "ID of person"
+                },
+                "firstName": {
+                  "type": "string",
+                  "description": "First name of person"
+                },
+                "lastName": {
+                  "type": "string",
+                  "description": "Last name of person"
+                },
+                "gender": {
+                  "type": "string",
+                  "description": "Gender of person"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Email of user"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "Current location of person"
+                },
+                "companyId": {
+                  "type": "string",
+                  "description": "ID of company person belongs to"
+                },
+                "creationTime": {
+                  "type": "string",
+                  "description": "Time of creation (ISO format)"
+                },
+                "lastModifiedTime": {
+                  "type": "string",
+                  "description": "Time of last modification (ISO format)"
+                }
+              }
+            },
+            "examples": {
+              "application/json": "{\n  \"id\":\"123456\",\n  \"firstName\":\"John\",\n  \"lastName\":\"Doe\",\n  \"location\":\"Denver, CO\",\n  \"email\":\"john.doe@acme.com\",\n  \"companyId\": \"456789\",\n  \"creationTime\":\"2015-05-05T12:00:00Z\",\n  \"lastModifiedTime\":\"2016-03-05T12:00:00Z\"\n}"
+            }
+          }
+        }
+      }
+    },
+    "/restapi/v1.0/glip/companies/{companyId}": {
+      "get": {
+        "summary": "Get Company Info",
+        "description": "Returns a company by id",
+        "tags": [
+          "glip"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "description": "The id of the company being queried. Can be '~' for company the current user belongs to.",
+            "required": true,
+            "type": "string",
+            "default": "~"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a Company object.",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "ID of company"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of company"
+                },
+                "domain": {
+                  "type": "string",
+                  "description": "Domain name of company"
+                },
+                "creationTime": {
+                  "type": "string",
+                  "description": "Time of creation (ISO format)"
+                },
+                "lastModifiedTime": {
+                  "type": "string",
+                  "description": "Time of last modification (ISO format)"
+                }
+              }
+            },
+            "examples": {
+              "application/json": "{\n  \"id\": \"456789\",\n  \"name\": \"Ringcentral\",\n  \"domain\": \"mydomain.com\",\n  \"creationTime\": \"2015-05-05T12:00:00Z\",\n  \"lastModifiedTime\": \"2016-03-05T12:00:00Z\"\n}"
+            }
+          }
+        }
+      }
+    },
+    "/restapi/v1.0/glip/groups": {
+      "get": {
+        "summary": "Return groups associated with current user",
+        "description": "Return groups associated with current user",
+        "tags": [
+          "glip"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Read groups JSON body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Type of groups to be fetched"
+                },
+                "pageToken": {
+                  "type": "string",
+                  "description": "Pagination token"
+                },
+                "recordCount": {
+                  "type": "integer",
+                  "description": "Max number of records to return. Default and maximum is 250."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a list of Group objects.",
+            "schema": {
+              "properties": {
+                "records": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Id of team"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Type of group",
+                        "enum": [
+                          "Group",
+                          "Team"
+                        ]
+                      },
+                      "displayName": {
+                        "type": "string",
+                        "description": "Name of team"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Short description"
+                      },
+                      "members": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Array of group participants"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Email of team"
+                      },
+                      "isPublic": {
+                        "type": "boolean",
+                        "description": "Shows if team is public or not"
+                      },
+                      "creationTime": {
+                        "type": "string",
+                        "description": "Time of creation (ISO format)"
+                      },
+                      "lastModifiedTime": {
+                        "type": "string",
+                        "description": "Time of last modification (ISO format)"
+                      }
+                    }
+                  },
+                  "description": "a list of post objects within a response envelope"
+                },
+                "navigation": {
+                  "properties": {
+                    "prevPage": {
+                      "type": "string",
+                      "description": "prev page token. To get previous page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+                    },
+                    "nextPage": {
+                      "type": "string",
+                      "description": "next page token. To get next page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "application/json": "{\n  \"records\": [\n    {\n      \"id\":\"637468356\",\n      \"type\": \"Group\",\n      \"displayName\":\"John John\",\n      \"email\": \"test@acme001.com\",\n      \"members\": [\n        \"12464564\",\n        \"2344565255\"\n      ],\n      \"creationTime\":\"2015-05-05T12:00:00Z\",\n      \"lastModifiedTime\":\"2016-03-05T12:00:00Z\"\n    },\n    {\n      \"id\":\"637468356\",\n      \"type\": \"Team\",\n      \"displayName\":\"Some group\",\n      \"isPublic\": true,\n      \"description\":\"My team\",\n      \"creationTime\":\"2015-05-05T12:00:00Z\",\n      \"lastModifiedTime\":\"2016-03-05T12:00:00Z\",\n      \"members\": [\n        \"12464564\",\n        \"2344565255\"\n       ]\n    }\n  ],\n  \"navigation\": {\n    \"nextPageToken\": \"62hdfjhq87xjh\",\n    \"prevPageToken\": \"fgghjsdgfsjf\"\n  }\n}"
+            }
+          }
+        }
+      }
+    },
+    "/restapi/v1.0/glip/groups/{groupId}": {
+      "get": {
+        "summary": "Returns a group by id",
+        "description": "Returns a group by id",
+        "tags": [
+          "glip"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Id of a group to be fetched",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a list of Group objects.",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Id of team"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Type of group",
+                  "enum": [
+                    "Group",
+                    "Team"
+                  ]
+                },
+                "displayName": {
+                  "type": "string",
+                  "description": "Name of team"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Short description"
+                },
+                "members": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Array of group participants"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Email of team"
+                },
+                "isPublic": {
+                  "type": "boolean",
+                  "description": "Shows if team is public or not"
+                },
+                "creationTime": {
+                  "type": "string",
+                  "description": "Time of creation (ISO format)"
+                },
+                "lastModifiedTime": {
+                  "type": "string",
+                  "description": "Time of last modification (ISO format)"
+                }
+              }
+            },
+            "examples": {
+              "application/json": "{\n  \"id\":\"637468356\",\n  \"type\": \"Team\",\n  \"displayName\":\"Some group\",\n  \"isPublic\": true,\n  \"description\":\"My team\",\n  \"creationTime\":\"2015-05-05T12:00:00Z\",\n  \"lastModifiedTime\":\"2016-03-05T12:00:00Z\",\n  \"members\": [\n    \"12464564\",\n    \"23445652\"\n  ]\n}"
+            }
+          }
+        }
+      }
+    },
+    "/restapi/v1.0/glip/posts": {
+      "get": {
+        "summary": "Get User Posts",
+        "description": "Return posts which are available for current user. Not more than 250 records to be returned in one request. If posts cannot be viewed by current user (fro example, user is not member of group), API must return HTTP 404.",
+        "tags": [
+          "glip"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Create post JSON body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "groupId": {
+                  "type": "string",
+                  "description": "Id of a group to filter posts"
+                },
+                "paginationToken": {
+                  "type": "string",
+                  "description": "Pagination token"
+                },
+                "recordCount": {
+                  "type": "integer",
+                  "description": "Max number of records to return. Either of creationTimeFrom or creationTimeTo must be set, not both"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a list of Group objects.",
+            "schema": {
+              "properties": {
+                "records": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Id of post"
+                      },
+                      "creatorId": {
+                        "type": "string",
+                        "description": "Id of person created post"
+                      },
+                      "groupId": {
+                        "type": "string",
+                        "description": "Id of group oist belongs to"
+                      },
+                      "text": {
+                        "type": "boolean",
+                        "description": "Text of message"
+                      },
+                      "creationTime": {
+                        "type": "string",
+                        "description": "Time of creation (ISO format)"
+                      },
+                      "lastModifiedTime": {
+                        "type": "string",
+                        "description": "Time of last modification (ISO format)"
+                      }
+                    }
+                  },
+                  "description": "a list of post objects within a response envelope"
+                },
+                "navigation": {
+                  "properties": {
+                    "prevPage": {
+                      "type": "string",
+                      "description": "prev page token. To get previous page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+                    },
+                    "nextPage": {
+                      "type": "string",
+                      "description": "next page token. To get next page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "application/json": "{\n  records: [{\n    \"id\": \"637468356\",\n    \"text\": \"Hi there!\",\n    \"creatorId\": \"5574664564\",\n    \"groupId\": \"456775\",\n    \"creationTime\": \"2015-05-05T12:00:00Z\",\n    \"lastModifiedTime\": \"2016-03-05T12:00:00Z\"\n  },\n  {\n    \"id\": \"637468357\",\n    \"text\": \"Hi!!\",\n    \"creatorId\": \"5574664564\",\n    \"groupId\": \"456775\",\n    \"creationTime\": \"2015-05-05T12:00:00Z\",\n    \"lastModifiedTime\": \"2016-03-05T12:00:00Z\"\n   }],\n   \"navigation\": {\n     \"prevPage\": \"adsasdasdsdfsdf\"\n   }\n}"
+            }
+          },
+          "404": {
+            "description": "No content."
+          }
+        }
+      },
+      "post": {
+        "summary": "Send New Message",
+        "description": "Creates post and send it to specified Group and returns it.",
+        "tags": [
+          "glip"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Create post JSON body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Id of post"
+                },
+                "creatorId": {
+                  "type": "string",
+                  "description": "Id of person created post"
+                },
+                "groupId": {
+                  "type": "string",
+                  "description": "Id of group oist belongs to"
+                },
+                "text": {
+                  "type": "boolean",
+                  "description": "Text of message"
+                },
+                "creationTime": {
+                  "type": "string",
+                  "description": "Time of creation (ISO format)"
+                },
+                "lastModifiedTime": {
+                  "type": "string",
+                  "description": "Time of last modification (ISO format)"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post or 404. If Group with groupId doesn't exists or user doesn't belong to the group, 404 should be returned.",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Id of post"
+                },
+                "creatorId": {
+                  "type": "string",
+                  "description": "Id of person created post"
+                },
+                "groupId": {
+                  "type": "string",
+                  "description": "Id of group oist belongs to"
+                },
+                "text": {
+                  "type": "boolean",
+                  "description": "Text of message"
+                },
+                "creationTime": {
+                  "type": "string",
+                  "description": "Time of creation (ISO format)"
+                },
+                "lastModifiedTime": {
+                  "type": "string",
+                  "description": "Time of last modification (ISO format)"
+                }
+              }
+            },
+            "examples": {
+              "application/json": "{\n  \"id\": \"637468356\",\n  \"text\": \"Hi there!\",\n  \"creatorId\": \"5574664564\",\n  \"groupId\": \"456775\",\n  \"creationTime\": \"2015-05-05T12:00:00Z\",\n  \"lastModifiedTime\": \"2016-03-05T12:00:00Z\"\n}"
+            }
+          },
+          "404": {
+            "description": "If Group with groupId doesn't exists or user doesn't belong to the group, 404 should be returned."
+          }
+        }
+      }
+    },
+    "/restapi/v1.0/glip/posts/{postId}": {
+      "get": {
+        "summary": "Get Post By Id",
+        "description": "Returns post with given id. If a post cannot be viewed by current user, API must return HTTP 404.",
+        "tags": [
+          "glip"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "Id of a post to be fetched",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a list of Group objects.",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Id of post"
+                },
+                "creatorId": {
+                  "type": "string",
+                  "description": "Id of person created post"
+                },
+                "groupId": {
+                  "type": "string",
+                  "description": "Id of group oist belongs to"
+                },
+                "text": {
+                  "type": "boolean",
+                  "description": "Text of message"
+                },
+                "creationTime": {
+                  "type": "string",
+                  "description": "Time of creation (ISO format)"
+                },
+                "lastModifiedTime": {
+                  "type": "string",
+                  "description": "Time of last modification (ISO format)"
+                }
+              }
+            },
+            "examples": {
+              "application/json": "{\n  \"id\": \"637468356\",\n  \"text\": \"Hi there!\",\n  \"creatorId\": \"5574664564\",\n  \"groupId\": \"456775\",\n  \"creationTime\": \"2015-05-05T12:00:00Z\",\n  \"lastModifiedTime\": \"2016-03-05T12:00:00Z\"\n}"
+            }
+          },
+          "404": {
+            "description": "No content."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Person": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of person"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of person"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of person"
+        },
+        "gender": {
+          "type": "string",
+          "description": "Gender of person"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of user"
+        },
+        "location": {
+          "type": "string",
+          "description": "Current location of person"
+        },
+        "companyId": {
+          "type": "string",
+          "description": "ID of company person belongs to"
+        },
+        "creationTime": {
+          "type": "string",
+          "description": "Time of creation (ISO format)"
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "description": "Time of last modification (ISO format)"
+        }
+      }
+    },
+    "Company": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of company"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of company"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain name of company"
+        },
+        "creationTime": {
+          "type": "string",
+          "description": "Time of creation (ISO format)"
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "description": "Time of last modification (ISO format)"
+        }
+      }
+    },
+    "Team": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of team"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of group",
+          "enum": [
+            "Group",
+            "Team"
+          ]
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Name of team"
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of group participants"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of team"
+        },
+        "isPublic": {
+          "type": "boolean",
+          "description": "Shows if team is public or not"
+        },
+        "creationTime": {
+          "type": "string",
+          "description": "Time of creation (ISO format)"
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "description": "Time of last modification (ISO format)"
+        }
+      }
+    },
+    "Group": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of group"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of group. Must be set to 'Group'",
+          "enum": [
+            "Group"
+          ]
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of group participants"
+        },
+        "isPublic": {
+          "type": "boolean",
+          "description": "Group couldn't be public"
+        },
+        "creationTime": {
+          "type": "string",
+          "description": "Time of creation (ISO format)"
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "description": "Time of last modification (ISO format)"
+        }
+      }
+    },
+    "Post": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of post"
+        },
+        "creatorId": {
+          "type": "string",
+          "description": "Id of person created post"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "Id of group oist belongs to"
+        },
+        "text": {
+          "type": "boolean",
+          "description": "Text of message"
+        },
+        "creationTime": {
+          "type": "string",
+          "description": "Time of creation (ISO format)"
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "description": "Time of last modification (ISO format)"
+        }
+      }
+    },
+    "ReadGroupsRequest": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of groups to be fetched"
+        },
+        "pageToken": {
+          "type": "string",
+          "description": "Pagination token"
+        },
+        "recordCount": {
+          "type": "integer",
+          "description": "Max number of records to return. Default and maximum is 250."
+        }
+      }
+    },
+    "ReadGroupsResponse": {
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Id of team"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of group",
+                "enum": [
+                  "Group",
+                  "Team"
+                ]
+              },
+              "displayName": {
+                "type": "string",
+                "description": "Name of team"
+              },
+              "description": {
+                "type": "string",
+                "description": "Short description"
+              },
+              "members": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Array of group participants"
+              },
+              "email": {
+                "type": "string",
+                "description": "Email of team"
+              },
+              "isPublic": {
+                "type": "boolean",
+                "description": "Shows if team is public or not"
+              },
+              "creationTime": {
+                "type": "string",
+                "description": "Time of creation (ISO format)"
+              },
+              "lastModifiedTime": {
+                "type": "string",
+                "description": "Time of last modification (ISO format)"
+              }
+            }
+          },
+          "description": "a list of post objects within a response envelope"
+        },
+        "navigation": {
+          "properties": {
+            "prevPage": {
+              "type": "string",
+              "description": "prev page token. To get previous page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+            },
+            "nextPage": {
+              "type": "string",
+              "description": "next page token. To get next page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+            }
+          }
+        }
+      }
+    },
+    "CreatePostRequest": {
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "description": "Id of a group to send post to"
+        },
+        "text": {
+          "type": "string",
+          "description": "Text of a post,up to 10000 unicode characters. All text must be returned"
+        }
+      }
+    },
+    "ReadPostsResponse": {
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Id of post"
+              },
+              "creatorId": {
+                "type": "string",
+                "description": "Id of person created post"
+              },
+              "groupId": {
+                "type": "string",
+                "description": "Id of group oist belongs to"
+              },
+              "text": {
+                "type": "boolean",
+                "description": "Text of message"
+              },
+              "creationTime": {
+                "type": "string",
+                "description": "Time of creation (ISO format)"
+              },
+              "lastModifiedTime": {
+                "type": "string",
+                "description": "Time of last modification (ISO format)"
+              }
+            }
+          },
+          "description": "a list of post objects within a response envelope"
+        },
+        "navigation": {
+          "properties": {
+            "prevPage": {
+              "type": "string",
+              "description": "prev page token. To get previous page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+            },
+            "nextPage": {
+              "type": "string",
+              "description": "next page token. To get next page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+            }
+          }
+        }
+      }
+    },
+    "ReadPostsRequest": {
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "description": "Id of a group to filter posts"
+        },
+        "paginationToken": {
+          "type": "string",
+          "description": "Pagination token"
+        },
+        "recordCount": {
+          "type": "integer",
+          "description": "Max number of records to return. Either of creationTimeFrom or creationTimeTo must be set, not both"
+        }
+      }
+    },
+    "Navigation": {
+      "properties": {
+        "prevPage": {
+          "type": "string",
+          "description": "prev page token. To get previous page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+        },
+        "nextPage": {
+          "type": "string",
+          "description": "next page token. To get next page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
+        }
+      }
+    }
+  }
+}

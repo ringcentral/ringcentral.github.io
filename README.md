@@ -1,4 +1,4 @@
 RingCentral.GitHub.io
 =====================
 
-Site for: [http://ringcentral.github.io](http://ringcentral.github.io)
+Site for: [https://ringcentral.github.io](https://ringcentral.github.io)

@@ -1,21 +1,34 @@
 swagger: "2.0"
 info:
   title: RingCentral Glip REST API
-  description: RingCentral Glip Messaging API
+  description: API Explorer for RingCentral Glip Messaging API
   version: "1.0.0"
-host: platform.ringcentral.com
+host: platform.devtest.ringcentral.com
 schemes:
   - https
-basePath: /restapi/v1.0
+basePath: /restapi/v1.0/glip
 produces:
   - application/json
+consumes:
+  - application/json
+securityDefinitions:
+  OauthSecurity:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://platform.devtest.ringcentral.com/restapi/oauth/authorize'
+    tokenUrl: 'https://platform.devtest.ringcentral.com/restapi/oauth/token'
+    scopes:
+      default: default permissions
+security:
+  - OauthSecurity:
+    - default
 paths:
-  /restapi/v1.0/glip/persons/{personId}:
+  /persons/{personId}:
     get:
       summary: "Get Person by ID"
       description: "Returns a person by id. If the person cannot be accessed by current user, API must return HTTP 404."
       tags:
-        - glip
+        - person
       parameters:
         - name: "personId"
           in: "path"
@@ -39,12 +52,12 @@ paths:
                 "creationTime":"2015-05-05T12:00:00Z",
                 "lastModifiedTime":"2016-03-05T12:00:00Z"
               }
-  /restapi/v1.0/glip/companies/{companyId}:
+  /companies/{companyId}:
     get:
       summary: "Get Company Info"
       description: "Returns a company by id"
       tags:
-        - glip
+        - company
       parameters:
         - name: "companyId"
           in: "path"
@@ -66,19 +79,32 @@ paths:
                 "creationTime": "2015-05-05T12:00:00Z",
                 "lastModifiedTime": "2016-03-05T12:00:00Z"
               }
-  /restapi/v1.0/glip/groups:
+  /groups:
     get:
       summary: "Return groups associated with current user"
       description: "Return groups associated with current user"
       tags:
-        - glip
+        - group
       parameters:
-        - name: "body"
-          in: "body"
-          description: "Read groups JSON body"
-          required: true
-          schema:
-            $ref: "#/definitions/ReadGroupsRequest"
+        - name: "type"
+          in: "query"
+          description: "Type of groups to be fetched"
+          required: false
+          type: "string"
+          enum:
+            - "Group"
+            - "Team"
+        - name: "pageToken"
+          in: "query"
+          description: "Pagination token"
+          required: false
+          type: "string"
+        - name: "recordCount"
+          in: "query"
+          description: "Max number of records to return."
+          required: false
+          type: "integer"
+          default: 250
       responses:
         "200":
           description: "a list of Group objects."
@@ -119,12 +145,12 @@ paths:
                   "prevPageToken": "fgghjsdgfsjf"
                 }
               }
-  /restapi/v1.0/glip/groups/{groupId}:
+  /groups/{groupId}:
     get:
       summary: "Returns a group by id"
       description: "Returns a group by id"
       tags:
-        - glip
+        - group
       parameters:
         - name: "groupId"
           in: "path"
@@ -151,20 +177,29 @@ paths:
                   "23445652"
                 ]
               }
-  /restapi/v1.0/glip/posts:
+  /posts:
     get:
       summary: "Get User Posts"
       description: "Return posts which are available for current user. Not more than 250 records to be returned in one request.
 If posts cannot be viewed by current user (fro example, user is not member of group), API must return HTTP 404."
       tags:
-        - glip
+        - post
       parameters:
-        - name: "body"
-          in: "body"
-          description: "Create post JSON body"
+        - name: "groupId"
+          in: "query"
+          description: "Id of a group to filter posts"
           required: true
-          schema:
-            $ref: "#/definitions/ReadPostsRequest"
+          type: "string"
+        - name: "pageToken"
+          in: "query"
+          description: "Pagination token"
+          required: false
+          type: "string"
+        - name: "recordCount"
+          in: "query"
+          description: "Max number of records to return"
+          required: false
+          type: "string"
       responses:
         "200":
           description: "a list of Group objects."
@@ -199,14 +234,14 @@ If posts cannot be viewed by current user (fro example, user is not member of gr
       summary: "Send New Message"
       description: "Creates post and send it to specified Group and returns it."
       tags:
-        - glip
+        - post
       parameters:
         - name: "body"
           in: "body"
           description: "Create post JSON body"
           required: true
           schema:
-            $ref: "#/definitions/Post"
+            $ref: "#/definitions/CreatePostRequest"
       responses:
         "200":
           description: "Post or 404. If Group with groupId doesn't exists or user doesn't belong to the group, 404 should be returned."
@@ -224,12 +259,12 @@ If posts cannot be viewed by current user (fro example, user is not member of gr
               }
         "404":
           description: If Group with groupId doesn't exists or user doesn't belong to the group, 404 should be returned.
-  /restapi/v1.0/glip/posts/{postId}:
+  /posts/{postId}:
     get:
       summary: "Get Post By Id"
       description: "Returns post with given id. If a post cannot be viewed by current user, API must return HTTP 404."
       tags:
-        - glip
+        - post
       parameters:
         - name: "postId"
           in: "path"
@@ -378,17 +413,6 @@ definitions:
       lastModifiedTime:
         type: string
         description: Time of last modification (ISO format)
-  ReadGroupsRequest:
-    properties:
-      type:
-        type: string
-        description: Type of groups to be fetched
-      pageToken:
-        type: string
-        description: Pagination token
-      recordCount:
-        type: integer
-        description: Max number of records to return. Default and maximum is 250.
   ReadGroupsResponse:
     properties:
       records:
@@ -415,17 +439,6 @@ definitions:
         description: a list of post objects within a response envelope
       navigation:
         $ref: "#/definitions/Navigation"
-  ReadPostsRequest:
-    properties:
-      groupId:
-        type: string
-        description: Id of a group to filter posts
-      paginationToken:
-        type: string
-        description: Pagination token
-      recordCount:
-        type: integer
-        description: Max number of records to return. Either of creationTimeFrom or creationTimeTo must be set, not both
   Navigation:
     properties:
       prevPage:

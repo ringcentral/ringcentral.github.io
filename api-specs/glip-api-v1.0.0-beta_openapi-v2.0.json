@@ -2,24 +2,45 @@
   "swagger": "2.0",
   "info": {
     "title": "RingCentral Glip REST API",
-    "description": "RingCentral Glip Messaging API",
+    "description": "API Explorer for RingCentral Glip Messaging API",
     "version": "1.0.0"
   },
-  "host": "platform.ringcentral.com",
+  "host": "platform.devtest.ringcentral.com",
   "schemes": [
     "https"
   ],
-  "basePath": "/restapi/v1.0",
+  "basePath": "/restapi/v1.0/glip",
   "produces": [
     "application/json"
   ],
+  "consumes": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "OauthSecurity": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://platform.devtest.ringcentral.com/restapi/oauth/authorize",
+      "tokenUrl": "https://platform.devtest.ringcentral.com/restapi/oauth/token",
+      "scopes": {
+        "default": "default permissions"
+      }
+    }
+  },
+  "security": [
+    {
+      "OauthSecurity": [
+        "default"
+      ]
+    }
+  ],
   "paths": {
-    "/restapi/v1.0/glip/persons/{personId}": {
+    "/persons/{personId}": {
       "get": {
         "summary": "Get Person by ID",
         "description": "Returns a person by id. If the person cannot be accessed by current user, API must return HTTP 404.",
         "tags": [
-          "glip"
+          "person"
         ],
         "parameters": [
           {
@@ -80,12 +101,12 @@
         }
       }
     },
-    "/restapi/v1.0/glip/companies/{companyId}": {
+    "/companies/{companyId}": {
       "get": {
         "summary": "Get Company Info",
         "description": "Returns a company by id",
         "tags": [
-          "glip"
+          "company"
         ],
         "parameters": [
           {
@@ -131,35 +152,39 @@
         }
       }
     },
-    "/restapi/v1.0/glip/groups": {
+    "/groups": {
       "get": {
         "summary": "Return groups associated with current user",
         "description": "Return groups associated with current user",
         "tags": [
-          "glip"
+          "group"
         ],
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "description": "Read groups JSON body",
-            "required": true,
-            "schema": {
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "description": "Type of groups to be fetched"
-                },
-                "pageToken": {
-                  "type": "string",
-                  "description": "Pagination token"
-                },
-                "recordCount": {
-                  "type": "integer",
-                  "description": "Max number of records to return. Default and maximum is 250."
-                }
-              }
-            }
+            "name": "type",
+            "in": "query",
+            "description": "Type of groups to be fetched",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "Group",
+              "Team"
+            ]
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "description": "Pagination token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "recordCount",
+            "in": "query",
+            "description": "Max number of records to return.",
+            "required": false,
+            "type": "integer",
+            "default": 250
           }
         ],
         "responses": {
@@ -239,12 +264,12 @@
         }
       }
     },
-    "/restapi/v1.0/glip/groups/{groupId}": {
+    "/groups/{groupId}": {
       "get": {
         "summary": "Returns a group by id",
         "description": "Returns a group by id",
         "tags": [
-          "glip"
+          "group"
         ],
         "parameters": [
           {
@@ -312,35 +337,34 @@
         }
       }
     },
-    "/restapi/v1.0/glip/posts": {
+    "/posts": {
       "get": {
         "summary": "Get User Posts",
         "description": "Return posts which are available for current user. Not more than 250 records to be returned in one request. If posts cannot be viewed by current user (fro example, user is not member of group), API must return HTTP 404.",
         "tags": [
-          "glip"
+          "post"
         ],
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "description": "Create post JSON body",
+            "name": "groupId",
+            "in": "query",
+            "description": "Id of a group to filter posts",
             "required": true,
-            "schema": {
-              "properties": {
-                "groupId": {
-                  "type": "string",
-                  "description": "Id of a group to filter posts"
-                },
-                "paginationToken": {
-                  "type": "string",
-                  "description": "Pagination token"
-                },
-                "recordCount": {
-                  "type": "integer",
-                  "description": "Max number of records to return. Either of creationTimeFrom or creationTimeTo must be set, not both"
-                }
-              }
-            }
+            "type": "string"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "description": "Pagination token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "recordCount",
+            "in": "query",
+            "description": "Max number of records to return",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -407,7 +431,7 @@
         "summary": "Send New Message",
         "description": "Creates post and send it to specified Group and returns it.",
         "tags": [
-          "glip"
+          "post"
         ],
         "parameters": [
           {
@@ -417,29 +441,13 @@
             "required": true,
             "schema": {
               "properties": {
-                "id": {
-                  "type": "string",
-                  "description": "Id of post"
-                },
-                "creatorId": {
-                  "type": "string",
-                  "description": "Id of person created post"
-                },
                 "groupId": {
                   "type": "string",
-                  "description": "Id of group oist belongs to"
+                  "description": "Id of a group to send post to"
                 },
                 "text": {
-                  "type": "boolean",
-                  "description": "Text of message"
-                },
-                "creationTime": {
                   "type": "string",
-                  "description": "Time of creation (ISO format)"
-                },
-                "lastModifiedTime": {
-                  "type": "string",
-                  "description": "Time of last modification (ISO format)"
+                  "description": "Text of a post,up to 10000 unicode characters. All text must be returned"
                 }
               }
             }
@@ -486,12 +494,12 @@
         }
       }
     },
-    "/restapi/v1.0/glip/posts/{postId}": {
+    "/posts/{postId}": {
       "get": {
         "summary": "Get Post By Id",
         "description": "Returns post with given id. If a post cannot be viewed by current user, API must return HTTP 404.",
         "tags": [
-          "glip"
+          "post"
         ],
         "parameters": [
           {
@@ -718,22 +726,6 @@
         }
       }
     },
-    "ReadGroupsRequest": {
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Type of groups to be fetched"
-        },
-        "pageToken": {
-          "type": "string",
-          "description": "Pagination token"
-        },
-        "recordCount": {
-          "type": "integer",
-          "description": "Max number of records to return. Default and maximum is 250."
-        }
-      }
-    },
     "ReadGroupsResponse": {
       "properties": {
         "records": {
@@ -858,22 +850,6 @@
               "description": "next page token. To get next page, user should pass one of returned token in next request and, in turn, required page will be returned with new tokens."
             }
           }
-        }
-      }
-    },
-    "ReadPostsRequest": {
-      "properties": {
-        "groupId": {
-          "type": "string",
-          "description": "Id of a group to filter posts"
-        },
-        "paginationToken": {
-          "type": "string",
-          "description": "Pagination token"
-        },
-        "recordCount": {
-          "type": "integer",
-          "description": "Max number of records to return. Either of creationTimeFrom or creationTimeTo must be set, not both"
         }
       }
     },

@@ -6,7 +6,7 @@
   }
   if (currentScript && currentScript.src) {
     currentScript = currentScript.src;
-    currentScript = currentScript.replace('ringcentral-web-widget', 'ringcentral-embeddable');
+    currentScript = currentScript.replace('ringcentral-embeddable-voice', 'ringcentral-embeddable');
   } else {
     currentScript = "https://ringcentral.github.io/ringcentral-embeddable/adapter.js";
   }

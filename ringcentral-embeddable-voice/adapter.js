@@ -10,6 +10,14 @@
   } else {
     currentScript = "https://ringcentral.github.io/ringcentral-embeddable/adapter.js";
   }
+  if (currentScript.indexOf('redirectUri') === -1) {
+    // To keep using old redirect uri on old embeddable voice adapter.js
+    if (currentScript.indexOf('?') > -1) {
+      currentScript = currentScript + '&redirectUri=' + encodeURIComponent('https://ringcentral.github.io/ringcentral-embeddable-voice/redirect.html');
+    } else {
+      currentScript = currentScript + '?redirectUri=' + encodeURIComponent('https://ringcentral.github.io/ringcentral-embeddable-voice/redirect.html');
+    }
+  }
   var rc_s = document.createElement("script");
   rc_s.src = currentScript;
   var rc_s0 = document.getElementsByTagName("script")[0];

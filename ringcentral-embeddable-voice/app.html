@@ -9,7 +9,16 @@
   <script>
   	console.warn('this uri is deprecated. Please stop use it soon before the feature is completely removed. Please use new uri: https://ringcentral.github.io/ringcentral-embeddable/app.html');
     var destination = document.documentElement.getAttribute('data-destination');
-    window.location.href = destination + (window.location.search || '') + (window.location.hash || '');
+    var newHref = destination + (window.location.search || '') + (window.location.hash || '');
+    if (newHref.indexOf('redirectUri') === -1) {
+      // To keep using old redirect uri on old embeddable voice
+      if (newHref.indexOf('?') > -1) {
+        newHref = newHref + '&redirectUri=' + encodeURIComponent('https://ringcentral.github.io/ringcentral-embeddable-voice/redirect.html');
+      } else {
+        newHref = newHref + '?redirectUri=' + encodeURIComponent('https://ringcentral.github.io/ringcentral-embeddable-voice/redirect.html');
+      }
+    }
+    window.location.href = newHref;
   </script>
   </body>
 </html>

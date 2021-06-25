@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "<p>This is a beta interactive API explorer for the RingCentral Connect Platform. To use this service, you will need to have an account with the proper credentials to generate an OAuth2 access token.</p><p><b>Quick Start</b></p><ol><li>1) Go to <b>Authentication &gt; /oauth/token</b></li><li>2) Enter <b>app_key, app_secret, username, password</b> fields and then click \"Try it out!\"</li><li>3) Upon success, your access_token is loaded and you can access any form requiring authorization.</li></ol><b>Links</b><ul><li><a href=\"https://developer.ringcentral.com/\">RingCentral Developer Program and API Docs</a></li><li><a href=\"https://github.com/ringcentral\">RingCentral SDKs on Github</a></li><li><a href=\"mailto:devsupport@ringcentral.com\">RingCentral Developer Support Email</a></li></ul>",
+        "description": "<p>This is a beta interactive API explorer for the RingCentral Connect Platform. To use this service, you will need to have an account with the proper credentials to generate an OAuth2 access token.</p><p><b>Quick Start</b></p><ol><li>1) Go to <b>Authentication &gt; /oauth/token</b></li><li>2) Enter <b>app_key, app_secret, username, password</b> fields and then click \"Try it out!\"</li><li>3) Upon success, your access_token is loaded and you can access any form requiring authorization.</li></ol><b>Links</b><ul><li><a href=\"https://developer.ringcentral.com/\">RingCentral Developer Program and API Docs</a></li><li><a href=\"https://github.com/ringcentral\">RingCentral SDKs on Github</a></li><li><a href=\"https://developers.ringcentral.com/support\">RingCentral Developer Support</a></li></ul>",
         "version": "1.0",
         "title": "RingCentral Connect Platform API Explorer",
         "termsOfService": "https://developer.ringcentral.com"
@@ -34,7 +34,7 @@
             "description": "SMS, Fax and Partner Messaging",
             "externalDocs": {
                 "description": "Find out more",
-                "url": "https://developer.ringcentral.com/api-docs/index.html##RefMessaging.html"
+                "url": "https://developers.ringcentral.com/guide/messaging"
             }
         },
         {
